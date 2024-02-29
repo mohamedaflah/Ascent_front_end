@@ -8,6 +8,7 @@ import {
   ThemeProviderState,
 } from "@/shadcn/theme-provider";
 import { Link, useLocation } from "react-router-dom";
+import SignupModal from "../SignupModal";
 
 const Header = () => {
   const context: ThemeProviderState = useContext(ThemeProviderContext);
@@ -21,7 +22,14 @@ const Header = () => {
     setisLanding(location.pathname === "/");
   }, [location]);
   return (
-    <header className={` mx-auto sticky top-0 left-0 z-10 ${landing ? "bg-accenting" : ""}`}>
+    <header
+      className={` mx-auto sticky top-0 left-0 z-10 ${
+        landing
+          ? "bg-accenting dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative"
+          : ""
+      }`}
+    >
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center  [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <header
         className={`h-20 flex items-center justify-center  w-[90%] md:w-[85%] mx-auto`}
       >
@@ -47,12 +55,8 @@ const Header = () => {
               >
                 Login
               </Link>
-              <Link
-                to={"/login"}
-                className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white"
-              >
-                Signup
-              </Link>
+
+              <SignupModal />
             </div>
             <ModeToggle />
             <RiMenu3Fill className="md:hidden" />

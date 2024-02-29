@@ -3,7 +3,7 @@ import primaryLine from "../../assets/line.svg";
 import HeroImage from "../../assets/Hero_section.png";
 const Hero = () => {
   return (
-    <section className="w-full flex flex-col-reverse items-start   md:grid grid-cols-2 mt-5  relative overflow-hidden h-auto">
+    <section className="w-full flex flex-col-reverse items-start   md:grid grid-cols-2 mt-5  relative overflow-hidden h-auto ">
       <section className=" h-96 flex flex-col gap-10">
         <div className="flex flex-col ">
           <div className="maintxt text-center text-6xl md:text-4xl lg:text-7xl font-bold leading-tight md:text-left">
