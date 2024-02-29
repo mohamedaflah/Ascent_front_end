@@ -32,7 +32,7 @@ const CompanyHighlites = () => {
           Companies We Contributed to Scaling.
         </h1>
       </div>
-      <div className="flex flex-wrap justify-between gap-6 min-h-10 ">
+      <div className="flex flex-wrap  justify-between gap-6 min-h-10 ">
         <div className="flex text-2xl font-semibold gap-1 items-center text-companyHigliteText">
           <img src={currentTheme=='light'?darkUnsplash:whiteUnsplash} alt="" className="h-7" />
           Unsplash
