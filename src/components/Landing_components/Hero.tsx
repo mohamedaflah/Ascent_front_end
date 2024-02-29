@@ -18,12 +18,17 @@ const Hero = () => {
         </div>
         <div className="md:w-[100%] w-[100%] lg:w-[70%]">
           <p className="text-textPrimary ">
-            Discover your dream job at{" "}
+            Explore your dream career at{" "}
             <span className="font-semibold">
               AS<span className="text-primary">CE</span>NT
-            </span>{" "}
-            where ambition meets startup innovation. Embark on a career journey
-            that fulfills your passions. Welcome to your future.
+            </span>
+            , where ambition converges with startup innovation. Take the leap
+            into a fulfilling career journey that aligns with your passions.
+            Your future begins here. Welcome to {" "}
+            <span className="font-semibold">
+              AS<span className="text-primary">CE</span>NT
+            </span>, where possibilities are
+            limitless.
           </p>
         </div>
       </section>
