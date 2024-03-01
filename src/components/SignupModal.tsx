@@ -26,6 +26,9 @@ import {
   FormMessage,
 } from "@/shadcn/ui/form";
 import { useRef } from "react";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { signupUser } from "@/redux/actions/userActions";
 
 const signupFormSchema = z
   .object({
@@ -44,9 +47,9 @@ const signupFormSchema = z
     }),
     confirmpass: z.string(),
   })
-  .refine((data) => data.password !== data.confirmpass, {
+  .refine((data) => data.password === data.confirmpass, {
     message: "Password and confirm password must be match",
-    path: ["confirmPassword"],
+    path: ["confirmpass"],
   });
 
 const SignupModal = () => {
@@ -62,11 +65,12 @@ const SignupModal = () => {
     },
   });
   const confirmPassref = useRef<HTMLDivElement>(null);
+  const dispatch:AppDispatch=useDispatch()
   function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    if (values.confirmpass !== values.password) {
-      return;
-    }
-    alert("hel");
+    // alert("hel");
+    dispatch(signupUser(values)).then(()=>{
+      alert("user data sended")
+    })
     console.log(values);
   }
   return (
@@ -92,14 +96,14 @@ const SignupModal = () => {
                   name="firstname"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Firstname</FormLabel>
+                      <FormLabel className="font-semibold">Firstname</FormLabel>
                       <FormControl>
                         <Input placeholder="firstname.." {...field} />
                       </FormControl>
                       <FormDescription>
                         This is your public display firstname.
                       </FormDescription>
-                      <FormMessage />
+                      <FormMessage className="font-semibold"/>
                     </FormItem>
                   )}
                 />
@@ -108,7 +112,7 @@ const SignupModal = () => {
                   name="lastname"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lastname</FormLabel>
+                      <FormLabel className="font-semibold">Lastname</FormLabel>
                       <FormControl>
                         <Input placeholder="lastname.." {...field} />
                       </FormControl>
@@ -124,7 +128,7 @@ const SignupModal = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="font-semibold">Email</FormLabel>
                       <FormControl>
                         <Input placeholder="email @.." {...field} />
                       </FormControl>
@@ -140,7 +144,7 @@ const SignupModal = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className="font-semibold">Password</FormLabel>
                       <FormControl>
                         <Input placeholder="* * *" type="password" {...field} />
                       </FormControl>
@@ -154,7 +158,7 @@ const SignupModal = () => {
                   name="confirmpass"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Confirm password</FormLabel>
+                      <FormLabel className="font-semibold">Confirm password</FormLabel>
                       <FormControl>
                         <Input placeholder="* * *" type="password" {...field} />
                       </FormControl>
@@ -167,6 +171,9 @@ const SignupModal = () => {
                   <Button className="w-full font-semibold" type="submit">
                     {loading ? "Create   An Acccount" : <ButtonLoading />}
                   </Button>
+                </div>
+                <div className="w-full flex justify-center">
+                  <div className="flex gap-2 text-[15px]">Already have an Account? <button className="text-primary">Login</button> </div>
                 </div>
               </form>
             </Form>
