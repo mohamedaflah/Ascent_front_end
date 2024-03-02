@@ -7,17 +7,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../shadcn/ui/dialog";
-import SignupForm from "./SignupForm";
-import AscentText from "./common/AscentText";
 import LoginForm from "./LoginForm";
+import AscentText from "./common/AscentText";
+import SignupForm from "./SignupForm";
 
-const SignupModal = () => {
-  const [isSignup, setIsSignup] = useState<boolean>(true);
-  // const [open,setIsOpen]=useState<boolean>(false)
+const LoginModal = () => {
+  const [isSignup, setIsSignup] = useState<boolean>(false);
   return (
     <Dialog>
-      <DialogTrigger className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white">
-        Signup
+      <DialogTrigger className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold">
+        Login
       </DialogTrigger>
       <DialogContent className="bg-accenting">
         <DialogHeader>
@@ -47,4 +46,4 @@ const SignupModal = () => {
   );
 };
 
-export default SignupModal;
+export default LoginModal;

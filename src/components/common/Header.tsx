@@ -9,6 +9,7 @@ import {
 } from "@/shadcn/theme-provider";
 import { Link, useLocation } from "react-router-dom";
 import SignupModal from "../SignupModal";
+import LoginModal from "../LoginModal";
 
 const Header = () => {
   const context: ThemeProviderState = useContext(ThemeProviderContext);
@@ -49,12 +50,7 @@ const Header = () => {
 
           <div className="flex items-center text-2xl gap-4 ">
             <div className="text-sm flex gap-4">
-              <Link
-                to={"/login"}
-                className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold"
-              >
-                Login
-              </Link>
+              <LoginModal/>
 
               <SignupModal />
             </div>
