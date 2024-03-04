@@ -13,9 +13,10 @@ export type SignupForm = {
 export type UserReducerInitial = {
   loading: boolean;
   err: boolean;
-  role: "user" | "admin" | "company";
+  role: "user" | "admin" | "company"|null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: null | any;
+  message?:string
 };
 
 export type userType = {

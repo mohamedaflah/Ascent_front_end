@@ -12,10 +12,10 @@ import SignupModal from "../SignupModal";
 import LoginModal from "../LoginModal";
 
 const Header = () => {
-  const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
   const [landing, setisLanding] = useState<boolean>();
   const location = useLocation();
+  const context: ThemeProviderState = useContext(ThemeProviderContext);
   useEffect(() => {
     setTheme(context?.theme);
   }, [context]);
@@ -24,7 +24,7 @@ const Header = () => {
   }, [location]);
   return (
     <header
-      className={` mx-auto sticky top-0 left-0 z-10 ${
+      className={`w-full mx-auto sticky top-0 left-0 z-10 ${
         landing
           ? "bg-accenting dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative"
           : ""

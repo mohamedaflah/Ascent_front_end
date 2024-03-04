@@ -35,8 +35,8 @@ const Hero = () => {
       <section className="  flex justify-end relative">
         <div className="flex justify-end">
           <img src={HeroImage} className="" alt="" />
-          <div className="h-full w-[1px] bg-gradient-to-r from-indigo-500  flex flex-col justify-between items-center rounded-full" />
-          <span className="flex h-2 w-2 bg-gradient-to-b from-primary  rounded-full translate-x-[-60%]"></span>
+          {/* <div className="h-full w-[1px] bg-gradient-to-r from-indigo-500  flex flex-col justify-between items-center rounded-full" /> */}
+          {/* <span className="flex h-2 w-2 bg-gradient-to-b from-primary  rounded-full translate-x-[-60%]"></span> */}
         </div>
       </section>
     </section>

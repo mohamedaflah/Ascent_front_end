@@ -10,13 +10,14 @@ import {
 import { Input } from "@/shadcn/ui/input";
 import ButtonLoading from "./ButtonLoading";
 import { Button } from "@/shadcn/ui/button";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useRef } from "react";
+import React, { useRef} from "react";
 import { signupUser } from "@/redux/actions/userActions";
 import { z } from "zod";
+import toast from "react-hot-toast";
 const signupFormSchema = z
   .object({
     firstname: z
@@ -42,7 +43,6 @@ interface ChildProps {
   setSignup: (state: boolean) => void;
 }
 const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
-  const loading = true;
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -55,13 +55,14 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
   });
   const confirmPassref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
+  
   function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    // alert("hel");
-    dispatch(signupUser(values)).then(() => {
-      alert("user data sended");
+    dispatch(signupUser(values)).then(() => {      
+      toast.success("Verification link has been sended Your mail")
     });
     console.log(values);
   }
+  const {loading}=useSelector((state:RootState)=>state.userData)
   return (
     <Form {...form}>
       <form
@@ -146,7 +147,7 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
         />
         <div className="w-full">
           <Button className="w-full font-semibold" type="submit">
-            {loading ? "Create   An Acccount" : <ButtonLoading />}
+            {!loading ? "Create   An Acccount" : <ButtonLoading />}
           </Button>
         </div>
         <div className="w-full flex justify-center">
