@@ -1,4 +1,5 @@
-import { AuthAxios } from "@/constants/axiosInstance";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AuthAxios, UserAxios, getUserWithRole } from "@/constants/axiosInstance";
 import { SignupForm } from "@/types/AllTypes";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -36,3 +37,32 @@ export const verifyinguser = createAsyncThunk(
     }
   }
 );
+
+export const getUser=createAsyncThunk(
+  "user/getUser",
+  async(_,{rejectWithValue})=>{
+    try {
+      const {data}=await AuthAxios.get(`/check-role/`)
+      const {role}:{role:"admin"|"user"|"company"}=data
+      const {data : user}=await UserAxios.get(getUserWithRole[role])
+      console.log("🚀 ~ async ~ user:", user)
+      return user
+    } catch (error) {
+      console.log("🚀 ~ async ~ error:", error)
+      
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const logoutUser=createAsyncThunk(
+  "user/logoutUser",
+  async(_,{rejectWithValue})=>{
+    try {
+      const {data}=await AuthAxios.get('/logout')
+      return data
+    } catch (error:any|Error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)

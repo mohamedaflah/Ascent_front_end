@@ -13,6 +13,8 @@ import whiteGramerly from "../../assets/white_gramerly.svg";
 import whiteInter from "../../assets/white_inter.svg";
 import { useContext, useEffect, useState } from "react";
 import { ThemeProviderContext, ThemeProviderState } from "@/shadcn/theme-provider";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 const CompanyHighlites = () => {
     const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [currentTheme, setCurrentTheme] = useState<
@@ -25,8 +27,9 @@ const CompanyHighlites = () => {
       setCurrentTheme(storedTheme as "dark" | "light" | "system");
     }
   }, [context]);
+  const {user}=useSelector((state:RootState)=>state.userData)
   return (
-    <div className="w-[90%] md:w-[85%] mx-auto  flex flex-col gap-3">
+    <div className={`${!user?"w-[90%] md:w-[85%]":"w-[95%] md:w-[95%]"} mx-auto  flex flex-col gap-3`}>
       <div>
         <h1 className="text-lg font-semibold text-accentText">
           Companies We Contributed to Scaling.

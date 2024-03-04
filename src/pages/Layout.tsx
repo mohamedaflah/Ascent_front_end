@@ -9,6 +9,11 @@ import {
 } from "@/shadcn/theme-provider";
 import { userSidebarLayout } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
+import { LogOut } from "lucide-react";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "@/redux/actions/userActions";
+import toast from "react-hot-toast";
 
 const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
@@ -16,10 +21,16 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
   useEffect(() => {
     setTheme(context?.theme);
   }, [context]);
+  const dispatch:AppDispatch=useDispatch()
+  const handleLogout=()=>{
+    dispatch(logoutUser()).then(()=>{
+        toast.success("Logout Successfull!!")
+    })
+  }
   if (role === "user") {
     return (
-      <main className=" grid grid-cols-8 ">
-        <aside className="h-screen border-r flex flex-col pt-4 px-2 gap-5">
+      <main className=" grid grid-cols-7 ">
+        <aside className="h-screen border-r flex flex-col pt-4 px-4 gap-5 ">
           <div className="flex justify-between items-center text-lg">
             <img
               src={theme === "light" ? AscentIcon : AscentDarkIcon}
@@ -41,9 +52,14 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
             <div>
                 <span className="uppercase font-semibold">settings</span>
             </div>
+            <div className="flex flex-col gap-3 mt-4">
+                <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer" onClick={handleLogout}>
+                    <LogOut/> <span>Logout</span>
+                </div>
+            </div>
           </div>
         </aside>
-        <main className="col-span-7">
+        <main className="col-span-6">
           <Header />
           <Outlet />
         </main>

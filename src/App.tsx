@@ -4,20 +4,28 @@ import "./App.css";
 import LandingPage from "./pages/Landingpage";
 import ValidateEmail from "./pages/ValidateEmail";
 import Layout from "./pages/Layout";
-import { useSelector } from "react-redux";
-import { RootState } from "./redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "./redux/store";
+import { useEffect } from "react";
+import { getUser } from "./redux/actions/userActions";
 function App() {
-  const {role}=useSelector((state:RootState)=>state.userData)
-  console.log(role)
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    async function checkAuth() {
+      await dispatch(getUser());
+    }
+    checkAuth();
+  }, [dispatch]);
+  const { role } = useSelector((state: RootState) => state.userData);
+  console.log(role);
   return (
     <main className="w-full">
       {/* <Header /> */}
-       <Routes>
-        <Route path="verify-email/:token" element={<ValidateEmail/>} />
-        <Route path="/" element={<Layout role={role} />} >
-           <Route index element={<LandingPage/>} />
+      <Routes>
+        <Route path="verify-email/:token" element={<ValidateEmail />} />
+        <Route path="/" element={<Layout role={role} />}>
+          <Route index element={<LandingPage />} />
         </Route>
-        
       </Routes>
     </main>
   );
