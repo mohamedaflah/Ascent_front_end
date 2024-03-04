@@ -3,8 +3,7 @@ export type SignupForm = {
   lastname: string;
   email: string;
   password: string;
-  confirmpass?:string
-  
+  confirmpass?: string;
 };
 // export type SignupData={
 //   firstane
@@ -12,11 +11,11 @@ export type SignupForm = {
 
 export type UserReducerInitial = {
   loading: boolean;
-  err: boolean |string;
-  role: "user" | "admin" | "company"|null;
+  err: boolean | string;
+  role: "user" | "admin" | "company" | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: null | any;
-  message?:string
+  message?: string;
 };
 
 export type userType = {
@@ -31,4 +30,18 @@ export type userType = {
   resume?: string;
   educations?: string[];
   socialLinks?: string[];
+};
+
+export interface signupUserReducerPayload {
+  message: string;
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+export type Login = {
+  email: string;
+  password: string;
+  role:"user"|"admin"|"company"
 };

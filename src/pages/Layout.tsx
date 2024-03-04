@@ -10,10 +10,7 @@ import {
 import { userSidebarLayout } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
 import { LogOut } from "lucide-react";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "@/redux/actions/userActions";
-import toast from "react-hot-toast";
+import LogoutModal from "@/components/LogoutModal";
 
 const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
@@ -21,12 +18,7 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
   useEffect(() => {
     setTheme(context?.theme);
   }, [context]);
-  const dispatch:AppDispatch=useDispatch()
-  const handleLogout=()=>{
-    dispatch(logoutUser()).then(()=>{
-        toast.success("Logout Successfull!!")
-    })
-  }
+  
   if (role === "user") {
     return (
       <main className=" grid grid-cols-7 ">
@@ -53,8 +45,8 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
                 <span className="uppercase font-semibold">settings</span>
             </div>
             <div className="flex flex-col gap-3 mt-4">
-                <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer" onClick={handleLogout}>
-                    <LogOut/> <span>Logout</span>
+                <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer">
+                    <LogOut/> <LogoutModal/>
                 </div>
             </div>
           </div>

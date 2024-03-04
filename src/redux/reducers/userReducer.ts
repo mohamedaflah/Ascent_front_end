@@ -1,6 +1,12 @@
 import { UserReducerInitial } from "@/types/AllTypes";
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
-import { getUser, logoutUser, signupUser, verifyinguser } from "../actions/userActions";
+import {
+  getUser,
+  loginUser,
+  logoutUser,
+  signupUser,
+  verifyinguser,
+} from "../actions/userActions";
 import toast from "react-hot-toast";
 
 const initialState: UserReducerInitial = {
@@ -58,26 +64,47 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
-
-        state.loading=false;
-        state.err=false
-        state.user=payload?.user;
-        state.role=payload?.role
+        state.loading = false;
+        state.err = false;
+        state.user = payload?.user;
+        state.role = payload?.role;
       })
-      .addCase(getUser.rejected,(state,{payload})=>{
-        state.loading=false
-        state.err=payload?.message
-        state.user=null
+      .addCase(getUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload?.message;
+        state.user = null;
       })
       // logout user
-      .addCase(logoutUser.pending,(state)=>{
-        state.loading=true
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(logoutUser.fulfilled,(state,{payload})=>{
-        state.loading=false
-        state.user=payload?.user
-        state.role=null
+      .addCase(logoutUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload?.user;
+        state.role = null;
       })
+      // login user
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.role = payload?.role;
+        if(payload){
+
+          toast.success("Login Succesfull !!")
+        }
+        console.log("🚀 ~ .addCase ~ payload:", payload)
+        state.user = payload?.user;
+      })
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        console.log("🚀 ~ .addCase ~ payload:", payload)
+        state.loading = false;
+        state.err = payload?.response?.data.message;
+        state.user = null;
+        toast.error(payload?.response?.data.message);
+      });
   },
 });
 export default userReducer.reducer;

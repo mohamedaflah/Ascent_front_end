@@ -8,12 +8,14 @@ import errIcon from "../assets/error.png";
 const ValidateEmail = React.memo(() => {
   const dispatch: AppDispatch = useDispatch();
   const { token } = useParams();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     async function verifyUser() {
       await dispatch(verifyinguser(token as string));
-      navigate('/')
+
+      navigate("/");
     }
+
     verifyUser();
   }, [dispatch, navigate, token]);
   const { err } = useSelector((state: RootState) => state.userData);
