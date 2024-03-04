@@ -44,10 +44,10 @@ const Header = () => {
             )}
 
             <div className=" gap-10 hidden md:flex">
-              <Link to={"/jobs"} className="text-textPrimary">
+              <Link to={"/jobs"} className="text-textPrimary hover:border-b hover:border-primary py-2 transition-all duration-500 px-2">
                 Find Jobs
               </Link>
-              <Link to={"/companies"} className="text-textPrimary">
+              <Link to={"/companies"} className="text-textPrimary hover:border-b hover:border-primary py-2 transition-all duration-500 px-2">
                 Brows companies
               </Link>
             </div>
@@ -62,7 +62,7 @@ const Header = () => {
               </div>
             )}
 
-            <ModeToggle />
+            <ModeToggle  />
             <RiMenu3Fill className="md:hidden" />
           </div>
         </div>

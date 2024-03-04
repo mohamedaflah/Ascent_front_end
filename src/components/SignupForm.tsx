@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useRef} from "react";
 import { signupUser } from "@/redux/actions/userActions";
 import { z } from "zod";
-import toast from "react-hot-toast";
+
 const signupFormSchema = z
   .object({
     firstname: z
@@ -56,10 +56,8 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
   const confirmPassref = useRef<HTMLDivElement>(null);
   const dispatch: AppDispatch = useDispatch();
   
-  function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    dispatch(signupUser(values)).then(() => {      
-      toast.success("Verification link has been sended Your mail")
-    });
+  async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
+    await dispatch(signupUser(values))
     console.log(values);
   }
   const {loading}=useSelector((state:RootState)=>state.userData)
@@ -146,7 +144,7 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
           )}
         />
         <div className="w-full">
-          <Button className="w-full font-semibold" type="submit">
+          <Button className={`w-full font-semibold ${loading&&"pointer-events-none bg-blue-400"}`} type="submit">
             {!loading ? "Create   An Acccount" : <ButtonLoading />}
           </Button>
         </div>

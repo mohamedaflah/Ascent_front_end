@@ -3,14 +3,24 @@ import { useState } from "react";
 import LoginForm from "./LoginForm";
 import AscentText from "./common/AscentText";
 import SignupForm from "./SignupForm";
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/ui/alert-dialog";
-import {  X } from "lucide-react";
-
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shadcn/ui/alert-dialog";
+import { X } from "lucide-react";
 
 const LoginModal = () => {
   const [isSignup, setIsSignup] = useState<boolean>(false);
+  function restBack(){
+    setIsSignup(false)
+  }
   return (
-    <AlertDialog >
+    <AlertDialog>
       <AlertDialogTrigger className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold">
         Login
       </AlertDialogTrigger>
@@ -28,8 +38,8 @@ const LoginModal = () => {
                 </>
               )}
             </h1>
-            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 ">
-            <X />
+            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 " onClick={restBack}>
+              <X className="h-5 w-5" />
             </AlertDialogCancel>
           </AlertDialogTitle>
           <AlertDialogDescription>

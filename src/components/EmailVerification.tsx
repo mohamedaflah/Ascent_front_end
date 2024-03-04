@@ -1,11 +1,18 @@
+import { resetMessage } from "@/redux/reducers/userReducer";
+import { AppDispatch } from "@/redux/store";
 import { Button } from "@/shadcn/ui/button";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 // import AscentText from "./common/AscentText";
 
-const EmailVerification =() => {
+interface childProp{
+  setVerificationState(state:boolean):void
+}
+const EmailVerification =({setVerificationState}:childProp) => {
     const [timeLeft, setTimeLeft] = useState<number | null>(null);
     const [verificationstate,setVerificationstate]=useState<boolean>(false)
+    const dispatch:AppDispatch=useDispatch()
     useEffect(() => {
       
         // Retrieve the start time from localStorage or set it if not present
@@ -32,6 +39,8 @@ const EmailVerification =() => {
                     localStorage.removeItem('emailVerificationStartTime'); // Clear start time on expiry
                     localStorage.removeItem("verificationState")
                     toast.error("Verification link expired")
+                    setVerificationState(false)
+                    dispatch(resetMessage())
                     setTimeLeft(null);
                 } else {
                     setTimeLeft(timeDifference);

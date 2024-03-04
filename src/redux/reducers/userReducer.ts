@@ -20,7 +20,11 @@ const initialState: UserReducerInitial = {
 const userReducer = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    resetMessage:(state)=>{
+      state.message=""
+    }
+  },
   extraReducers: (builder: ActionReducerMapBuilder<UserReducerInitial>) => {
     builder
       .addCase(signupUser.pending, (state) => {
@@ -31,6 +35,7 @@ const userReducer = createSlice({
         state.user = payload.user;
         state.err = false;
         state.message = payload.message;
+        toast.success("Verification link has been sended Your mail",{className:"text-center"})
       })
       .addCase(signupUser.rejected, (state, { payload }) => {
         state.loading = false;
@@ -108,3 +113,4 @@ const userReducer = createSlice({
   },
 });
 export default userReducer.reducer;
+export const{resetMessage}=userReducer.actions

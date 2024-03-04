@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../shadcn/ui/dialog";
+
 import SignupForm from "./SignupForm";
 import AscentText from "./common/AscentText";
 import LoginForm from "./LoginForm";
@@ -26,6 +19,9 @@ const SignupModal = () => {
     );
     setVerificationState(data?.isVerificationState===true)
   }, []);
+  function resettoBack(){
+    setIsSignup(true)
+  }
   return (
     <AlertDialog>
       <AlertDialogTrigger className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white">
@@ -35,7 +31,7 @@ const SignupModal = () => {
         <AlertDialogHeader>
           <AlertDialogTitle className="flex justify-between text-2xl">
             <h1>
-              {(message !== "Verification link sended" || verificationState!==true) && (
+              {!(verificationState) && (
                 <>
                   {!isSignup ? (
                     <>
@@ -49,14 +45,14 @@ const SignupModal = () => {
                 </>
               )}
             </h1>
-            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 ">
-            <X />
+            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 " onClick={resettoBack}>
+            <X className="h-5 w-5" />
             </AlertDialogCancel>
           </AlertDialogTitle>
 
           <AlertDialogDescription>
             {message == "Verification link sended" || verificationState ? (
-              <EmailVerification />
+              <EmailVerification setVerificationState={setVerificationState}/>
             ) : isSignup ? (
               <SignupForm setSignup={setIsSignup} />
             ) : (
