@@ -7,7 +7,7 @@ const LandingPage = () => {
   const { user } = useSelector((state: RootState) => state.userData);
   return (
     <div className="flex flex-col ">
-      <div className={`w-full bg-accenting ${!user&&"dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative"} `}>
+      <div className={`w-full  ${!user&&"dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative bg-accenting"} `}>
         {!user && (
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center   [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         )}

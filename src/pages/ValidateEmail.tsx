@@ -12,10 +12,8 @@ const ValidateEmail = React.memo(() => {
   useEffect(() => {
     async function verifyUser() {
       await dispatch(verifyinguser(token as string));
-
       navigate("/");
     }
-
     verifyUser();
   }, [dispatch, navigate, token]);
   const { err } = useSelector((state: RootState) => state.userData);

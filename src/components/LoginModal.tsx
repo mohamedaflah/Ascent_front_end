@@ -1,26 +1,22 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../shadcn/ui/dialog";
+
 import LoginForm from "./LoginForm";
 import AscentText from "./common/AscentText";
 import SignupForm from "./SignupForm";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/ui/alert-dialog";
+import {  X } from "lucide-react";
+
 
 const LoginModal = () => {
   const [isSignup, setIsSignup] = useState<boolean>(false);
   return (
-    <Dialog>
-      <DialogTrigger className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold">
+    <AlertDialog >
+      <AlertDialogTrigger className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold">
         Login
-      </DialogTrigger>
-      <DialogContent className="bg-accenting">
-        <DialogHeader>
-          <DialogTitle className="flex justify-start text-2xl">
+      </AlertDialogTrigger>
+      <AlertDialogContent className="bg-accenting">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex justify-between text-2xl">
             <h1>
               {!isSignup ? (
                 <>
@@ -32,17 +28,20 @@ const LoginModal = () => {
                 </>
               )}
             </h1>
-          </DialogTitle>
-          <DialogDescription>
+            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 ">
+            <X />
+            </AlertDialogCancel>
+          </AlertDialogTitle>
+          <AlertDialogDescription>
             {isSignup ? (
               <SignupForm setSignup={setIsSignup} />
             ) : (
               <LoginForm setSignup={setIsSignup} />
             )}
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

@@ -14,9 +14,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/redux/actions/userActions";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ interface ChildProps {
   setSignup: (state: boolean) => void;
 }
 const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
-  const loading = true;
+  const { loading } = useSelector((state: RootState) => state.userData);
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -37,13 +37,18 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
       password: "",
     },
   });
-  const dispatch:AppDispatch = useDispatch();
-  const navigate=useNavigate()
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    dispatch(loginUser({email:values.email,password:values.password,role:"user"})).then(()=>{
-      
-      navigate('/')
-    })
+    dispatch(
+      loginUser({
+        email: values.email,
+        password: values.password,
+        role: "user",
+      })
+    ).then(() => {
+      navigate("/");
+    });
   }
   return (
     <Form {...form}>
@@ -82,8 +87,8 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
           )}
         />
         <div className="w-full">
-          <Button className="w-full font-semibold" type="submit">
-            {loading ? "Create   An Acccount" : <ButtonLoading />}
+          <Button className={`w-full font-semibold ${loading&&"pointer-events-none"}`} type="submit">
+            {!loading ? "Create   An Acccount" : <ButtonLoading />}
           </Button>
         </div>
         <div className="w-full flex justify-center">

@@ -13,6 +13,8 @@ import LoginForm from "./LoginForm";
 import EmailVerification from "./EmailVerification";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/ui/alert-dialog";
+import { X } from "lucide-react";
 
 const SignupModal = () => {
   const [isSignup, setIsSignup] = useState<boolean>(true);
@@ -25,13 +27,13 @@ const SignupModal = () => {
     setVerificationState(data?.isVerificationState===true)
   }, []);
   return (
-    <Dialog>
-      <DialogTrigger className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white">
+    <AlertDialog>
+      <AlertDialogTrigger className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white">
         Signup
-      </DialogTrigger>
-      <DialogContent className="bg-accenting">
-        <DialogHeader>
-          <DialogTitle className="flex justify-start text-2xl">
+      </AlertDialogTrigger>
+      <AlertDialogContent className="bg-accenting">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex justify-between text-2xl">
             <h1>
               {(message !== "Verification link sended" || verificationState!==true) && (
                 <>
@@ -47,9 +49,12 @@ const SignupModal = () => {
                 </>
               )}
             </h1>
-          </DialogTitle>
+            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 ">
+            <X />
+            </AlertDialogCancel>
+          </AlertDialogTitle>
 
-          <DialogDescription>
+          <AlertDialogDescription>
             {message == "Verification link sended" || verificationState ? (
               <EmailVerification />
             ) : isSignup ? (
@@ -57,10 +62,10 @@ const SignupModal = () => {
             ) : (
               <LoginForm setSignup={setIsSignup} />
             )}
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

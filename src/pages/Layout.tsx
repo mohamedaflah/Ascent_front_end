@@ -9,7 +9,7 @@ import {
 } from "@/shadcn/theme-provider";
 import { userSidebarLayout } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { LogOut } from "lucide-react";
+import { HelpCircle, LogOut, Settings } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 
 const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
@@ -18,7 +18,7 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
   useEffect(() => {
     setTheme(context?.theme);
   }, [context]);
-  
+
   if (role === "user") {
     return (
       <main className=" grid grid-cols-7 ">
@@ -32,22 +32,31 @@ const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
           </div>
           <div className="flex flex-col gap-3  ">
             {userSidebarLayout.map((item) => (
-              <div key={item.id} className="flex text-1xl items-center gap-4 hover:border-t hover:border-b py-2 cursor-pointer">
+              <div
+                key={item.id}
+                className="flex text-1xl items-center gap-4 hover:border-t hover:border-b py-2 cursor-pointer"
+              >
                 {/* <Home /> <span>Home</span> */}
-                
-                <item.icon className="text-textPrimary"/> <span className="text-textPrimary">{item.label}</span>
+                <item.icon className="text-textPrimary" />{" "}
+                <span className="text-textPrimary">{item.label}</span>
               </div>
             ))}
           </div>
-          <div className="w-full h-[1px] bg-textPrimary"/>
-          <div className="w-full flex flex-col mt-4">
+          <div className="w-full h-[1px] bg-textPrimary" />
+          <div className="w-full flex flex-col mt-4 text-textPrimary">
             <div>
-                <span className="uppercase font-semibold">settings</span>
+              <span className="uppercase font-semibold">settings</span>
             </div>
             <div className="flex flex-col gap-3 mt-4">
-                <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer">
-                    <LogOut/> <LogoutModal/>
-                </div>
+              <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer">
+                <Settings /> <span >Settings</span>
+              </div>
+              <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer">
+                <LogOut /> <LogoutModal />
+              </div>
+              <div className="flex text-1xl items-center gap-4 py-2 cursor-pointer">
+                <HelpCircle/> <span>Help centere</span>
+              </div>
             </div>
           </div>
         </aside>
