@@ -2,13 +2,14 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 // import Header from "./components/common/Header";
 import LandingPage from "./pages/Landingpage";
-import ValidateEmail from "./pages/ValidateEmail";
+import ValidateEmail from "./pages/user/ValidateEmail";
 import Layout from "./pages/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./redux/store";
 import { useEffect } from "react";
 import { getUser } from "./redux/actions/userActions";
 import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/Dashboard";
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -17,18 +18,32 @@ function App() {
     }
     checkAuth();
   }, [dispatch]);
-  const { role,user } = useSelector((state: RootState) => state.userData);
-  console.log(role);
+  const { role, user } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full">
       {/* <Header /> */}
       <Routes>
-        <Route path="verify-email/:token" element={!user?<ValidateEmail />:<Navigate to={'/'}/>} />
-        <Route path="/" element={<Layout role={role} />}>
+        <Route
+          path="verify-email/:token"
+          element={!user ? <ValidateEmail /> : <Navigate to={"/"} />}
+        />
+        <Route path="/" element={role!=="admin"?<Layout role={role} />:<Navigate to={'/admin/'}/>}>
           <Route index element={<LandingPage />} />
-          <Route path="admin/login" element={user?<Navigate to={'/'}/>:<AdminLogin/>}/>
+          <Route
+            path="adm/login"
+            element={user ? <Navigate to={"/"} /> : <AdminLogin />}
+          />
         </Route>
-        
+
+        {role === "admin" && (
+          <>
+            <Route path="/admin/" element={<Layout role={role} />}>
+              <Route index element={<AdminDashboard />} />
+            </Route>
+          </>
+        )}
+
+        <Route path="admin/*" element={<Navigate to="/" />} />
       </Routes>
     </main>
   );

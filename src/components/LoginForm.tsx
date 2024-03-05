@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/shadcn/ui/form";
 import { Input } from "@/shadcn/ui/input";
-import ButtonLoading from "./ButtonLoading";
+import ButtonLoading from "./custom/ButtonLoading";
 import { Button } from "@/shadcn/ui/button";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

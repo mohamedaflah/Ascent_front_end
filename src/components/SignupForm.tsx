@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/shadcn/ui/form";
 import { Input } from "@/shadcn/ui/input";
-import ButtonLoading from "./ButtonLoading";
+import ButtonLoading from "./custom/ButtonLoading";
 import { Button } from "@/shadcn/ui/button";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";

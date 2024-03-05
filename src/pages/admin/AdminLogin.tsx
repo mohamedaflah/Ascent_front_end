@@ -13,6 +13,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/shadcn/ui/input";
 import { Button } from "@/shadcn/ui/button";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "@/redux/actions/userActions";
+import { useNavigate } from "react-router-dom";
+import ButtonLoading from "@/components/custom/ButtonLoading";
 
 
 const adminLogin = z.object({
@@ -27,9 +32,13 @@ function AdminLogin() {
       password: "",
     },
   });
-  function submitAdmin(values: z.infer<typeof adminLogin>) {
+  const dispatch:AppDispatch=useDispatch()
+  const navigate=useNavigate()
+  const {loading}=useSelector((state:RootState)=>state.userData)
+  async function submitAdmin(values: z.infer<typeof adminLogin>) {
     console.log(values);
-    
+    await dispatch(loginUser({email:values.email,password:values.password,role:"admin"}))
+    navigate('/admin/')
   }
   return (
     <main className="h-screen w-full flex items-center justify-center">
@@ -87,9 +96,9 @@ function AdminLogin() {
                 )}
               />
               <div className="w-full h-auto mt-6">
-                <Button className="w-full h-10 rounded-sm" type="submit">
-                  Sign in{" "}
-                </Button>
+              <Button className={`w-full font-semibold ${loading&&"pointer-events-none bg-blue-400"}`} type="submit">
+            {!loading ? "Sign In" : <ButtonLoading />}
+          </Button>
               </div>
             </form>
           </Form>

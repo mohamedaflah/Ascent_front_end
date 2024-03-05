@@ -4,19 +4,24 @@ import { AppDispatch, RootState } from "@/redux/store";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import errIcon from "../assets/error.png";
+import errIcon from "../../assets/error.png";
+import toast from "react-hot-toast";
 const ValidateEmail = React.memo(() => {
   const dispatch: AppDispatch = useDispatch();
   const { token } = useParams();
   const navigate = useNavigate();
+  const { err,user } = useSelector((state: RootState) => state.userData);
   useEffect(() => {
     async function verifyUser() {
       await dispatch(verifyinguser(token as string));
       navigate("/");
     }
-    verifyUser();
-  }, [dispatch, navigate, token]);
-  const { err } = useSelector((state: RootState) => state.userData);
+    if(!user){
+      verifyUser();
+    }else{
+      toast.success("You Already Verified ")
+    }
+  }, [dispatch, navigate, token,user]);
   return (
     <div className="min-h-screen flex items-center justify-center border-t">
       <div className="p-8 rounded-lg shadow-lg max-w-lg w-full bg-backgroundAccent border flex flex-col gap-5">

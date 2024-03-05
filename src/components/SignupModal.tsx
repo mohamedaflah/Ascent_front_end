@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SignupForm from "./SignupForm";
 import AscentText from "./common/AscentText";
 import LoginForm from "./LoginForm";
-import EmailVerification from "./EmailVerification";
+import EmailVerification from "./custom/EmailVerification";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/ui/alert-dialog";
