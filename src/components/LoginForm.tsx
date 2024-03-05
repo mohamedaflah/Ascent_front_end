@@ -62,8 +62,8 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">Email</FormLabel>
-              <FormControl>
-                <Input placeholder="email @.." {...field} />
+              <FormControl >
+                <Input placeholder="email @.." {...field}  />
               </FormControl>
               <FormDescription>
                 This is your public display email.

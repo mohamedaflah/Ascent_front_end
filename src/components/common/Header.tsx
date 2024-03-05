@@ -7,7 +7,7 @@ import {
   ThemeProviderContext,
   ThemeProviderState,
 } from "@/shadcn/theme-provider";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SignupModal from "../SignupModal";
 import LoginModal from "../LoginModal";
 import { useSelector } from "react-redux";
@@ -25,6 +25,7 @@ const Header = () => {
   useEffect(() => {
     setisLanding(location.pathname === "/");
   }, [location]);
+  const navigate=useNavigate()
   return (
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10 ${
@@ -40,7 +41,7 @@ const Header = () => {
         <div className="h-[90%] bg-transparent w-full  flex justify-between">
           <div className="flex items-center gap-20">
             {!user && (
-              <img src={theme === "light" ? AscentIcon : AscentDarkIcon} />
+              <img src={theme === "light" ? AscentIcon : AscentDarkIcon} className="cursor-pointer" onClick={()=>navigate('/')} />
             )}
 
             <div className=" gap-10 hidden md:flex">
