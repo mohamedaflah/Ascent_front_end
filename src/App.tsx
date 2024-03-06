@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { getUser } from "./redux/actions/userActions";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/Dashboard";
+import CompanySignup from "./pages/company/CompanySignup";
+import CompanyLogin from "./pages/company/CompanyLogin";
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -27,11 +29,28 @@ function App() {
           path="verify-email/:token"
           element={!user ? <ValidateEmail /> : <Navigate to={"/"} />}
         />
-        <Route path="/" element={role!=="admin"?<Layout role={role} />:<Navigate to={'/admin/'}/>}>
+        <Route
+          path="/"
+          element={
+            role !== "admin" ? (
+              <Layout role={role} />
+            ) : (
+              <Navigate to={"/admin/"} />
+            )
+          }
+        >
           <Route index element={<LandingPage />} />
           <Route
             path="adm/login"
             element={user ? <Navigate to={"/"} /> : <AdminLogin />}
+          />
+          <Route
+            path="companies/signup"
+            element={user ? <Navigate to={"/"} /> : <CompanySignup />}
+          />
+          <Route
+            path="companies/login"
+            element={user ? <Navigate to={"/"} /> : <CompanyLogin />}
           />
         </Route>
 

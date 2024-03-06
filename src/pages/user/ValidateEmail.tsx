@@ -17,7 +17,9 @@ const ValidateEmail = React.memo(() => {
       navigate("/");
     }
     if(!user){
-      verifyUser();
+      setTimeout(()=>{
+        verifyUser();
+      },3000)
     }else{
       toast.success("You Already Verified ")
     }
