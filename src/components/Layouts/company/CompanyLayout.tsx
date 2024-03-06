@@ -8,11 +8,11 @@ import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import AdminHeader from "@/components/common/AdminHeader";
 import { adminSidebarLabel } from "@/constants/adminSideLayout";
-function AdminLayout() {
+function CompanyLayout() {
     const [theme, setTheme] = useState<"dark" | "light" | "system">();
     const { user } = useSelector((staet: RootState) => staet.userData);
     const context: ThemeProviderState = useContext(ThemeProviderContext);
@@ -50,7 +50,7 @@ function AdminLayout() {
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
           {adminSidebarLabel.map((item) => (
-            <Link to={item?.link?item?.link:'/'}
+            <div
               key={item.id}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
@@ -61,7 +61,7 @@ function AdminLayout() {
               {sideExpand && (
                 <span className="text-textPrimary">{item.label as string}</span>
               )}
-            </Link>
+            </div>
           ))}
         </div>
         <div className="w-full h-[1px] bg-textPrimary" />
@@ -120,4 +120,4 @@ function AdminLayout() {
     </main>
   );
 }
-export default AdminLayout;
+export default CompanyLayout;

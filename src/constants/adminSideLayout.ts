@@ -1,5 +1,5 @@
 
-import { AppWindow, Building2,  LayoutDashboard,  Users } from "lucide-react";
+import { AppWindow, Building2,  GitPullRequest,  LayoutDashboard,  Users } from "lucide-react";
 import { ElementType } from "react";
 import { v4 as uuidv4 } from "uuid";
 type Labels = {
@@ -7,12 +7,19 @@ type Labels = {
   label: string | ElementType;
   icon: ElementType;
   extraLabel?: string;
+  link?:string
 };
 export const adminSidebarLabel: Labels[] = [
   {
     id: uuidv4(),
     label: "Dashbaord",
     icon: LayoutDashboard,
+  },
+  {
+    id:uuidv4(),
+    label:"Request and Approvel",
+    icon:GitPullRequest,
+    link:'approvels'
   },
   {
     id: uuidv4(),

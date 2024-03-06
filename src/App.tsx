@@ -12,6 +12,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/Dashboard";
 import CompanySignup from "./pages/company/CompanySignup";
 import CompanyLogin from "./pages/company/CompanyLogin";
+import RequestAndApprovel from "./pages/admin/RequestApprovel";
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -58,11 +59,14 @@ function App() {
           <>
             <Route path="/admin/" element={<Layout role={role} />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="approvels" element={<RequestAndApprovel/>}/>
             </Route>
           </>
         )}
+        
 
         <Route path="admin/*" element={<Navigate to="/" />} />
+        <Route path="company/*" element={<Navigate to="/" />} />
       </Routes>
     </main>
   );
