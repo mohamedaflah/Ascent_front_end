@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 const CompanyHeader = () => {
-  const { status, user } = useSelector((state: RootState) => state.userData);
+  const { status, user,role } = useSelector((state: RootState) => state.userData);
   return (
     <header className={`w-full mx-auto sticky top-0 left-0 z-10 border-b`}>
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center  [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -30,7 +30,7 @@ const CompanyHeader = () => {
           </div>
 
           <div className="flex items-center text-2xl gap-4 ">
-            {status && (
+            {role==="company" && (
               <Button
                 className="rounded-sm "
                 disabled={

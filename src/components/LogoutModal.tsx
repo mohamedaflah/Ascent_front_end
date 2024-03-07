@@ -19,6 +19,8 @@ const LogoutModal = () => {
     dispatch(logoutUser()).then(() => {
       toast.success("Logout Successfull!!");
       localStorage.removeItem("companyVerification")
+      localStorage.removeItem("emailVerificationStartTime")
+      localStorage.removeItem("verificationState")
     });
   };
   return (

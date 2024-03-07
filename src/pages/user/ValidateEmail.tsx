@@ -1,5 +1,5 @@
 import AscentText from "@/components/common/AscentText";
-import { verifyinguser } from "@/redux/actions/userActions";
+import { getUser, verifyinguser } from "@/redux/actions/userActions";
 import { AppDispatch, RootState } from "@/redux/store";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,36 +9,40 @@ import toast from "react-hot-toast";
 
 import { Loader } from "lucide-react";
 
-
 const ValidateEmail = React.memo(() => {
   const dispatch: AppDispatch = useDispatch();
-  const { token,role } = useParams();
+  const { token, role } = useParams();
   const navigate = useNavigate();
-  const { err, user,  loading } = useSelector(
+  const { err, user, loading } = useSelector(
     (state: RootState) => state.userData
   );
 
   useEffect(() => {
     async function verifyUser() {
-      dispatch(verifyinguser(token as string)).then((res) => {
+      try {
+        const res = await dispatch(verifyinguser(token as string));
+        await dispatch(getUser())
         if (res.payload.response.data.message) {
           toast.success(res.payload.response.data.message);
         } else {
-          if (role == "user" && !loading) {
+          // Assuming your action updates the role in the state
+
+          if (role === "user" && !loading) {
             navigate("/");
-          } else if (role == "admin" && !loading) {
+          } else if (role === "admin" && !loading) {
             navigate("/admin/");
-          } else if (role == "company" && !loading) {
+          } else if (role === "company" && !loading) {
             navigate("/company/");
           }
         }
-      });
+      } catch (error) {
+        // Handle error
+        console.error("Error verifying user:", error);
+      }
     }
 
     if (!user) {
-      setTimeout(() => {
-        verifyUser();
-      }, 3000);
+      verifyUser();
     } else {
       toast.success("You Already Verified ");
     }

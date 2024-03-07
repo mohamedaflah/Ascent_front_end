@@ -57,6 +57,7 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(verifyinguser.fulfilled, (state, { payload }) => {
+        
         state.loading = false;
         state.user = payload.user;
         state.role = payload.user.role;
