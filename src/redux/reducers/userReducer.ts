@@ -42,6 +42,7 @@ const userReducer = createSlice({
         });
       })
       .addCase(signupUser.rejected, (state, { payload }) => {
+        console.log("🚀 ~ .addCase ~ payload:", payload)
         state.loading = false;
         state.user = null;
         state.err = true;

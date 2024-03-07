@@ -1,7 +1,7 @@
 import axios from "axios";
-const authbaseUrl = String(import.meta.env.VITE_AUTHENTICATION_SERVICE_URI);
-const userbaseURl = import.meta.env.VITE_USER_SERVICE_URI as string;
-const companybaseURL = import.meta.env.VITE_COMPANY_SERVICE as string;
+export const authbaseUrl = String(import.meta.env.VITE_AUTHENTICATION_SERVICE_URI);
+export const userbaseURl = import.meta.env.VITE_USER_SERVICE_URI as string;
+export const companybaseURL = import.meta.env.VITE_COMPANY_SERVICE as string;
 export const AuthAxios = axios.create({
   baseURL: authbaseUrl,
   withCredentials: true,

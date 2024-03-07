@@ -73,6 +73,7 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await AuthAxios.get(`/check-role/`);
+      console.log("🚀 ~ data:", data)
       const { role }: { role: "admin" | "user" | "company" } = data;
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,

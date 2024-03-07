@@ -18,6 +18,7 @@ const LogoutModal = () => {
   const handleLogout = () => {
     dispatch(logoutUser()).then(() => {
       toast.success("Logout Successfull!!");
+      localStorage.removeItem("companyVerification")
     });
   };
   return (

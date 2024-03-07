@@ -29,7 +29,7 @@ interface ChildProps {
   setSignup: (state: boolean) => void;
 }
 const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
-  const { loading } = useSelector((state: RootState) => state.userData);
+  const { loading, role } = useSelector((state: RootState) => state.userData);
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -47,7 +47,11 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
         role: "user",
       })
     ).then(() => {
-      navigate("/");
+      if (role === "user") {
+        navigate("/");
+      } else if (role === "admin") {
+        navigate("/admin/");
+      }
     });
   }
   return (
@@ -62,8 +66,8 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">Email</FormLabel>
-              <FormControl >
-                <Input placeholder="email @.." {...field}  />
+              <FormControl>
+                <Input placeholder="email @.." {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display email.
@@ -87,7 +91,12 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
           )}
         />
         <div className="w-full">
-          <Button className={`w-full font-semibold ${loading&&"pointer-events-none"}`} type="submit">
+          <Button
+            className={`w-full font-semibold ${
+              loading && "pointer-events-none"
+            }`}
+            type="submit"
+          >
             {!loading ? "Create   An Acccount" : <ButtonLoading />}
           </Button>
         </div>

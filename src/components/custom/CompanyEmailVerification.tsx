@@ -4,28 +4,37 @@ import AscentText from "../common/AscentText";
 interface ChildProp {
   setIsVerificationTime(state: boolean): void;
 }
+
 function CompanyEmailVerification({ setIsVerificationTime }: ChildProp) {
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedTimestamp = localStorage.getItem("verificationTimestamp");
-
-    if (storedTimestamp) {
-      const expiryTime = parseInt(storedTimestamp) + 5 * 60 * 1000; // 5 minutes in milliseconds
-      const currentTime = new Date().getTime();
-      const remainingTime = expiryTime - currentTime;
-
-      if (remainingTime > 0) {
-        startTimer(remainingTime);
-      } else {
-        // If time is already expired, remove the timestamp from local storage
-        localStorage.removeItem("verificationTimestamp");
+    const storedData = localStorage.getItem("companyVerification");
+  
+    if (storedData) {
+      const { isVerificationState, expiration } = JSON.parse(storedData);
+  
+      if (isVerificationState) {
+        const expiryTime = expiration as number; // Assuming expiration is a number
+        const currentTime = new Date().getTime();
+        const remainingTime = expiryTime - currentTime;
+  
+        if (remainingTime > 0) {
+          startTimer(remainingTime);
+        } else {
+          // If time is already expired, remove the timestamp from local storage
+          localStorage.removeItem("companyVerification");
+          setIsVerificationTime(false);
+        }
       }
     }
   }, []);
+  
+
+  let intervalId: NodeJS.Timeout;
 
   const startTimer = (duration: number) => {
-    const intervalId = setInterval(() => {
+    intervalId = setInterval(() => {
       const minutes = Math.floor(duration / (60 * 1000));
       const seconds = Math.floor((duration % (60 * 1000)) / 1000);
       const formattedTime = `${String(minutes).padStart(2, "0")}:${String(

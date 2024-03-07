@@ -28,7 +28,7 @@ function App() {
       {/* <Header /> */}
       <Routes>
         <Route
-          path="verify-email/:token"
+          path="verify-email/:token/:role"
           element={!user ? <ValidateEmail /> : <Navigate to={"/"} />}
         />
         <Route

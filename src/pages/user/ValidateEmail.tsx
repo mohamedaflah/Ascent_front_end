@@ -6,43 +6,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import errIcon from "../../assets/error.png";
 import toast from "react-hot-toast";
+
+import { Loader } from "lucide-react";
+
+
 const ValidateEmail = React.memo(() => {
   const dispatch: AppDispatch = useDispatch();
-  const { token } = useParams();
+  const { token,role } = useParams();
   const navigate = useNavigate();
-  const { err,user,role } = useSelector((state: RootState) => state.userData);
+  const { err, user,  loading } = useSelector(
+    (state: RootState) => state.userData
+  );
+
   useEffect(() => {
     async function verifyUser() {
-      await dispatch(verifyinguser(token as string));
-      if(role=="user"){
-        navigate("/");
-      }else if(role=="admin"){
-        navigate('/admin/')
-      }else{
-        navigate('/company/')
-      }
+      dispatch(verifyinguser(token as string)).then((res) => {
+        if (res.payload.response.data.message) {
+          toast.success(res.payload.response.data.message);
+        } else {
+          if (role == "user" && !loading) {
+            navigate("/");
+          } else if (role == "admin" && !loading) {
+            navigate("/admin/");
+          } else if (role == "company" && !loading) {
+            navigate("/company/");
+          }
+        }
+      });
     }
-    if(!user){
-      setTimeout(()=>{
+
+    if (!user) {
+      setTimeout(() => {
         verifyUser();
-      },3000)
-    }else{
-      toast.success("You Already Verified ")
+      }, 3000);
+    } else {
+      toast.success("You Already Verified ");
     }
-  }, [dispatch, navigate, token,user]);
+  }, []);
   return (
     <div className="min-h-screen flex items-center justify-center border-t">
       <div className="p-8 rounded-lg shadow-lg max-w-lg w-full bg-backgroundAccent border flex flex-col gap-5">
         <div className="text-4xl">
           <AscentText />
         </div>
-        <h1 className="text-2xl font-semibold mb-4">
-          {!err ? (
-            <>Verifying email...</>
-          ) : (
-            <span className="text-red-300">{err}</span>
-          )}
-        </h1>
+        <h1 className="text-2xl font-semibold mb-4">Verifying Email</h1>
+        {loading && (
+          <div className="w-full">
+            <Loader className="animate-spin" />
+          </div>
+        )}
         <div className="text-foregroundAccent mb-6 h flex justify-center">
           {err ? (
             <>

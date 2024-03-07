@@ -1,6 +1,6 @@
 import CompanyEmailVerification from "@/components/custom/CompanyEmailVerification";
 import { companySignupSubmit } from "@/redux/actions/userActions";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { Button } from "@/shadcn/ui/button";
 import {
   Form,
@@ -15,7 +15,8 @@ import { Input } from "@/shadcn/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
@@ -32,13 +33,18 @@ function CompanySignup() {
       email: "",
       password: "",
     },
-
   });
-  const dispatch:AppDispatch=useDispatch()
+  const dispatch: AppDispatch = useDispatch();
   // const navigate=useNavigate()
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    await dispatch(companySignupSubmit(values))
+    dispatch(companySignupSubmit(values)).then((res) => {
+      console.log("🚀 ~ dispatch ~ res:", res);
+      if (res.payload) {
+        setIsVerificationTime(true);
+      }
+    });
   }
+  const { loading } = useSelector((state: RootState) => state.userData);
   const [isVerificationTime, setIsVerificationTime] = useState<boolean>(false);
   useEffect(() => {
     const storageData: null | string = localStorage.getItem(
@@ -143,9 +149,11 @@ function CompanySignup() {
                 </div>
                 <Button
                   type="submit"
-                  className="company_text text-lg w-full h-12 rounded-md"
+                  className={`company_text text-lg w-full h-12 rounded-md ${
+                    loading && "pointer-events-none bg-blue-300"
+                  }`}
                 >
-                  Create An Account
+                  {loading ? "Processing..." : "Create An Account"}
                 </Button>
                 <div className="company_text w-full flex justify-center text-lg">
                   <span>

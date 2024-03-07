@@ -10,10 +10,18 @@ import {
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getPendingCompanies } from "@/redux/actions/adminActions";
+import {
+  changeApprovleStatus,
+  getPendingCompanies,
+} from "@/redux/actions/adminActions";
 import { oneCompanyType } from "@/types/adminReducer";
+import ChangeCompanyApprovel from "@/components/Layouts/admin/ChangeCompanystatus";
 
 function RequestAndApprovel() {
+  const handleAccept = async (status: "Accepted" | "Rejected" | "Pending",id:string) => {
+    
+    await dispatch(changeApprovleStatus({ status, description: "",id }));
+  };
   const dispatch: AppDispatch = useDispatch();
   const { company } = useSelector((state: RootState) => state.admin);
   useEffect(() => {
@@ -28,7 +36,7 @@ function RequestAndApprovel() {
               <TableHead className="w-[100px]">Companyname</TableHead>
               <TableHead>Logo</TableHead>
               <TableHead>company email</TableHead>
-              <TableHead >approvedDate</TableHead>
+              <TableHead>approvedDate</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -39,10 +47,17 @@ function RequestAndApprovel() {
                   <img src={"https://www.google.com/favicon.ico"} alt="" />
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
-                <TableCell >{"23-09-2023"}</TableCell>
+                <TableCell>{"23-09-2023"}</TableCell>
                 <TableCell className="text-right flex w-auto justify-end gap-1">
-                  <Button className="bg-green-500  h-9">Accept</Button>
-                  <Button className="bg-red-400 h-9">Reject</Button>
+                  <Button
+                    className="bg-green-500  h-9"
+                    onClick={() => handleAccept("Accepted",data._id)}
+                  >
+                    Accept
+                  </Button>
+                  <Button className="bg-red-400 h-9">
+                    <ChangeCompanyApprovel status="Rejected" id={data._id}  key={data._id}/>
+                  </Button>
                   <Button className="h-9">View</Button>
                 </TableCell>
               </TableRow>

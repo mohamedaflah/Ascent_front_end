@@ -1,5 +1,5 @@
 import { loginUser } from "@/redux/actions/userActions";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { Button } from "@/shadcn/ui/button";
 import {
   Form,
@@ -13,31 +13,39 @@ import {
 import { Input } from "@/shadcn/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-const signupFormSchema = z.object({
-  name: z.string().max(50).min(2),
+const loginFormSchema = z.object({
   email: z.string().email({ message: "Please provide valid email" }),
   password: z.string().min(8),
 });
 function CompanyLogin() {
   const dispatch: AppDispatch = useDispatch();
-  const navigate=useNavigate()
-  const form = useForm<z.infer<typeof signupFormSchema>>({
-    resolver: zodResolver(signupFormSchema),
+  const navigate = useNavigate();
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
 
-  async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    await dispatch(loginUser({ ...values, role: "company" }));
-    navigate('/company/')
+  async function loginSubmit(values: z.infer<typeof loginFormSchema>) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res:{error:{message:string}}|any = await dispatch(loginUser({ ...values, role: "company" }));
+      if (!res?.error) {
+        navigate("/company/");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      // Handle error if needed
+    }
   }
+  
+  const { loading } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full h-screen flex items-center justify-center">
       <div className="w-[90%] sm:w-[60%] md:w-[50%] lg:w-[28%] min-h-96  flex flex-col gap-y-10">
@@ -52,7 +60,7 @@ function CompanyLogin() {
         <div>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(signupSubmit)}
+              onSubmit={form.handleSubmit(loginSubmit)}
               className="w-full flex flex-col gap-2"
             >
               <FormField
@@ -85,7 +93,7 @@ function CompanyLogin() {
                     </FormLabel>
                     <FormControl className="h-12 border-none bg-backgroundAccent">
                       <Input
-                        placeholder="Enter you company name"
+                        placeholder="Enter you password"
                         type="password"
                         {...field}
                       />
@@ -100,9 +108,11 @@ function CompanyLogin() {
               </div>
               <Button
                 type="submit"
-                className="company_text text-lg w-full h-12 rounded-md"
+                className={`company_text text-lg w-full h-12 rounded-md ${
+                  loading && "pointer-events-none bg-blue-300"
+                }`}
               >
-                Sign In
+                {loading ? "Processing..." : "Sign In"}
               </Button>
               <div className="company_text w-full flex justify-center text-lg">
                 <span>

@@ -1,8 +1,7 @@
 import AscentIcon from "../../../assets/lightico.svg";
 import AscentDarkIcon from "../../../assets/darkIco.svg";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+
 import {
   ThemeProviderContext,
   ThemeProviderState,
@@ -19,16 +18,27 @@ import AscentText from "@/components/common/AscentText";
 import { Loader } from "lucide-react";
 import { Button } from "@/shadcn/ui/button";
 import LogoutModal from "@/components/LogoutModal";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 function CompanyLayout() {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
-  const { user, role, status } = useSelector(
+  const { user, role, status,loading } = useSelector(
     (staet: RootState) => staet.userData
   );
+
   const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [sideExpand, setIsSideExpand] = useState<boolean>(true);
   useEffect(() => {
     setTheme(context?.theme);
   }, [context]);
+  if(loading){
+    return <main className="h-screen w-full flex justify-center items-center">
+      <Loader className="animate-spin w-40"/>
+    </main>
+  }
+  // useEffect(()=>{
+
+  // },[])
   return (
     <main className=" flex ">
       <aside
@@ -125,23 +135,23 @@ function CompanyLayout() {
       <main className="w-full">
         <CompanyHeader />
         {role === "company" &&
-        (status === "Pending" || status === "Rejected") ? (
+        (status === "Pending" || status === "Rejected" || user.approvelStatus.status=="Rejected" || user.approvelStatus.status=="Pending") ? (
           <main className="w-full h-full flex items-center justify-center absolute top-0 left-0 ">
             <div className="absolute top-0 left-0 w-full h-full -z-10 bg-backgroundAccent opacity-70"></div>
-            <div className="w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
+            <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
               <div className="w-full h-10  flex justify-center items-center text-3xl font-bold">
                 <AscentText />
               </div>
               <div className="w-full ">
                 <p className="text-lg text-center font-semibold">
                   Your Request is currently {status}{" "}
-                  {status === "Pending"
+                  {status === "Pending"||user.approvelStatus.status=="Pending"
                     ? "Admin not Responded you Request Waiting for Getting Response from adming "
                     : "Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve"}
                 </p>
               </div>
               <div className="w-full flex justify-center mt-10 font-semibold">
-                {status === "Pending"
+                {status === "Pending"|| user.approvelStatus.status=="Pending"
                   ? "Waiting for getting response from admin"
                   : "Admin has been rejected you "}
               </div>
@@ -150,11 +160,11 @@ function CompanyLayout() {
               </div>
               <div className="flex justify-center gap-2">
                 <div
-                  className={`w-40 h-10 border flex items-center justify-center rounded-xl text-white ${
-                    status === "Pending" ? "bg-yellow-300" : "bg-green-300"
+                  className={`w-40 h-10 border flex items-center justify-center rounded-xl text-white font-bold ${
+                    status === "Pending"||user.approvelStatus.status=="Pending" ? "bg-yellow-300" : "bg-red-300"
                   }`}
                 >
-                  {status}
+                  {status?status:user.approvelStatus.status}
                 </div>
                 <Button className="px-3 rounded-xl font-thin" title="Logout">
                   <LogoutModal/>
