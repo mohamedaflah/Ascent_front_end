@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import CompanySignup from "./pages/company/CompanySignup";
 import CompanyLogin from "./pages/company/CompanyLogin";
 import RequestAndApprovel from "./pages/admin/RequestApprovel";
+import CompanyDashbord from "./pages/company/CompanyDashboard";
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -31,14 +32,16 @@ function App() {
           element={!user ? <ValidateEmail /> : <Navigate to={"/"} />}
         />
         <Route
-          path="/"
-          element={
-            role !== "admin" ? (
-              <Layout role={role} />
-            ) : (
-              <Navigate to={"/admin/"} />
-            )
-          }
+           path="/"
+           element={
+             role === "admin" ? (
+               <Navigate to={"/admin/"} />
+             ) : role === "company" ? (
+               <Navigate to={"/company/"} />
+             ) : (
+               <Layout role={role} />
+             )
+           }
         >
           <Route index element={<LandingPage />} />
           <Route
@@ -46,11 +49,11 @@ function App() {
             element={user ? <Navigate to={"/"} /> : <AdminLogin />}
           />
           <Route
-            path="companies/signup"
+            path="recruiter/signup"
             element={user ? <Navigate to={"/"} /> : <CompanySignup />}
           />
           <Route
-            path="companies/login"
+            path="recruiter/login"
             element={user ? <Navigate to={"/"} /> : <CompanyLogin />}
           />
         </Route>
@@ -59,11 +62,15 @@ function App() {
           <>
             <Route path="/admin/" element={<Layout role={role} />}>
               <Route index element={<AdminDashboard />} />
-              <Route path="approvels" element={<RequestAndApprovel/>}/>
+              <Route path="approvels" element={<RequestAndApprovel />} />
             </Route>
           </>
         )}
-        
+        {role === "company" && (
+          <Route path="/company/" element={<Layout role={"company"} />}>
+            <Route index element={<CompanyDashbord />} />
+          </Route>
+        )}
 
         <Route path="admin/*" element={<Navigate to="/" />} />
         <Route path="company/*" element={<Navigate to="/" />} />

@@ -18,5 +18,5 @@ type Role = "admin" | "user" | "company";
 export const getUserWithRole: Record<Role, string> = {
   user: `${userbaseURl}/user/get-user`,
   admin: `${userbaseURl}/user/get-user`, // Assuming admins might have a different endpoint
-  company: ``, // Placeholder, adjust as needed
+  company: `${companybaseURL}/company`, // Placeholder, adjust as needed
 };

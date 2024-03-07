@@ -1,3 +1,5 @@
+import { loginUser } from "@/redux/actions/userActions";
+import { AppDispatch } from "@/redux/store";
 import { Button } from "@/shadcn/ui/button";
 import {
   Form,
@@ -11,7 +13,8 @@ import {
 import { Input } from "@/shadcn/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const signupFormSchema = z.object({
@@ -20,8 +23,10 @@ const signupFormSchema = z.object({
   password: z.string().min(8),
 });
 function CompanyLogin() {
+  const dispatch: AppDispatch = useDispatch();
+  const navigate=useNavigate()
   const form = useForm<z.infer<typeof signupFormSchema>>({
-    resolver:zodResolver(signupFormSchema),
+    resolver: zodResolver(signupFormSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -30,8 +35,8 @@ function CompanyLogin() {
   });
 
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    alert(" * * ");
-    values;
+    await dispatch(loginUser({ ...values, role: "company" }));
+    navigate('/company/')
   }
   return (
     <main className="w-full h-screen flex items-center justify-center">
@@ -102,7 +107,7 @@ function CompanyLogin() {
               <div className="company_text w-full flex justify-center text-lg">
                 <span>
                   Create An new Account {"   "}
-                  <Link to={"/companies/signup"}  className="text-primary">
+                  <Link to={"/recruiter/signup"} className="text-primary">
                     Signup
                   </Link>
                 </span>

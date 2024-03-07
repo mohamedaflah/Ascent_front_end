@@ -4,10 +4,9 @@ import {
   // UserAxios,
   getUserWithRole,
 } from "@/constants/axiosInstance";
-import { Login, SignupForm } from "@/types/AllTypes";
+import { Login, SignupForm, companySignup } from "@/types/AllTypes";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 
 export const signupUser = createAsyncThunk(
   "users/signupuser",
@@ -27,6 +26,28 @@ export const signupUser = createAsyncThunk(
       }
       return data;
     } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const companySignupSubmit = createAsyncThunk(
+  "company/signup",
+  async (signupData:companySignup, { rejectWithValue }) => {
+    try {
+      const {data}=await AuthAxios.post('/signup',{...signupData,role:"company"})
+      const expirationTime = new Date().getTime() + 5 * 60 * 1000; // Current time + 5 minutes in milliseconds
+      const dataToStore = {
+        isVerificationState: true,
+        expiration: expirationTime,
+      };
+
+      if (!localStorage.getItem("companyVerification")) {
+        localStorage.setItem("companyVerification", JSON.stringify(dataToStore));
+      }
+      return data;
+    } catch (error) {
+      console.log("🚀 ~ error:", error)
       return rejectWithValue(error);
     }
   }
@@ -86,8 +107,8 @@ export const loginUser = createAsyncThunk(
       const { data: user } = await axios.get(getUserWithRole[loginData.role], {
         withCredentials: true,
       });
-      if(data.status){
-        return user
+      if (data.status) {
+        return user;
       }
     } catch (error: any | Error) {
       console.log("🚀 ~ error:", error);

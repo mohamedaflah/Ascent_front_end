@@ -3,23 +3,32 @@ import AscentDarkIcon from "../../../assets/darkIco.svg";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { ThemeProviderContext, ThemeProviderState } from "@/shadcn/theme-provider";
+import {
+  ThemeProviderContext,
+  ThemeProviderState,
+} from "@/shadcn/theme-provider";
 import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 
-import AdminHeader from "@/components/common/AdminHeader";
 import { adminSidebarLabel } from "@/constants/adminSideLayout";
+import CompanyHeader from "@/components/common/CompanyHeader";
+import AscentText from "@/components/common/AscentText";
+import { Loader } from "lucide-react";
+import { Button } from "@/shadcn/ui/button";
+import LogoutModal from "@/components/LogoutModal";
 function CompanyLayout() {
-    const [theme, setTheme] = useState<"dark" | "light" | "system">();
-    const { user } = useSelector((staet: RootState) => staet.userData);
-    const context: ThemeProviderState = useContext(ThemeProviderContext);
-    const [sideExpand, setIsSideExpand] = useState<boolean>(true);
-    useEffect(() => {
-      setTheme(context?.theme);
-    }, [context]);
+  const [theme, setTheme] = useState<"dark" | "light" | "system">();
+  const { user, role, status } = useSelector(
+    (staet: RootState) => staet.userData
+  );
+  const context: ThemeProviderState = useContext(ThemeProviderContext);
+  const [sideExpand, setIsSideExpand] = useState<boolean>(true);
+  useEffect(() => {
+    setTheme(context?.theme);
+  }, [context]);
   return (
     <main className=" flex ">
       <aside
@@ -103,9 +112,9 @@ function CompanyLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user.firstname}</span>
-                <span className="line-clamp-1" title={user.email}>
-                  {user.email}
+                <span>{user?.firstname}</span>
+                <span className="line-clamp-1" title={user?.email}>
+                  {user?.email}
                 </span>
               </div>
             )}
@@ -114,8 +123,48 @@ function CompanyLayout() {
       </aside>
 
       <main className="w-full">
-        <AdminHeader />
-        <Outlet />
+        <CompanyHeader />
+        {role === "company" &&
+        (status === "Pending" || status === "Rejected") ? (
+          <main className="w-full h-full flex items-center justify-center absolute top-0 left-0 ">
+            <div className="absolute top-0 left-0 w-full h-full -z-10 bg-backgroundAccent opacity-70"></div>
+            <div className="w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
+              <div className="w-full h-10  flex justify-center items-center text-3xl font-bold">
+                <AscentText />
+              </div>
+              <div className="w-full ">
+                <p className="text-lg text-center font-semibold">
+                  Your Request is currently {status}{" "}
+                  {status === "Pending"
+                    ? "Admin not Responded you Request Waiting for Getting Response from adming "
+                    : "Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve"}
+                </p>
+              </div>
+              <div className="w-full flex justify-center mt-10 font-semibold">
+                {status === "Pending"
+                  ? "Waiting for getting response from admin"
+                  : "Admin has been rejected you "}
+              </div>
+              <div className="flex justify-center items-center ">
+                <Loader className="animate-spin " />
+              </div>
+              <div className="flex justify-center gap-2">
+                <div
+                  className={`w-40 h-10 border flex items-center justify-center rounded-xl text-white ${
+                    status === "Pending" ? "bg-yellow-300" : "bg-green-300"
+                  }`}
+                >
+                  {status}
+                </div>
+                <Button className="px-3 rounded-xl font-thin" title="Logout">
+                  <LogoutModal/>
+                </Button>
+              </div>
+            </div>
+          </main>
+        ) : (
+          <Outlet />
+        )}
       </main>
     </main>
   );

@@ -1,6 +1,6 @@
 export type SignupForm = {
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   email: string;
   password: string;
   confirmpass?: string;
@@ -9,6 +9,11 @@ export type SignupForm = {
 //   firstane
 // }
 
+export type companySignup = {
+  name?: string;
+  email: string;
+  password: string;
+};
 export type UserReducerInitial = {
   loading: boolean;
   err: boolean | string;
@@ -16,6 +21,7 @@ export type UserReducerInitial = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: null | any;
   message?: string;
+  status?: string;
 };
 
 export type userType = {
@@ -43,5 +49,5 @@ export interface signupUserReducerPayload {
 export type Login = {
   email: string;
   password: string;
-  role:"user"|"admin"|"company"
+  role: "user" | "admin" | "company";
 };

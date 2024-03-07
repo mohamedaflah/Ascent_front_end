@@ -10,11 +10,17 @@ const ValidateEmail = React.memo(() => {
   const dispatch: AppDispatch = useDispatch();
   const { token } = useParams();
   const navigate = useNavigate();
-  const { err,user } = useSelector((state: RootState) => state.userData);
+  const { err,user,role } = useSelector((state: RootState) => state.userData);
   useEffect(() => {
     async function verifyUser() {
       await dispatch(verifyinguser(token as string));
-      navigate("/");
+      if(role=="user"){
+        navigate("/");
+      }else if(role=="admin"){
+        navigate('/admin/')
+      }else{
+        navigate('/company/')
+      }
     }
     if(!user){
       setTimeout(()=>{
