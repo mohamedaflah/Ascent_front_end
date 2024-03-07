@@ -33,9 +33,12 @@ export const signupUser = createAsyncThunk(
 
 export const companySignupSubmit = createAsyncThunk(
   "company/signup",
-  async (signupData:companySignup, { rejectWithValue }) => {
+  async (signupData: companySignup, { rejectWithValue }) => {
     try {
-      const {data}=await AuthAxios.post('/signup',{...signupData,role:"company"})
+      const { data } = await AuthAxios.post("/signup", {
+        ...signupData,
+        role: "company",
+      });
       const expirationTime = new Date().getTime() + 5 * 60 * 1000; // Current time + 5 minutes in milliseconds
       const dataToStore = {
         isVerificationState: true,
@@ -43,11 +46,14 @@ export const companySignupSubmit = createAsyncThunk(
       };
 
       if (!localStorage.getItem("companyVerification")) {
-        localStorage.setItem("companyVerification", JSON.stringify(dataToStore));
+        localStorage.setItem(
+          "companyVerification",
+          JSON.stringify(dataToStore)
+        );
       }
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error)
+      console.log("🚀 ~ error:", error);
       return rejectWithValue(error);
     }
   }
@@ -73,7 +79,7 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await AuthAxios.get(`/check-role/`);
-      console.log("🚀 ~ data:", data)
+      console.log("🚀 ~ data:", data);
       const { role }: { role: "admin" | "user" | "company" } = data;
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,
@@ -116,5 +122,12 @@ export const loginUser = createAsyncThunk(
 
       return rejectWithValue(error);
     }
+  }
+);
+
+export const submitLinks = createAsyncThunk(
+  "company/submitLInks",
+  async (links:{website:string,linkedIn:string}) => {
+    links
   }
 );

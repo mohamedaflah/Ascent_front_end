@@ -58,7 +58,7 @@ function RequestAndApprovel() {
                   <Button className="bg-red-400 h-9">
                     <ChangeCompanyApprovel status="Rejected" id={data._id}  key={data._id}/>
                   </Button>
-                  <Button className="h-9">View</Button>
+                  {/* <Button className="h-9">View</Button> */}
                 </TableCell>
               </TableRow>
             ))}
