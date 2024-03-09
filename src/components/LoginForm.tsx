@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/redux/actions/userActions";
 import { AppDispatch, RootState } from "@/redux/store";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const signupFormSchema = z.object({
   email: z.string().email({ message: " Please provide valid email " }),
@@ -27,8 +27,9 @@ const signupFormSchema = z.object({
 
 interface ChildProps {
   setSignup: (state: boolean) => void;
+  cancelRef?:React.RefObject<HTMLButtonElement>
 }
-const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
+const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
   const { loading, role } = useSelector((state: RootState) => state.userData);
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -85,11 +86,12 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup }) => {
               <FormControl>
                 <Input placeholder="* * *" type="password" {...field} />
               </FormControl>
-              <FormDescription></FormDescription>
+              <FormDescription className="flex justify-end text-primary"><Link to='/user/forgotpassword?role=user' onClick={()=>cancelRef?.current?.click()}>forgot password</Link></FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <div className="w-full">
           <Button
             className={`w-full font-semibold ${

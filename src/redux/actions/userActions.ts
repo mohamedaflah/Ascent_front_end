@@ -5,6 +5,7 @@ import {
   getUserWithRole,
 } from "@/constants/axiosInstance";
 import { Login, SignupForm, companySignup } from "@/types/AllTypes";
+import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -26,7 +27,7 @@ export const signupUser = createAsyncThunk(
       }
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
@@ -54,7 +55,7 @@ export const companySignupSubmit = createAsyncThunk(
       return data;
     } catch (error) {
       console.log("🚀 ~ error:", error);
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
@@ -69,7 +70,7 @@ export const verifyinguser = createAsyncThunk(
     } catch (error) {
       console.log("🚀 ~ error:", error);
 
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
@@ -88,8 +89,7 @@ export const getUser = createAsyncThunk(
       return user;
     } catch (error) {
       console.log("🚀 ~ async ~ error:", error);
-
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );

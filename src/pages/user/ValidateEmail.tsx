@@ -21,20 +21,21 @@ const ValidateEmail = React.memo(() => {
     async function verifyUser() {
       try {
         const res = await dispatch(verifyinguser(token as string));
-        await dispatch(getUser())
-        if (res.payload.response.data.message) {
-          toast.success(res.payload.response.data.message);
-        } else {
-          // Assuming your action updates the role in the state
+        dispatch(getUser()).then(() => {
+          if (res.payload.response.data.message) {
+            toast.success(res.payload.response.data.message);
+          } else {
+            // Assuming your action updates the role in the state
 
-          if (role === "user" && !loading) {
-            navigate("/");
-          } else if (role === "admin" && !loading) {
-            navigate("/admin/");
-          } else if (role === "company" && !loading) {
-            navigate("/company/");
+            if (role === "user" && !loading) {
+              navigate("/");
+            } else if (role === "admin" && !loading) {
+              navigate("/admin/");
+            } else if (role === "company" && !loading) {
+              navigate("/company/");
+            }
           }
-        }
+        });
       } catch (error) {
         // Handle error
         console.error("Error verifying user:", error);

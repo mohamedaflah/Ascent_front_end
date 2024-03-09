@@ -77,7 +77,7 @@ function CompanyLayout() {
         >
           {adminSidebarLabel.map((item) => (
             <div
-              key={item.id}
+              key={item?.id}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
@@ -85,7 +85,7 @@ function CompanyLayout() {
               {/* <Home /> <span>Home</span> */}
               <item.icon className="text-textPrimary" />{" "}
               {sideExpand && (
-                <span className="text-textPrimary">{item.label as string}</span>
+                <span className="text-textPrimary">{item?.label as string}</span>
               )}
             </div>
           ))}
@@ -129,7 +129,7 @@ function CompanyLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user?.firstname}</span>
+                <span>{user?.firstname?user?.firstname:user.name}</span>
                 <span className="line-clamp-1" title={user?.email}>
                   {user?.email}
                 </span>
@@ -139,14 +139,14 @@ function CompanyLayout() {
         </div>
       </aside>
 
-      <main className="w-full relative">
+      <main className="w-full ">
         <CompanyHeader />
         {/* {!user.profileCompleted && <CompanyProfileCompletion/>} */}
         {role === "company" &&
         (status === "Pending" ||
           status === "Rejected" ||
-          user.approvelStatus.status == "Rejected" ||
-          user.approvelStatus.status == "Pending") ? (
+          user?.approvelStatus?.status == "Rejected" ||
+          user?.approvelStatus?.status == "Pending") ? (
           <main className="w-full h-full flex items-center justify-center absolute top-0 left-0 ">
             <div className="absolute top-0 left-0 w-full h-full -z-10 bg-backgroundAccent opacity-70"></div>
             <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
@@ -157,29 +157,31 @@ function CompanyLayout() {
                 <p className="text-lg text-center font-semibold">
                   Your Request is currently {status}{" "}
                   {status === "Pending" ||
-                  user.approvelStatus.status == "Pending"
+                  user?.approvelStatus?.status == "Pending"
                     ? "Admin not Responded you Request Waiting for Getting Response from adming "
-                    : "Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve"}
+                    : `Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve Reason : ${user?.approvelStatus?.description}`}
                 </p>
               </div>
-              <div className="w-full flex justify-center mt-10 font-semibold">
-                {status === "Pending" || user.approvelStatus.status == "Pending"
-                  ? "Waiting for getting response from admin"
-                  : "Admin has been rejected you "}
+              <div className="w-full flex justify-center mt-10 font-semibold flex-col items-center gap-4">
+                {status === "Pending" || user?.approvelStatus?.status == "Pending"
+                  ? <>Waiting for getting response from admin
+                  <div className="flex justify-center items-center ">
+                <Loader className="animate-spin text-2xl" />
               </div>
-              <div className="flex justify-center items-center ">
-                <Loader className="animate-spin " />
+                  </>
+                  : "Admin has been rejected you "}
+              
               </div>
               <div className="flex justify-center gap-2">
                 <div
                   className={`w-40 h-10 border flex items-center justify-center rounded-xl text-white font-bold ${
                     status === "Pending" ||
-                    user.approvelStatus.status == "Pending"
+                    user?.approvelStatus?.status == "Pending"
                       ? "bg-yellow-300"
-                      : "bg-red-300"
+                      : "bg-red-400"
                   }`}
                 >
-                  {status ? status : user.approvelStatus.status}
+                  {status ? status : user?.approvelStatus?.status}
                 </div>
                 <Button className="px-3 rounded-xl font-thin" title="Logout">
                   <LogoutModal />

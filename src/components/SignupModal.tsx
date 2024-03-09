@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import SignupForm from "./SignupForm";
 import AscentText from "./common/AscentText";
@@ -22,6 +22,7 @@ const SignupModal = () => {
   function resettoBack(){
     setIsSignup(true)
   }
+  const cancelref=useRef<HTMLButtonElement>(null)
   return (
     <AlertDialog>
       <AlertDialogTrigger className="px-5 py-2 rounded-sm  border-black text-textPrimary font-semibold bg-primary border-none text-white">
@@ -45,7 +46,7 @@ const SignupModal = () => {
                 </>
               )}
             </h1>
-            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 " onClick={resettoBack}>
+            <AlertDialogCancel className="border-none outline-none text-1xl w-auto p-0 " onClick={resettoBack} ref={cancelref}>
             <X className="h-5 w-5" />
             </AlertDialogCancel>
           </AlertDialogTitle>
@@ -56,7 +57,7 @@ const SignupModal = () => {
             ) : isSignup ? (
               <SignupForm setSignup={setIsSignup} />
             ) : (
-              <LoginForm setSignup={setIsSignup} />
+              <LoginForm setSignup={setIsSignup} cancelRef={cancelref}/>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>

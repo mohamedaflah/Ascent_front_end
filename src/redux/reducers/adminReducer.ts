@@ -28,8 +28,8 @@ const adminReducer = createSlice({
       .addCase(getPendingCompanies.rejected, (state, { payload }) => {
         state.company = null;
         state.loading = false;
-        state.err = payload?.response?.message;
-        toast.error(payload?.response?.data?.message);
+        state.err = payload?.message;
+        toast.error(payload?.message);
       })
       // change approvle status
       .addCase(changeApprovleStatus.pending, (state) => {
@@ -46,6 +46,7 @@ const adminReducer = createSlice({
       .addCase(changeApprovleStatus.rejected, (state, { payload }) => {
         state.loading = true;
         state.err = payload?.message;
+        toast.error(payload?.message)
         state.company = null;
       });
   },

@@ -1,4 +1,5 @@
 import { CompanyAxios } from "@/constants/axiosInstance";
+import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getPendingCompanies = createAsyncThunk(
@@ -8,7 +9,7 @@ export const getPendingCompanies = createAsyncThunk(
       const { data } = await CompanyAxios.get(`/get-approvelcompanies`);
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
@@ -31,11 +32,7 @@ export const changeApprovleStatus = createAsyncThunk(
       return data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: Error | any) {
-      if (error.message) {
-        return rejectWithValue(error);
-      } else {
-        return rejectWithValue(error.response.data.message);
-      }
+      return rejectWithValue(handleErrors(error));
     }
   }
 );

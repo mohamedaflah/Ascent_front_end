@@ -20,3 +20,8 @@ export const getUserWithRole: Record<Role, string> = {
   admin: `${userbaseURl}/user/get-user`, // Assuming admins might have a different endpoint
   company: `${companybaseURL}/company`, // Placeholder, adjust as needed
 };
+
+
+// seperate folder for connection
+// constant -> constant.js
+// endpoint.js -> required

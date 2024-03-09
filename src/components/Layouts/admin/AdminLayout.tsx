@@ -24,7 +24,7 @@ function AdminLayout() {
     <main className=" flex ">
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex ${
-          sideExpand ? "w-72" : "w-28"
+          sideExpand ? "min-w-72" : "min-w-28"
         } transition-all duration-500 ease-in-out`}
       >
         <div
@@ -103,9 +103,9 @@ function AdminLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user.firstname}</span>
-                <span className="line-clamp-1" title={user.email}>
-                  {user.email}
+                <span>{user?.firstname}</span>
+                <span className="line-clamp-1" title={user?.email}>
+                  {user?.email}
                 </span>
               </div>
             )}

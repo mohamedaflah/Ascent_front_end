@@ -9,6 +9,10 @@ import {
   verifyinguser,
 } from "../actions/userActions";
 import toast from "react-hot-toast";
+import {
+  passwordUpdation,
+  verifyForgotEmail,
+} from "../actions/secondaryAction";
 
 const initialState: UserReducerInitial = {
   loading: false,
@@ -42,22 +46,16 @@ const userReducer = createSlice({
         });
       })
       .addCase(signupUser.rejected, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload)
+        console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
         state.user = null;
-        state.err = true;
-
-        if (payload?.message == "Network Error") {
-          toast.error(payload?.message);
-        } else {
-          toast.error(payload?.response?.data?.message);
-        }
+        state.err = payload?.message;
+        toast.error(payload?.message);
       })
       .addCase(verifyinguser.pending, (state) => {
         state.loading = true;
       })
       .addCase(verifyinguser.fulfilled, (state, { payload }) => {
-        
         state.loading = false;
         state.user = payload.user;
         state.role = payload.user.role;
@@ -66,9 +64,9 @@ const userReducer = createSlice({
       .addCase(verifyinguser.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
-        state.err = payload?.response?.data?.message;
+        state.err = payload?.message;
         state.user = null;
-        toast.error(payload?.response?.data?.message);
+        toast.error(payload?.message);
       })
       //get User and Check Authentication
       .addCase(getUser.pending, (state) => {
@@ -79,14 +77,15 @@ const userReducer = createSlice({
         state.err = false;
         state.user = payload?.user;
         state.role = payload?.role;
-        if(payload.role==='company'){
-          state.status=payload.approvelStatus
+        if (payload.role === "company") {
+          state.status = payload.approvelStatus;
         }
       })
       .addCase(getUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.err = payload?.message;
         state.user = null;
+        toast.error(payload?.message);
       })
       // logout user
       .addCase(logoutUser.pending, (state) => {
@@ -96,6 +95,11 @@ const userReducer = createSlice({
         state.loading = false;
         state.user = payload?.user;
         state.role = null;
+      })
+      .addCase(logoutUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload?.message;
+        toast.success(payload?.message);
       })
       // login user
       .addCase(loginUser.pending, (state) => {
@@ -114,26 +118,56 @@ const userReducer = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
-        state.err = payload?.response?.data.message;
+        state.err = payload?.message;
         state.user = null;
-        toast.error(payload?.response?.data.message);
+        toast.error(payload?.message);
       })
       // Company Signup
       .addCase(companySignupSubmit.pending, (state) => {
         state.loading = true;
       })
       .addCase(companySignupSubmit.fulfilled, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload)
+        console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
         state.err = false;
         state.role = payload.role;
         state.message = payload.message;
         state.user = payload.user;
-        state.status=payload.status
+        state.status = payload.status;
       })
       .addCase(companySignupSubmit.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload?.response?.data.message;
+        state.err = payload?.message;
+        state.user = null;
+        toast.error(payload?.message);
+      })
+      // forgot password
+      .addCase(verifyForgotEmail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyForgotEmail.fulfilled, (state) => {
+        state.loading = false;
+        state.err = false;
+        state.user = null;
+      })
+      .addCase(verifyForgotEmail.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload.message;
+        toast.error(payload.message);
+      })
+      // password updation for forgot
+      .addCase(passwordUpdation.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(passwordUpdation.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.err = false;
+      })
+      .addCase(passwordUpdation.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload.message;
+        toast.error(payload.message);
         state.user = null;
       });
   },

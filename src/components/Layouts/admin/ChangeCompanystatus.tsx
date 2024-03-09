@@ -28,7 +28,7 @@ const ChangeCompanyApprovel = ({ status,id }: childProps) => {
   }
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full flex justify-start  h-full">
+      <AlertDialogTrigger className="w-full flex justify-start  h-full ">
         Reject
       </AlertDialogTrigger>
       <AlertDialogContent>

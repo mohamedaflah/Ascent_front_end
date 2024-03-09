@@ -14,6 +14,9 @@ import CompanySignup from "./pages/company/CompanySignup";
 import CompanyLogin from "./pages/company/CompanyLogin";
 import RequestAndApprovel from "./pages/admin/RequestApprovel";
 import CompanyDashbord from "./pages/company/CompanyDashboard";
+import { ForgotPassword } from "./pages/forgotPassword";
+import { SetPassword } from "./pages/setPassword";
+
 function App() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -21,7 +24,7 @@ function App() {
       await dispatch(getUser());
     }
     checkAuth();
-  }, [dispatch]);
+  }, []);
   const { role, user } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full">
@@ -29,19 +32,45 @@ function App() {
       <Routes>
         <Route
           path="verify-email/:token/:role"
-          element={!user ? <ValidateEmail /> : <Navigate to={"/"} />}
+          element={
+            role === "user" ? (
+              <Navigate to={"/"} />
+            ) : role === "admin" ? (
+              <Navigate to={"/admin/"} />
+            ) : role === "company" ? (
+              <Navigate to={"/company/"} />
+            ) : (
+              <ValidateEmail />
+            )
+          }
         />
+
         <Route
-           path="/"
-           element={
-             role === "admin" ? (
-               <Navigate to={"/admin/"} />
-             ) : role === "company" ? (
-               <Navigate to={"/company/"} />
-             ) : (
-               <Layout role={role} />
-             )
-           }
+          path="verify-forgot-mail/:token/:role"
+          element={
+            role === "user" ? (
+              <Navigate to={"/"} />
+            ) : role === "admin" ? (
+              <Navigate to={"/admin/"} />
+            ) : role === "company" ? (
+              <Navigate to={"/company/"} />
+            ) : (
+              <>Fallback Route</>
+            )
+          }
+        />
+
+        <Route
+          path="/"
+          element={
+            role === "admin" ? (
+              <Navigate to={"/admin/"} />
+            ) : role === "company" ? (
+              <Navigate to={"/company/"} />
+            ) : (
+              <Layout role={role} />
+            )
+          }
         >
           <Route index element={<LandingPage />} />
           <Route
@@ -56,6 +85,8 @@ function App() {
             path="recruiter/login"
             element={user ? <Navigate to={"/"} /> : <CompanyLogin />}
           />
+          <Route path="user/forgotpassword" element={user?<Navigate to={'/'}/>:<ForgotPassword/>}/>
+          <Route path="user/setpassword" element={user?<Navigate to={'/'}/>:<SetPassword/>}/>
         </Route>
 
         {role === "admin" && (
@@ -67,7 +98,7 @@ function App() {
           </>
         )}
         {role === "company" && (
-          <Route path="/company/" element={<Layout role={"company"} />}>
+          <Route path="/company/" element={<Layout role={role} />}>
             <Route index element={<CompanyDashbord />} />
           </Route>
         )}

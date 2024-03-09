@@ -36,8 +36,8 @@ const CompanyHeader = () => {
                 disabled={
                   status === "Pending" ||
                   status == "Rejected" ||
-                  user.approvelStatus.status == "Rejected" ||
-                  user.approvelStatus.status == "Pending"
+                  user?.approvelStatus?.status == "Rejected" ||
+                  user?.approvelStatus?.status == "Pending"
                 }
               >
                 <Plus /> Post job

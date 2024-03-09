@@ -15,6 +15,7 @@ import { Input } from "@/shadcn/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -35,15 +36,20 @@ function CompanySignup() {
     },
   });
   const dispatch: AppDispatch = useDispatch();
-  // const navigate=useNavigate()
+
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    dispatch(companySignupSubmit(values)).then((res) => {
-      console.log("🚀 ~ dispatch ~ res:", res);
-      if (res.payload) {
-        setIsVerificationTime(true);
-      }
-    });
+    const actionResult = await dispatch(companySignupSubmit(values));
+    const result = actionResult.payload; // This is the payload of your action
+    console.log("🚀 ~ dispatch ~ result:", result);
+
+    // Check if the action was fulfilled
+    if (actionResult.type.endsWith("fulfilled")) {
+      setIsVerificationTime(true);
+    }else{
+      toast.error(actionResult.payload.response.data.message)
+    }
   }
+
   const { loading } = useSelector((state: RootState) => state.userData);
   const [isVerificationTime, setIsVerificationTime] = useState<boolean>(false);
   useEffect(() => {

@@ -49,7 +49,7 @@ function UserLayout() {
         >
           {userSidebarLayout.map((item) => (
             <div
-              key={item.id}
+              key={item?.id}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
@@ -101,9 +101,9 @@ function UserLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user.firstname}</span>
-                <span className="line-clamp-1" title={user.email}>
-                  {user.email}
+                <span>{user?.firstname}</span>
+                <span className="line-clamp-1" title={user?.email}>
+                  {user?.email}
                 </span>
               </div>
             )}
