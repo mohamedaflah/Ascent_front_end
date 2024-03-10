@@ -5,6 +5,6 @@ export const handleErrors = (error: any) => {
       return { message: error.response.data.message };
     } else {
       // Handle other types of errors (network, server not responding, etc.)
-      return { message: 'An error occurred' };
+      return { message: error.message };
     }
   };

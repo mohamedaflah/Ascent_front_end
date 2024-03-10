@@ -16,6 +16,7 @@ import RequestAndApprovel from "./pages/admin/RequestApprovel";
 import CompanyDashbord from "./pages/company/CompanyDashboard";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { SetPassword } from "./pages/setPassword";
+import VerifyForgotPass from "./pages/common_pages/verifyForgotPass";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -55,7 +56,7 @@ function App() {
             ) : role === "company" ? (
               <Navigate to={"/company/"} />
             ) : (
-              <>Fallback Route</>
+             <VerifyForgotPass/>
             )
           }
         />

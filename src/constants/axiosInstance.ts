@@ -1,5 +1,7 @@
 import axios from "axios";
-export const authbaseUrl = String(import.meta.env.VITE_AUTHENTICATION_SERVICE_URI);
+export const authbaseUrl = String(
+  import.meta.env.VITE_AUTHENTICATION_SERVICE_URI
+);
 export const userbaseURl = import.meta.env.VITE_USER_SERVICE_URI as string;
 export const companybaseURL = import.meta.env.VITE_COMPANY_SERVICE as string;
 export const AuthAxios = axios.create({
@@ -21,6 +23,11 @@ export const getUserWithRole: Record<Role, string> = {
   company: `${companybaseURL}/company`, // Placeholder, adjust as needed
 };
 
+export const verifyForgotLinkWithRole: Record<Role, string> = {
+  user:`${authbaseUrl}/verify-forgotlink`,
+  admin:`${userbaseURl}/user/verify-forgotlink`,
+  company:`${userbaseURl}/verify-forgotlink`,
+};
 
 // seperate folder for connection
 // constant -> constant.js

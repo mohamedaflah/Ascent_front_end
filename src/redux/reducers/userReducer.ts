@@ -85,7 +85,7 @@ const userReducer = createSlice({
         state.loading = false;
         state.err = payload?.message;
         state.user = null;
-        toast.error(payload?.message);
+  
       })
       // logout user
       .addCase(logoutUser.pending, (state) => {

@@ -14,8 +14,7 @@ import { Input } from "@/shadcn/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { URL } from "url";
+import { useNavigate } from "react-router-dom";
 
 import { z } from "zod";
 
@@ -39,12 +38,26 @@ export function SetPassword() {
       confirmpass: "",
     },
   });
-  const location=useLocation()
-  const se=new URLSearchParams(location.search)
-  
-  const dispatch:AppDispatch=useDispatch()
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const getQueryParam = (name:string) => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    return urlSearchParams.get(name);
+  };
   async function loginSubmit(values: z.infer<typeof loginFormSchema>) {
-    dispatch(passwordUpdation())
+    const res = await dispatch(passwordUpdation({ newPass: values.password }));
+    console.log("🚀 ~ loginSubmit ~ res:", res)
+    const result = res
+    if (result.type.endsWith("fulfilled")) {
+      if (
+        getQueryParam("role") === "admin" ||
+        getQueryParam("role") === "user"
+      ) {
+        navigate("/");
+      } else {
+        navigate("/recruiter/login");
+      }
+    }
   }
 
   const { loading } = useSelector((state: RootState) => state.userData);

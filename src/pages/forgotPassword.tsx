@@ -31,7 +31,7 @@ export function ForgotPassword() {
   });
   const dispatch:AppDispatch=useDispatch()
   async function forgotPasswordSubmit(values: z.infer<typeof loginFormSchema>) {
-   await dispatch(verifyForgotEmail({email:values.email}))
+   await dispatch(verifyForgotEmail({email:values.email,role:"user"}))
   }
   
   const { loading } = useSelector((state: RootState) => state.userData);

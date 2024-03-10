@@ -101,7 +101,7 @@ export const logoutUser = createAsyncThunk(
       const { data } = await AuthAxios.get("/logout");
       return data;
     } catch (error: any | Error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
@@ -120,7 +120,7 @@ export const loginUser = createAsyncThunk(
     } catch (error: any | Error) {
       console.log("🚀 ~ error:", error);
 
-      return rejectWithValue(error);
+      return rejectWithValue(handleErrors(error));
     }
   }
 );
