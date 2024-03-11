@@ -18,10 +18,9 @@ import AscentText from "@/components/common/AscentText";
 import { Loader } from "lucide-react";
 import { Button } from "@/shadcn/ui/button";
 import LogoutModal from "@/components/LogoutModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getUser } from "@/redux/actions/userActions";
 
 function CompanyLayout() {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
@@ -29,12 +28,13 @@ function CompanyLayout() {
     (staet: RootState) => staet.userData
   );
 
-
   const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [sideExpand, setIsSideExpand] = useState<boolean>(true);
+  const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     setTheme(context?.theme);
-  }, [context]);
+    dispatch(getUser()).then();
+  }, [context,dispatch]);
 
   if (loading) {
     return (
@@ -49,7 +49,7 @@ function CompanyLayout() {
   return (
     <main className=" flex ">
       <aside
-        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex ${
+        className={`h-screen border-r  flex-col pt-4 px-4 gap-5  sticky top-0 left-0 hidden lg:flex ${
           sideExpand ? "w-72" : "w-28"
         } transition-all duration-500 ease-in-out`}
       >
@@ -85,7 +85,9 @@ function CompanyLayout() {
               {/* <Home /> <span>Home</span> */}
               <item.icon className="text-textPrimary" />{" "}
               {sideExpand && (
-                <span className="text-textPrimary">{item?.label as string}</span>
+                <span className="text-textPrimary">
+                  {item?.label as string}
+                </span>
               )}
             </div>
           ))}
@@ -129,7 +131,7 @@ function CompanyLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user?.firstname?user?.firstname:user.name}</span>
+                <span>{user?.firstname ? user?.firstname : user?.name}</span>
                 <span className="line-clamp-1" title={user?.email}>
                   {user?.email}
                 </span>
@@ -163,14 +165,17 @@ function CompanyLayout() {
                 </p>
               </div>
               <div className="w-full flex justify-center mt-10 font-semibold flex-col items-center gap-4">
-                {status === "Pending" || user?.approvelStatus?.status == "Pending"
-                  ? <>Waiting for getting response from admin
-                  <div className="flex justify-center items-center ">
-                <Loader className="animate-spin text-2xl" />
-              </div>
+                {status === "Pending" ||
+                user?.approvelStatus?.status == "Pending" ? (
+                  <>
+                    Waiting for getting response from admin
+                    <div className="flex justify-center items-center ">
+                      <Loader className="animate-spin text-2xl" />
+                    </div>
                   </>
-                  : "Admin has been rejected you "}
-              
+                ) : (
+                  "Admin has been rejected you "
+                )}
               </div>
               <div className="flex justify-center gap-2">
                 <div

@@ -11,6 +11,14 @@ export const verifyForgotEmail = createAsyncThunk(
         `/forgotpass-sendmail`,
         sendPayload
       );
+      const expirationTime = new Date().getTime() + 5 * 60 * 1000; 
+      const dataToStore = {
+        isVerificationState: true,
+        expiration: expirationTime,
+      };
+      if (!localStorage.getItem("forgoVerificationState")) {
+        localStorage.setItem("forgoVerificationState", JSON.stringify(dataToStore));
+      }
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

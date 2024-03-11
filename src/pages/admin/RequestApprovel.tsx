@@ -10,18 +10,14 @@ import {
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeApprovleStatus,
-  getPendingCompanies,
-} from "@/redux/actions/adminActions";
+import { getPendingCompanies } from "@/redux/actions/adminActions";
 import { oneCompanyType } from "@/types/adminReducer";
 import ChangeCompanyApprovel from "@/components/Layouts/admin/ChangeCompanystatus";
+import { formatDateAndTime } from "@/util/formateDate";
+
+import TimeAgo from "@/components/custom/LiveTime";
 
 function RequestAndApprovel() {
-  const handleAccept = async (status: "Accepted" | "Rejected" | "Pending",id:string) => {
-    
-    await dispatch(changeApprovleStatus({ status, description: "",id }));
-  };
   const dispatch: AppDispatch = useDispatch();
   const { company } = useSelector((state: RootState) => state.admin);
   useEffect(() => {
@@ -30,13 +26,14 @@ function RequestAndApprovel() {
   return (
     <main className="w-full h-full">
       <div className="container mx-auto py-10">
-        <Table className="border p-2 rounded-md">
+        <Table className="border p-2 rounded-md ">
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Companyname</TableHead>
               <TableHead>Logo</TableHead>
-              <TableHead>company email</TableHead>
-              <TableHead>approvedDate</TableHead>
+              <TableHead>Company email</TableHead>
+              <TableHead>Requested date</TableHead>
+              <TableHead>Requested time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -47,17 +44,24 @@ function RequestAndApprovel() {
                   <img src={"https://www.google.com/favicon.ico"} alt="" />
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
-                <TableCell>{"23-09-2023"}</TableCell>
+                <TableCell>{formatDateAndTime(data.createdAt).date}</TableCell>
+                <TableCell>
+                  {<TimeAgo key={data._id} timestamp={data.createdAt} />}
+                </TableCell>
                 <TableCell className="text-right flex w-auto justify-end gap-1">
-                  <Button
-                    className="bg-green-500  h-9"
-                    onClick={() => handleAccept("Accepted",data._id)}
-                  >
-                    Accept
+                  <Button className="bg-green-500  h-9">
+                    <ChangeCompanyApprovel
+                      status="Accepted"
+                      id={data._id}
+                      key={data._id}
+                    />
                   </Button>
-                  <Button className="bg-red-400 h-9 relative ">
-                    
-                    <ChangeCompanyApprovel status="Rejected" id={data._id}  key={data._id}/>
+                  <Button className="bg-red-400 h-9 relative">
+                    <ChangeCompanyApprovel
+                      status="Rejected"
+                      id={data._id}
+                      key={data._id}
+                    />
                   </Button>
                   {/* <Button className="h-9">View</Button> */}
                 </TableCell>

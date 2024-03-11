@@ -58,7 +58,6 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
   
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
     await dispatch(signupUser(values))
-    console.log(values);
   }
   const {loading}=useSelector((state:RootState)=>state.userData)
   return (

@@ -21,7 +21,7 @@ function UserLayout() {
   return (
     <main className=" flex ">
       <aside
-        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex ${
+        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 sticky top-0 left-0 hidden lg:flex ${
           sideExpand ? "w-72" : "w-28"
         } transition-all duration-500 ease-in-out`}
       >
