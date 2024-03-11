@@ -23,7 +23,7 @@ function AdminLayout() {
   return (
     <main className=" flex ">
       <aside
-        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex ${
+        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex sticky top-0 left-0 ${
           sideExpand ? "min-w-72" : "min-w-28"
         } transition-all duration-500 ease-in-out`}
       >
