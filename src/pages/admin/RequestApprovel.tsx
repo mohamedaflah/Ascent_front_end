@@ -34,6 +34,7 @@ function RequestAndApprovel() {
               <TableHead>Company email</TableHead>
               <TableHead>Requested date</TableHead>
               <TableHead>Requested time</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -41,7 +42,7 @@ function RequestAndApprovel() {
               <TableRow key={data._id}>
                 <TableCell className="font-medium">{data.name}</TableCell>
                 <TableCell>
-                  <img src={"https://www.google.com/favicon.ico"} alt="" />
+                  <img src={data?.icon} className="h-10" alt="" />
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
                 <TableCell>{formatDateAndTime(data.createdAt).date}</TableCell>

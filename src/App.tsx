@@ -29,7 +29,7 @@ function App() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full">
-      {/* <Header /> */}
+      
       <Routes>
         <Route
           path="verify-email/:token/:role"

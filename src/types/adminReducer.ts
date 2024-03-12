@@ -14,6 +14,7 @@ export type oneCompanyType = {
   officeLocations: string[];
   benefits: string[];
   techStack: string[];
+  icon: string;
 };
 
 export type adminReducerInitial = {

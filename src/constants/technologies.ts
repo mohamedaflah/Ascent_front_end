@@ -1,0 +1,28 @@
+export const technologyNames: string[] = [
+    'react',
+    'nodejs',
+    'javascript',
+    'html',
+    'css',
+    'vuejs',
+    'angular',
+    'java',
+    'python',
+    'php',
+    'ruby',
+    'swift',
+    'git',
+    'docker',
+    'aws',
+    'microsoft',
+    'linux',
+    'sass',
+    'bootstrap',
+    'wordpress',
+    'android',
+    'apple',
+    'database',
+    'node',
+    // Add more technologies as needed
+  ];
+  

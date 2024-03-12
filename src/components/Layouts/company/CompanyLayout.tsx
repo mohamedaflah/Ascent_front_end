@@ -21,10 +21,14 @@ import LogoutModal from "@/components/LogoutModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getUser } from "@/redux/actions/userActions";
+import CompanyProfileCompletion from "@/components/company/ProfileComplete";
+
+
+
 
 function CompanyLayout() {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
-  const { user, role, status, loading } = useSelector(
+  const { user, role, status } = useSelector(
     (staet: RootState) => staet.userData
   );
 
@@ -34,18 +38,10 @@ function CompanyLayout() {
   useEffect(() => {
     setTheme(context?.theme);
     dispatch(getUser()).then();
-  }, [context,dispatch]);
+  }, []);
 
-  if (loading) {
-    return (
-      <main className="h-screen w-full flex justify-center items-center">
-        <Loader className="animate-spin w-40" />
-      </main>
-    );
-  }
-  // useEffect(()=>{
 
-  // },[])
+
   return (
     <main className=" flex ">
       <aside
@@ -127,7 +123,7 @@ function CompanyLayout() {
             <div
               className={`h-16 w-16  rounded-full flex items-center justify-center `}
             >
-              <img src={defaultProfile} alt="" className="" />
+              <img src={!user?.icon?defaultProfile:user?.icon} alt="" className="rounded-full" />
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
@@ -141,15 +137,16 @@ function CompanyLayout() {
         </div>
       </aside>
 
-      <main className="w-full ">
+      <main className="w-full relative">
         <CompanyHeader />
-        {/* {!user.profileCompleted && <CompanyProfileCompletion/>} */}
+        
+        {!user?.profileCompleted && <CompanyProfileCompletion/>}
         {role === "company" &&
         (status === "Pending" ||
           status === "Rejected" ||
           user?.approvelStatus?.status == "Rejected" ||
           user?.approvelStatus?.status == "Pending") ? (
-          <main className="w-full h-full flex items-center justify-center absolute top-0 left-0 ">
+          <main className="w-full h-screen flex items-center justify-center absolute top-0 left-0">
             <div className="absolute top-0 left-0 w-full h-full -z-10 bg-backgroundAccent opacity-70"></div>
             <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
               <div className="w-full h-10  flex justify-center items-center text-3xl font-bold">
@@ -162,13 +159,15 @@ function CompanyLayout() {
                   user?.approvelStatus?.status == "Pending"
                     ? "Admin not Responded you Request Waiting for Getting Response from adming "
                     : `Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve Reason : ${user?.approvelStatus?.description}`}
+                    
                 </p>
               </div>
               <div className="w-full flex justify-center mt-10 font-semibold flex-col items-center gap-4">
                 {status === "Pending" ||
                 user?.approvelStatus?.status == "Pending" ? (
                   <>
-                    Waiting for getting response from admin
+                    Waiting for getting response from admin 
+                    {/* <TechnologyIcon technology="javascript  " key={"1"} /> */}
                     <div className="flex justify-center items-center ">
                       <Loader className="animate-spin text-2xl" />
                     </div>

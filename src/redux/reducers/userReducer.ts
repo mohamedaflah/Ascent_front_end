@@ -11,6 +11,9 @@ import {
 import toast from "react-hot-toast";
 import {
   passwordUpdation,
+  updateProfile,
+  updateProfileThreePercent,
+  updateProfileTwoPercent,
   verifyForgotEmail,
 } from "../actions/secondaryAction";
 
@@ -85,7 +88,6 @@ const userReducer = createSlice({
         state.loading = false;
         state.err = payload?.message;
         state.user = null;
-  
       })
       // logout user
       .addCase(logoutUser.pending, (state) => {
@@ -169,6 +171,58 @@ const userReducer = createSlice({
         state.err = payload.message;
         toast.error(payload.message);
         state.user = null;
+      })
+      // company profile updation
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.role = payload.role;
+        state.message = payload.message;
+        state.user = payload.user;
+        state.status = payload.status;
+      })
+      .addCase(updateProfile.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload.message;
+        state.user = null;
+        toast.error(payload.message);
+      })
+      .addCase(updateProfileTwoPercent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProfileTwoPercent.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.role = payload.role;
+        state.message = payload.message;
+        state.user = payload.user;
+        state.status = payload.status;
+      })
+      .addCase(updateProfileTwoPercent.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload.message;
+        state.user = null;
+        toast.error(payload.message);
+      })
+      .addCase(updateProfileThreePercent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProfileThreePercent.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.role = payload.role;
+        state.message = payload.message;
+        state.user = payload.user;
+        state.status = payload.status;
+      })
+      .addCase(updateProfileThreePercent.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = payload.message;
+        state.user = null;
+        toast.error(payload.message);
       });
   },
 });

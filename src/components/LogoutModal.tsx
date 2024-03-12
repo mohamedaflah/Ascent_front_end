@@ -13,14 +13,17 @@ import {
 import { AppDispatch } from "@/redux/store";
 import { logoutUser } from "@/redux/actions/userActions";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const LogoutModal = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate=useNavigate()
   const handleLogout = () => {
     dispatch(logoutUser()).then(() => {
       toast.success("Logout Successfull!!");
       localStorage.removeItem("companyVerification")
       localStorage.removeItem("emailVerificationStartTime")
       localStorage.removeItem("verificationState")
+      navigate('/')
     });
   };
   return (

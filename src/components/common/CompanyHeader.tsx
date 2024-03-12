@@ -18,7 +18,7 @@ const CompanyHeader = () => {
           <div className="flex items-center gap-4">
             <div className="h-16 w-16  rounded-full">
               <img
-                src={AdminProfile}
+                src={!user?.icon?AdminProfile:user?.icon}
                 className="w-full h-full rounded-full"
                 alt=""
               />

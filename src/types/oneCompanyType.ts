@@ -1,7 +1,7 @@
 export interface Company {
-  email: string;
-  name: string;
-  password: string;
+  email?: string;
+  name?: string;
+  password?: string;
   description?: string;
   contatct?: string;
   officeLocations?: { name: string; icon: string }[];
@@ -14,12 +14,16 @@ export interface Company {
   techStack?: { name: string; icon: string }[];
   website?: string;
   coverImage?: string;
+  icon?: string;
   approvelStatus?: {
     status: "Accepted" | "Rejected" | "Pending";
     description: string;
   };
   profileCompleted?: boolean;
-  profileCompletionStatus?: "0%" | "25%" | "50%" | "75%" | "100%";
+  profileCompletionStatus?: "1%" | "2%" | "3%";
+  LinkedInLink: string;
   socialLinks?: string[];
   _id?: string;
+  certificate?: string;
+  registrationId?: string;
 }
