@@ -84,14 +84,16 @@ export function ZeroPercentProfileCompletionForm() {
               className="w-full h-40 border relative flex justify-start items-center rounded-md cursor-pointer"
               htmlFor="cover"
             >
-              {form.watch("coverImage") && (
+              {form.watch("coverImage") ? (
                 <img
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   src={URL.createObjectURL(form.watch("coverImage") as any)}
                   alt="Cover Image Preview"
                   className="h-full w-full object-cover  "
                 />
-              )}
+              ):<>
+              <h1 className="text-center w-full">Upload cover image</h1>
+              </>}
               <input
                 type="file"
                 accept="image/*"
@@ -107,17 +109,19 @@ export function ZeroPercentProfileCompletionForm() {
                 className="hidden"
               />
               <label
-                className="h-36 w-36 border rounded-full ml-3 cursor-pointer absolute left-0"
+                className="h-36 w-36 border rounded-full ml-3 cursor-pointer absolute left-0 flex items-center justify-center"
                 htmlFor="icon"
               >
-                {form.watch("icon") && (
+                {form.watch("icon") ? (
                   <img
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     src={URL.createObjectURL(form.watch("icon") as any)}
                     alt="Cover Image Preview"
                     className="h-full w-full object-cover rounded-full "
                   />
-                )}
+                ):(<>
+                <h1 className="text-center">upload logo</h1>
+                </>)}
                 <input
                   type="file"
                   accept="image/*"

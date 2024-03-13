@@ -24,7 +24,10 @@ import {
   FaDatabase,
   FaNode,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  FaNodeJs as FaNodeJsAlt, // In case you want a different NodeJs icon
+  FaNodeJs as FaNodeJsAlt,
+  FaCogs,
+  FaCode,
+  FaWindows, // In case you want a different NodeJs icon
 } from 'react-icons/fa';
 
 interface TechnologyIconProps {
@@ -55,6 +58,10 @@ const technologyIcons: Record<string, React.ReactElement> = {
   apple: <FaApple className='text-[#A2AAAD]' />, 
   database: <FaDatabase className='text-[#00648B]' />, 
   node: <FaNode className='text-[#339933]' />, // 
+  c: <FaCogs className='text-[#A8B9CC]' />, // C doesn't have a "brand color", using a common color for C icons
+  Csharp: <FaCode className='text-[#178600]' />, // Using a common representation for C#
+  dotenet: <FaWindows className='text-[#512BD4]' />, // .NET often associated with Windows, using Windows brand color
+  cpp: <FaCogs className='text-[#00599C]' />,
 };
 
 const TechnologyIcon: React.FC<TechnologyIconProps> = ({ technology }) => {

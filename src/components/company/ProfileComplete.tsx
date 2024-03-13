@@ -9,7 +9,7 @@ import { ThreePercentageCompletion } from "./profileCompleteThird";
 function CompanyProfileCompletion() {
   const {user}:{user:Company}=useSelector((state:RootState)=>state.userData)
   return (
-    <main className="w-full h-full  flex items-center justify-center absolute top-0 left-0 z-10 flex-col backdrop-blur-md">
+    <main className="w-full h-full  flex items-center justify-center absolute top-0 left-0 z-10 flex-col backdrop-blur-sm">
         {!user?.profileCompleted && (
           <>
             {user?.profileCompletionStatus === "1%" && <ZeroPercentProfileCompletionForm />}

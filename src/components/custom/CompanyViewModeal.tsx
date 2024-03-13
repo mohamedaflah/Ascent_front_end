@@ -3,23 +3,22 @@ import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog";
-import { Briefcase, Globe, MapPin, MapPinned, MoveRightIcon, Slack, X } from "lucide-react";
-import { FaIndustry, FaLinkedin } from "react-icons/fa";
+import {  MoveLeftIcon, MoveRightIcon,  X } from "lucide-react";
 
-import TechnologyIcon from "./TechIcon";
 import { useEffect, useState } from "react";
 import { Company } from "@/types/oneCompanyType";
+import { CompanyModalFirstPage } from "./CompanyViewMoalFirstPage";
+import { CompanyModalSecondPage } from "./CompanyModalSecondPage";
 
 interface ChildProp {
   companyData: Company;
 }
 export function CompanyViewModal({ companyData }: ChildProp) {
   const [companyProfile, setCompany] = useState<Company>();
-
+  const [secondPage,setSecondPage]=useState<boolean>(false)
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setCompany(companyData);
@@ -29,7 +28,7 @@ export function CompanyViewModal({ companyData }: ChildProp) {
       <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold  ">
         View
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[35%]">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[36%]">
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
             <AlertDialogTitle>{companyProfile?.name} profile</AlertDialogTitle>
@@ -37,89 +36,13 @@ export function CompanyViewModal({ companyData }: ChildProp) {
               <X />
             </AlertDialogCancel>
           </div>
-          <AlertDialogDescription className="flex flex-col gap-3">
-            <div className="w-full   relative flex items-center rounded-lg flex-col">
-              <div className="h-32 w-32 rounded-3xl border absolute left-3 bottom-6 bg-[#6913D8] flex items-center justify-normal overflow-hidden">
-                <img src={companyProfile?.icon} className="h-full" alt="" />
-              </div>
-              <div className="h-36  w-full rounded-md overflow-hidden">
-                <img
-                  src={companyProfile?.coverImage}
-                  className="w-full object-cover h-full"
-                  alt=""
-                />
-              </div>
-              <div className="h-24  w-full flex justify-between">
-                <div className="w-48"></div>
-                <div className="h-full w-full  flex flex-col">
-                  <div className="w-full">
-                    <h1 className="text-2xl font-semibold">
-                      {companyProfile?.name}
-                    </h1>
-                  </div>
-                  <div className="w-full flex py-1 gap-6 justify-between pl-1">
-                    <div className="flex  items-center gap-2 h-10">
-                      <FaIndustry /> {companyProfile?.industry}
-                    </div>
-                    <div className="flex  items-center gap-1 h-10">
-                      <MapPin /> Indonesia ,Jakartha
-                    </div>
-                    <div className="flex items-center gap-1 h-10">
-                      <Briefcase /> Onsite
-                    </div>
-                    <a
-                      className="text-2xl flex items-center gap-1 h-10 justify-end cursor-pointer hover:text-blue-800"
-                      href={companyProfile?.LinkedInLink}
-                    >
-                      <FaLinkedin />
-                    </a>
-                    <a
-                      href={companyProfile?.website}
-                      className="text-2xl flex items-center gap-1 h-10 justify-end cursor-pointer hover:text-blue-800"
-                    >
-                      <Globe />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="divClass w-full min-h-16 flex flex-wrap line-clamp-4 break-words ">
-              <p>{companyProfile?.description}</p>
-            </div>
-            <div className="flex items-center gap-3 mt-2">
-              <Slack /> Tech stacks
-            </div>
-            <div className="w-full min-h-12 flex flex-wrap gap-2">
-              {companyProfile?.techStack?.map((stacks) => (
-                <div
-                  key={stacks}
-                  className=" h-10 border flex items-center justify-between px-3 rounded-md gap-2 "
-                >
-                  <TechnologyIcon technology={stacks} />
-                  {stacks}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-3 mt-2">
-              <MapPinned /> Locations
-            </div>
-            <div className="w-full min-h-12 flex flex-wrap gap-2">
-              {companyProfile?.locations?.map((stacks) => (
-                <div
-                  key={stacks}
-                  className=" h-10 border flex items-center justify-between px-3 rounded-md gap-2 "
-                >
-                   <MapPin /> 
-                  {stacks}
-                </div>
-              ))}
-            </div>
-          </AlertDialogDescription>
+          {!secondPage?<CompanyModalFirstPage companyData={companyProfile as Company}/>:<CompanyModalSecondPage companyData={companyProfile as Company}/>}
+          
         </AlertDialogHeader>
         <AlertDialogFooter>
           <div>
-            <button className="border px-5 py-2 rounded-2xl hover:bg-backgroundAccent">
-              <MoveRightIcon />
+            <button className="border px-5 py-2 rounded-2xl hover:bg-backgroundAccent" onClick={()=>setSecondPage(!secondPage as boolean)}>
+              {!secondPage?<MoveRightIcon />:<MoveLeftIcon/>}
             </button>
           </div>
         </AlertDialogFooter>
