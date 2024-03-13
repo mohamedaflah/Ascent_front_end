@@ -19,7 +19,7 @@ const CompanyHeader = () => {
             <div className="h-16 w-16  rounded-full">
               <img
                 src={!user?.icon?AdminProfile:user?.icon}
-                className="w-full h-full rounded-full"
+                className="w-full h-full rounded-full object-cover"
                 alt=""
               />
             </div>

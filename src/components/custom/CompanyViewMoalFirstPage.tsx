@@ -16,8 +16,8 @@ export function CompanyModalFirstPage({companyData}:ChildProp) {
   return (
     <AlertDialogDescription className="flex flex-col gap-3">
       <div className="w-full   relative flex items-center rounded-lg flex-col">
-        <div className="h-32 w-32 rounded-3xl border absolute left-3 bottom-6 bg-[#6913D8] flex items-center justify-normal overflow-hidden">
-          <img src={companyProfile?.icon} className="h-full" alt="" />
+        <div className="h-32 w-32 rounded-3xl border absolute left-3 bottom-6 bg-[#6913D8] flex items-center justify-center overflow-hidden">
+          <img src={companyProfile?.icon} className="h-full object-cover w-full" alt="" />
         </div>
         <div className="h-36  w-full rounded-md overflow-hidden">
           <img

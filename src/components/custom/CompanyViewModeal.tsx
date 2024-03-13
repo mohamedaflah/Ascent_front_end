@@ -28,7 +28,7 @@ export function CompanyViewModal({ companyData }: ChildProp) {
       <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold  ">
         View
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[36%]">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[36%] overflow-hidden">
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
             <AlertDialogTitle>{companyProfile?.name} profile</AlertDialogTitle>
@@ -41,7 +41,7 @@ export function CompanyViewModal({ companyData }: ChildProp) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <div>
-            <button className="border px-5 py-2 rounded-2xl hover:bg-backgroundAccent" onClick={()=>setSecondPage(!secondPage as boolean)}>
+            <button className=" px-5 py-2 rounded-2xl bg-backgroundAccent animate-pulse hover:border" onClick={()=>setSecondPage(!secondPage as boolean)}>
               {!secondPage?<MoveRightIcon />:<MoveLeftIcon/>}
             </button>
           </div>

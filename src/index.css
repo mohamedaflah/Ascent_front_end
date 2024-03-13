@@ -118,3 +118,6 @@
   @apply flex gap-2 items-center pt-2;
 }
 
+.rdp-vhidden {
+  @apply hidden;
+}

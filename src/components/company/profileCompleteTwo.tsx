@@ -28,12 +28,12 @@ import { Button } from "@/shadcn/ui/button";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/shadcn/ui/calendar";
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Input } from "@/shadcn/ui/input";
 import { techIndustries } from "@/constants/industries";
 import { TechBox } from "../custom/TechBox";
 import { RiArrowRightFill } from "react-icons/ri";
-import {  updateProfileTwoPercent } from "@/redux/actions/secondaryAction";
+import { updateProfileTwoPercent } from "@/redux/actions/secondaryAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -63,7 +63,7 @@ export function TwoPercentageCompletion() {
   const [locationVal, setLocation] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver:zodResolver(formSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       industry: "",
       foundedDate: "",
@@ -82,41 +82,43 @@ export function TwoPercentageCompletion() {
     }
   };
   const locationArrayChange = () => {
-      if (locationVal) {
-          const techStack = form.watch("locations");
-          const newtechStack = [...techStack, locationVal];
-          form.setValue("locations", newtechStack);
+    if (locationVal) {
+      const techStack = form.watch("locations");
+      const newtechStack = [...techStack, locationVal];
+      form.setValue("locations", newtechStack);
       setLocation("");
     }
   };
-  function techStackDelete(index:number){
-    
+  function techStackDelete(index: number) {
     const newtechStack = [...form.getValues("techStack")];
     newtechStack.splice(index, 1); // Remove the element at the specified index
     form.setValue("techStack", newtechStack);
   }
-  function locationDelete(index:number){
-    
+  function locationDelete(index: number) {
     const newtechStack = [...form.getValues("locations")];
     newtechStack.splice(index, 1); // Remove the element at the specified index
     form.setValue("locations", newtechStack);
   }
-  const dispatch:AppDispatch=useDispatch()
-  async function submitForm(values:z.infer<typeof formSchema>) {
-    console.log(values)
-    
+  const dispatch: AppDispatch = useDispatch();
+  async function submitForm(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
     await dispatch(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      updateProfileTwoPercent({ sendData: { ...values } as Company | any, id: user._id as string })
+      updateProfileTwoPercent({
+        sendData: { ...values } as Company | any,
+        id: user._id as string,
+      })
     );
   }
-
 
   return (
     <div className="w-[90%] sm:w-[60%] md:w-[50%] lg:w-[42%] min-h-96 border p-1 bg-backgroundAccent rounded-md flex flex-col">
       <div className="w-full">
         <Progress
-          value={33.33 * Number(user?.profileCompletionStatus?.split("")[0])-1}
+          value={
+            33.33 * Number(user?.profileCompletionStatus?.split("")[0]) - 1
+          }
           className="rounded-sm h-2"
         />
       </div>
@@ -171,7 +173,8 @@ export function TwoPercentageCompletion() {
                             variant={"outline"}
                             className={cn(
                               "w-[220px] justify-start text-left font-normal",
-                              !form.watch("foundedDate") && "text-muted-foreground"
+                              !form.watch("foundedDate") &&
+                                "text-muted-foreground"
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -182,32 +185,17 @@ export function TwoPercentageCompletion() {
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent
-                          align="start"
-                          className="flex w-auto flex-col space-y-2 p-2"
-                        >
-                          <Select
-                            onValueChange={(value) =>
-                              form.setValue("foundedDate",String((new Date(), parseInt(value))))
+                        <PopoverContent align="start" className=" w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            captionLayout="dropdown-buttons"
+                            selected={field.value}
+                            onSelect={(date: Date) =>
+                              form.setValue("foundedDate", String(date))
                             }
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select" />
-                            </SelectTrigger>
-                            <SelectContent position="popper">
-                              <SelectItem value="0">Today</SelectItem>
-                              <SelectItem value="1">Tomorrow</SelectItem>
-                              <SelectItem value="3">In 3 days</SelectItem>
-                              <SelectItem value="7">In a week</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <div className="rounded-md border">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={(date:Date)=>form.setValue("foundedDate",String(date))}
-                            />
-                          </div>
+                            fromYear={1960}
+                            toYear={2030}
+                          />
                         </PopoverContent>
                       </Popover>
                     </FormControl>
@@ -239,7 +227,7 @@ export function TwoPercentageCompletion() {
             <FormField
               control={form.control}
               name="techStack"
-              render={({ }) => (
+              render={({}) => (
                 <FormItem>
                   <FormLabel className="font-semibold">
                     Add tech stack your are using
@@ -257,7 +245,8 @@ export function TwoPercentageCompletion() {
                         />
                         <Button
                           className="w-28"
-                          type="button" variant={"outline"}
+                          type="button"
+                          variant={"outline"}
                           onClick={handleTechStackArrayChange}
                         >
                           Add
@@ -267,8 +256,14 @@ export function TwoPercentageCompletion() {
                         className="w-full  min-h-20 bg-background rounded-md p-1 flex flex-wrap gap-2"
                         onClick={() => inputRef.current?.focus()}
                       >
-                        {form.watch("techStack").map((value,inde) => (
-                          <TechBox value={value} key={inde} index={inde} techStackDelete={techStackDelete} />
+                        {form.watch("techStack").map((value, inde) => (
+                          <TechBox
+                            value={value}
+                            key={inde}
+                            index={inde}
+                            from="techstack"
+                            techStackDelete={techStackDelete}
+                          />
                         ))}
                       </div>
                     </div>
@@ -283,8 +278,7 @@ export function TwoPercentageCompletion() {
             <FormField
               control={form.control}
               name="locations"
-              render={({ }) => (
-                
+              render={({}) => (
                 <FormItem>
                   <FormLabel className="font-semibold">
                     Add location of you companies
@@ -303,7 +297,7 @@ export function TwoPercentageCompletion() {
                         <Button
                           className="w-28"
                           type="button"
-                       variant={"outline"}
+                          variant={"outline"}
                           onClick={locationArrayChange}
                         >
                           Add
@@ -313,8 +307,14 @@ export function TwoPercentageCompletion() {
                         className="w-full  min-h-20 bg-background rounded-md p-1 flex flex-wrap gap-2"
                         onClick={() => inputRef.current?.focus()}
                       >
-                        {form.watch("locations").map((value,inde) => (
-                          <TechBox value={value} key={inde} index={inde} techStackDelete={locationDelete} />
+                        {form.watch("locations").map((value, inde) => (
+                          <TechBox
+                            value={value}
+                            key={inde}
+                            index={inde}
+                            from="location"
+                            techStackDelete={locationDelete}
+                          />
                         ))}
                       </div>
                     </div>
@@ -327,9 +327,10 @@ export function TwoPercentageCompletion() {
               )}
             />
             <div className="h-10 w-full flex justify-end">
-                <Button className="w-28 flex gap-3" type="submit">Next
-                <RiArrowRightFill/>
-                </Button>
+              <Button className="w-28 flex gap-3" type="submit">
+                Next
+                <RiArrowRightFill />
+              </Button>
             </div>
           </form>
         </Form>

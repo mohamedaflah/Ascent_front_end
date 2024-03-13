@@ -83,7 +83,7 @@ export function ThreePercentageCompletion() {
                     Please Upload you Company Certificate
                   </FormLabel>
                   <FormControl>
-                    <div className="pdf-container2 w-full relative">
+                    <div className={`${form.getValues("certificate")&&"pdf-container2"} w-full relative`}>
                       <Input
                         type="file"
                         className="hidden"

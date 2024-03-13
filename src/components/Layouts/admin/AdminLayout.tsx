@@ -3,23 +3,27 @@ import AscentDarkIcon from "../../../assets/darkIco.svg";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { ThemeProviderContext, ThemeProviderState } from "@/shadcn/theme-provider";
+import {
+  ThemeProviderContext,
+  ThemeProviderState,
+} from "@/shadcn/theme-provider";
 import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
 import { Link, Outlet } from "react-router-dom";
-
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import AdminHeader from "@/components/common/AdminHeader";
 import { adminSidebarLabel } from "@/constants/adminSideLayout";
 function AdminLayout() {
-    const [theme, setTheme] = useState<"dark" | "light" | "system">();
-    const { user } = useSelector((staet: RootState) => staet.userData);
-    const context: ThemeProviderState = useContext(ThemeProviderContext);
-    const [sideExpand, setIsSideExpand] = useState<boolean>(true);
-    useEffect(() => {
-      setTheme(context?.theme);
-    }, [context]);
+  const [theme, setTheme] = useState<"dark" | "light" | "system">();
+  const { user } = useSelector((staet: RootState) => staet.userData);
+  const context: ThemeProviderState = useContext(ThemeProviderContext);
+  const [sideExpand, setIsSideExpand] = useState<boolean>(true);
+  useEffect(() => {
+    setTheme(context?.theme);
+  }, [context]);
   return (
     <main className=" flex ">
       <aside
@@ -50,7 +54,8 @@ function AdminLayout() {
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
           {adminSidebarLabel.map((item) => (
-            <Link to={item?.link?item?.link:'/'}
+            <Link
+              to={item?.link ? item?.link : "/"}
               key={item.id}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
@@ -99,7 +104,8 @@ function AdminLayout() {
             <div
               className={`h-16 w-16  rounded-full flex items-center justify-center `}
             >
-              <img src={defaultProfile} alt="" className="" />
+              <img src={defaultProfile} alt="" className="object-cover" />
+              <CircularProgressbar value={100} maxValue={1} text={`${100}%`} />
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
