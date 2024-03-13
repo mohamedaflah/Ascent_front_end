@@ -11,11 +11,13 @@ import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getPendingCompanies } from "@/redux/actions/adminActions";
-import { oneCompanyType } from "@/types/adminReducer";
+
 import ChangeCompanyApprovel from "@/components/Layouts/admin/ChangeCompanystatus";
 import { formatDateAndTime } from "@/util/formateDate";
 
 import TimeAgo from "@/components/custom/LiveTime";
+import { CompanyViewModal } from "@/components/custom/CompanyViewModeal";
+import { Company } from "@/types/oneCompanyType";
 
 function RequestAndApprovel() {
   const dispatch: AppDispatch = useDispatch();
@@ -33,38 +35,41 @@ function RequestAndApprovel() {
               <TableHead>Logo</TableHead>
               <TableHead>Company email</TableHead>
               <TableHead>Requested date</TableHead>
-              <TableHead>Requested time</TableHead>
-              <TableHead></TableHead>
+              <TableHead >Requested time</TableHead>
+              <TableHead ></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {company?.map((data: oneCompanyType) => (
+            {company?.map((data:Company) => (
               <TableRow key={data._id}>
                 <TableCell className="font-medium">{data.name}</TableCell>
-                <TableCell>
-                  <img src={data?.icon} className="h-10" alt="" />
+                <TableCell className=" min-w-24">
+                  <img src={data?.icon} className="h-10 rounded-full" alt="Logo" />
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
-                <TableCell>{formatDateAndTime(data.createdAt).date}</TableCell>
+                <TableCell>{formatDateAndTime((data.createdAt)  as unknown as string|number|Date).date}</TableCell>
                 <TableCell>
-                  {<TimeAgo key={data._id} timestamp={data.createdAt} />}
+                  {<TimeAgo key={data._id} timestamp={(data.createdAt) as unknown as string|number|Date } />}
                 </TableCell>
-                <TableCell className="text-right flex w-auto justify-end gap-1">
+                <TableCell className="text-right flex w-auto justify-end gap-2 ">
                   <Button className="bg-green-500  h-9">
                     <ChangeCompanyApprovel
                       status="Accepted"
-                      id={data._id}
+                      id={data._id as string}
                       key={data._id}
                     />
                   </Button>
                   <Button className="bg-red-400 h-9 relative">
                     <ChangeCompanyApprovel
                       status="Rejected"
-                      id={data._id}
+                      id={data._id as string}
                       key={data._id}
                     />
                   </Button>
-                  {/* <Button className="h-9">View</Button> */}
+                  <Button className="h-9">
+                    <CompanyViewModal companyData={data}/>
+                  </Button>
+                  
                 </TableCell>
               </TableRow>
             ))}

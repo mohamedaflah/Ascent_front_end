@@ -37,7 +37,7 @@ const ChangeCompanyApprovel = ({ status, id }: childProps) => {
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 <Textarea
-                  placeholder="Enter reason of Rejection h-full"
+                  placeholder="Enter reason of Rejection"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                 />

@@ -1,17 +1,19 @@
 export interface Company {
+  createdAt: Date;
   email?: string;
   name?: string;
   password?: string;
   description?: string;
   contatct?: string;
   officeLocations?: { name: string; icon: string }[];
+  locations: string[];
   joinDate?: Date;
   industry?: string;
   images?: string[];
   benefits?: { icon: string; headline: string; description: string }[];
   foundedDate?: Date;
   teams?: { name: string; profile: string; designation: string }[];
-  techStack?: { name: string; icon: string }[];
+  techStack?: string[];
   website?: string;
   coverImage?: string;
   icon?: string;

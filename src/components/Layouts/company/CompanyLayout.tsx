@@ -12,7 +12,7 @@ import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
 import { Outlet } from "react-router-dom";
 
-import { adminSidebarLabel } from "@/constants/adminSideLayout";
+
 import CompanyHeader from "@/components/common/CompanyHeader";
 import AscentText from "@/components/common/AscentText";
 import { Loader } from "lucide-react";
@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getUser } from "@/redux/actions/userActions";
 import CompanyProfileCompletion from "@/components/company/ProfileComplete";
+import { companySidBarLabels } from "@/constants/companySideLayout";
 
 
 
@@ -71,7 +72,7 @@ function CompanyLayout() {
         <div
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
-          {adminSidebarLabel.map((item) => (
+          {companySidBarLabels.map((item) => (
             <div
               key={item?.id}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
@@ -147,7 +148,7 @@ function CompanyLayout() {
           user?.approvelStatus?.status == "Rejected" ||
           user?.approvelStatus?.status == "Pending") ? (
           <main className="w-full h-screen flex items-center justify-center absolute top-0 left-0">
-            <div className="absolute top-0 left-0 w-full h-full -z-10 bg-backgroundAccent opacity-70"></div>
+            <div className="absolute top-0 left-0 w-full h-full -z-10 backdrop-blur-sm opacity-70"></div>
             <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
               <div className="w-full h-10  flex justify-center items-center text-3xl font-bold">
                 <AscentText />

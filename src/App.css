@@ -9,3 +9,8 @@
   font-weight: 400;
   font-style: normal;
 }
+.divClass {
+  word-break: break-all;
+  /* or for more modern CSS */
+  overflow-wrap: anywhere;
+}

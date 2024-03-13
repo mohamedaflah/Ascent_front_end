@@ -1,3 +1,5 @@
+import { Company } from "./oneCompanyType";
+
 export type oneCompanyType = {
   _id: string;
   approvelStatus: {
@@ -15,10 +17,11 @@ export type oneCompanyType = {
   benefits: string[];
   techStack: string[];
   icon: string;
+  LinkedInLink:string
 };
 
 export type adminReducerInitial = {
   loading: boolean;
   err: boolean | string;
-  company: null | oneCompanyType[];
+  company: null | Company[];
 };
