@@ -36,23 +36,13 @@ import { RiArrowRightFill } from "react-icons/ri";
 import { updateProfileTwoPercent } from "@/redux/actions/secondaryAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// const MAX_FILE_SIZE = 5 * 1024 * 1024;
-// const ACCEPTED_FILE_TYPE = "application/pdf";
-// const fileSchema = z
-//   .instanceof(File)
-//   .refine((file) => file.size <= MAX_FILE_SIZE, {
-//     message: "File size should be 5MB or less",
-//   })
-//   .refine((file) => file.type === ACCEPTED_FILE_TYPE, {
-//     message: "Only PDF files are allowed",
-//   });
 const formSchema = z.object({
   industry: z.string().min(2),
   foundedDate: z.string(),
   registrationId: z.string().min(2),
   techStack: z.array(z.string()),
   locations: z.array(z.string()),
-  // certificate: fileSchema.nullable(),
+  
 });
 export function TwoPercentageCompletion() {
   const inputRef = useRef<HTMLInputElement>(null);

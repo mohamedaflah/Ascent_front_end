@@ -17,6 +17,7 @@ import CompanyDashbord from "./pages/company/CompanyDashboard";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { SetPassword } from "./pages/setPassword";
 import VerifyForgotPass from "./pages/common_pages/verifyForgotPass";
+import Categories from "./pages/admin/CategoryMngment";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -95,6 +96,7 @@ function App() {
             <Route path="/admin/" element={<Layout role={role} />}>
               <Route index element={<AdminDashboard />} />
               <Route path="approvels" element={<RequestAndApprovel />} />
+              <Route path="categories" element={<Categories />} />
             </Route>
           </>
         )}
@@ -104,7 +106,7 @@ function App() {
           </Route>
         )}
 
-        <Route path="admin/*" element={<Navigate to="/" />} />
+        {/* <Route path="admin/*" element={<Navigate to="/" />} /> */}
         <Route path="company/*" element={<Navigate to="/" />} />
       </Routes>
     </main>

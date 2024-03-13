@@ -12,14 +12,14 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getPendingCompanies } from "@/redux/actions/adminActions";
 
-import ChangeCompanyApprovel from "@/components/Layouts/admin/ChangeCompanystatus";
 import { formatDateAndTime } from "@/util/formateDate";
 
 import TimeAgo from "@/components/custom/LiveTime";
-import { CompanyViewModal } from "@/components/custom/CompanyViewModeal";
-import { Company } from "@/types/oneCompanyType";
 
-function RequestAndApprovel() {
+import { Company } from "@/types/oneCompanyType";
+import { Edit, Trash } from "lucide-react";
+
+function Categories() {
   const dispatch: AppDispatch = useDispatch();
   const { company } = useSelector((state: RootState) => state.admin);
   useEffect(() => {
@@ -31,11 +31,11 @@ function RequestAndApprovel() {
         <Table className="border p-2 rounded-md ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Companyname</TableHead>
+              <TableHead className="w-[200px]">category name</TableHead>
               <TableHead>Logo</TableHead>
-              <TableHead>Company email</TableHead>
-              <TableHead>Requested date</TableHead>
-              <TableHead >Requested time</TableHead>
+              <TableHead>added date </TableHead>
+              <TableHead>added time </TableHead>
+              <TableHead >last updated</TableHead>
               <TableHead ></TableHead>
             </TableRow>
           </TableHeader>
@@ -51,8 +51,8 @@ function RequestAndApprovel() {
                 <TableCell>
                   {<TimeAgo key={data._id} timestamp={(data.createdAt) as unknown as string|number|Date } />}
                 </TableCell>
-                <TableCell className="text-right flex w-auto justify-end gap-2 ">
-                  <Button className="bg-green-500  h-9">
+                <TableCell className="text-right flex w-auto justify-end gap-3 ">
+                  {/* <Button className="bg-green-500  h-9">
                     <ChangeCompanyApprovel
                       status="Accepted"
                       id={data._id as string}
@@ -68,8 +68,13 @@ function RequestAndApprovel() {
                   </Button>
                   <Button className="h-9">
                     <CompanyViewModal companyData={data}/>
-                  </Button>
-                  
+                  </Button> */}
+                  <button>
+                    <Edit/>
+                  </button>
+                  <button>
+                    <Trash/>
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
@@ -79,4 +84,4 @@ function RequestAndApprovel() {
     </main>
   );
 }
-export default RequestAndApprovel;
+export default Categories;
