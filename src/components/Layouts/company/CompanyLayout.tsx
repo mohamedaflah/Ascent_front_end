@@ -38,8 +38,10 @@ function CompanyLayout() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     setTheme(context?.theme);
-    dispatch(getUser()).then();
-  }, []);
+    if(!user){
+      dispatch(getUser()).then();
+    }
+  }, [context?.theme, dispatch,user]);
 
 
 

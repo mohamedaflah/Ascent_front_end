@@ -60,7 +60,7 @@ const technologyIcons: Record<string, React.ReactElement> = {
   node: <FaNode className='text-[#339933]' />, // 
   c: <FaCogs className='text-[#A8B9CC]' />, // C doesn't have a "brand color", using a common color for C icons
   Csharp: <FaCode className='text-[#178600]' />, // Using a common representation for C#
-  dotenet: <FaWindows className='text-[#512BD4]' />, // .NET often associated with Windows, using Windows brand color
+  dotnet: <FaWindows className='text-[#512BD4]' />, // .NET often associated with Windows, using Windows brand color
   cpp: <FaCogs className='text-[#00599C]' />,
 };
 

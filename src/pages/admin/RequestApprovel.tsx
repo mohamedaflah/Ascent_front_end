@@ -44,7 +44,7 @@ function RequestAndApprovel() {
               <TableRow key={data._id}>
                 <TableCell className="font-medium">{data.name}</TableCell>
                 <TableCell className=" min-w-24">
-                  <img src={data?.icon} className="h-10 rounded-full" alt="Logo" />
+                  <img src={data?.icon} className="h-10 w-10 object-cover rounded-full" alt="Logo" />
                 </TableCell>
                 <TableCell>{data.email}</TableCell>
                 <TableCell>{formatDateAndTime((data.createdAt)  as unknown as string|number|Date).date}</TableCell>
