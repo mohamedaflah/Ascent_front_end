@@ -51,14 +51,10 @@ const userReducer = createSlice({
       .addCase(signupUser.rejected, (state, { payload }) => {
         console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
-        const errorPayload = payload as ErrorPayload | undefined;
-        if (errorPayload) {
-          state.err = errorPayload.message;
-          toast.error(errorPayload.message);
-        } else {
-          state.err = "An unknown error occurred";
-          toast.error(state.err);
-        }
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
+        state.user = null;
         state.user = null;
       })
       .addCase(verifyinguser.pending, (state) => {
@@ -73,14 +69,9 @@ const userReducer = createSlice({
       .addCase(verifyinguser.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
-        const errorPayload = payload as ErrorPayload | undefined;
-        if (errorPayload) {
-          state.err = errorPayload.message;
-          toast.error(errorPayload.message);
-        } else {
-          state.err = "An unknown error occurred";
-          toast.error(state.err);
-        }
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
       })
       //get User and Check Authentication
@@ -117,7 +108,7 @@ const userReducer = createSlice({
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
-        state.user=null
+        state.user = null;
       })
       // login user
       .addCase(loginUser.pending, (state) => {

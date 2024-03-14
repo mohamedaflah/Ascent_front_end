@@ -17,7 +17,7 @@ export type oneCompanyType = {
   benefits: string[];
   techStack: string[];
   icon: string;
-  LinkedInLink:string
+  LinkedInLink: string;
 };
 
 export type adminReducerInitial = {
@@ -25,3 +25,9 @@ export type adminReducerInitial = {
   err: boolean | string;
   company: null | Company[];
 };
+
+export interface categoryPayload {
+  categoryname: string;
+  categoryDescription: string;
+  categoryImage: File | null | FileList;
+}

@@ -52,21 +52,21 @@ function RequestAndApprovel() {
                   {<TimeAgo key={data._id} timestamp={(data.createdAt) as unknown as string|number|Date } />}
                 </TableCell>
                 <TableCell className="text-right flex w-auto justify-end gap-2 ">
-                  <Button className="bg-green-500  h-9">
+                  <Button variant={"secondary"}>
                     <ChangeCompanyApprovel
                       status="Accepted"
                       id={data._id as string}
                       key={data._id}
                     />
                   </Button>
-                  <Button className="bg-red-400 h-9 relative">
+                  <Button variant={"ghost"} className="border">
                     <ChangeCompanyApprovel
                       status="Rejected"
                       id={data._id as string}
                       key={data._id}
                     />
                   </Button>
-                  <Button className="h-9">
+                  <Button className="h-9 px-3 " variant={"outline"}>
                     <CompanyViewModal companyData={data}/>
                   </Button>
                   

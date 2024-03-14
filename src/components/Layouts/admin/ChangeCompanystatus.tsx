@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { changeApprovleStatus } from "@/redux/actions/adminActions";
 import { AppDispatch } from "@/redux/store";
+import { UserCheck, UserX} from "lucide-react";
 
 interface childProps {
   status: "Accepted" | "Rejected" | "Pending";
@@ -30,7 +31,7 @@ const ChangeCompanyApprovel = ({ status, id }: childProps) => {
       {status === "Rejected" ? (
         <AlertDialog>
           <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold">
-            Reject
+          <UserX />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -59,7 +60,7 @@ const ChangeCompanyApprovel = ({ status, id }: childProps) => {
       ) : (
         <AlertDialog>
           <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold">
-            Accept
+          <UserCheck />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

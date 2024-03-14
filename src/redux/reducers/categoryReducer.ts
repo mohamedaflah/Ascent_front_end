@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import { ErrorPayload } from "@/types/AllTypes";
 
+
 const initialState: CategoryReducerInitial = {
   loading: false,
   err: false,
@@ -26,28 +27,25 @@ const categoryReducer = createSlice({
     builder
       .addCase(addCategory.pending, (state) => {
         state.loading = true;
+        state.err = false;
       })
       .addCase(
         addCategory.fulfilled,
         (state, action: PayloadAction<AddCategoryPayload>) => {
-          const { payload } = action;
           state.loading = false;
+          const { payload } = action;
           state.err = false;
           const categories: Category[] | null = state.categories;
           categories?.push(payload?.category);
           state.categories = categories;
+          toast.success("Category Added ")
         }
       )
       .addCase(addCategory.rejected, (state, { payload }) => {
         state.loading = false;
-        const errorPayload = payload as ErrorPayload | undefined;
-        if (errorPayload) {
-          state.err = errorPayload.message;
-          toast.error(errorPayload.message);
-        } else {
-          state.err = "An unknown error occurred";
-          toast.error(state.err);
-        }
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.categories = null;
       })
       //   update category
@@ -68,14 +66,9 @@ const categoryReducer = createSlice({
       })
       .addCase(updateCategory.rejected, (state, { payload }) => {
         state.loading = false;
-        const errorPayload = payload as ErrorPayload | undefined;
-        if (errorPayload) {
-          state.err = errorPayload.message;
-          toast.error(errorPayload.message);
-        } else {
-          state.err = "An unknown error occurred";
-          toast.error(state.err);
-        }
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.categories = null;
       })
       //   delete category
@@ -84,21 +77,21 @@ const categoryReducer = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.categories = state.categories?.filter(
-          (value) => value._id !== payload.id
-        ) as Category[] | null;
+        const updatedCategoryData: Category = payload.category;
+        const categories = state.categories?.map((category: Category) => {
+          if (category._id === updatedCategoryData._id) {
+            return { ...category, ...updatedCategoryData };
+          }
+          return category;
+        });
+        state.categories = categories as Category[] | null;
         state.err = false;
       })
       .addCase(deleteCategory.rejected, (state, { payload }) => {
         state.loading = false;
-        const errorPayload = payload as ErrorPayload | undefined;
-        if (errorPayload) {
-          state.err = errorPayload.message;
-          toast.error(errorPayload.message);
-        } else {
-          state.err = "An unknown error occurred";
-          toast.error(state.err);
-        }
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.categories = null;
       })
       //   get all categories
@@ -109,6 +102,7 @@ const categoryReducer = createSlice({
         state.loading = false;
         state.err = false;
         state.categories = payload.categories as Category[];
+       
       })
       .addCase(getAllCategories.rejected, (state, { payload }) => {
         state.loading = false;

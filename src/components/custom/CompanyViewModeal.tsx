@@ -6,7 +6,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog";
-import {  MoveLeftIcon, MoveRightIcon,  X } from "lucide-react";
+import {  Eye, MoveLeftIcon, MoveRightIcon,  X } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Company } from "@/types/oneCompanyType";
@@ -26,7 +26,7 @@ export function CompanyViewModal({ companyData }: ChildProp) {
   return (
     <AlertDialog>
       <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold  ">
-        View
+      <Eye />
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[36%] overflow-hidden">
         <AlertDialogHeader>

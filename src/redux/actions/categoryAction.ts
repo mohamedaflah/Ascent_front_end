@@ -1,13 +1,18 @@
 import { UserAxios } from "@/constants/axiosInstance";
-import { Category } from "@/types/categoryReducer.type";
+import { categoryPayload } from "@/types/adminReducer";
 import { handleErrors } from "@/util/handleErrors";
+import { uploadImageToCloudinary } from "@/util/uploadImage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 //  Add category
 export const addCategory = createAsyncThunk(
   "category/add-category",
-  async (categoryData: Category, { rejectWithValue }) => {
+  async (categoryData: categoryPayload, { rejectWithValue }) => {
     try {
+      categoryData.categoryImage = await uploadImageToCloudinary(
+        categoryData.categoryImage
+      );
+
       const { data } = await UserAxios.post(
         `/category/add-category`,
         categoryData
@@ -23,10 +28,21 @@ export const addCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
   "category/update-category",
   async (
-    sendPayload: { id: string; categoryData: Category },
+    sendPayload: { id: string; categoryData: categoryPayload },
     { rejectWithValue }
   ) => {
     try {
+      // const storageData: { id: string; file: File }[] = JSON.parse(
+      //   localStorage.getItem("files") ?? "{}"
+      // ) as { id: string; file: File }[];
+      // const existData = storageData.find(
+      //   (value) => value.id === sendPayload.id
+      // );
+
+      sendPayload.categoryData.categoryImage = await uploadImageToCloudinary(
+        sendPayload.categoryData.categoryImage
+      );
+
       const { data } = await UserAxios.post(
         `/category/update-category/${sendPayload.id}`,
         sendPayload.categoryData
