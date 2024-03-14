@@ -11,7 +11,7 @@ import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { Link, Outlet } from "react-router-dom";
+import {  NavLink, Outlet } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import AdminHeader from "@/components/common/AdminHeader";
@@ -25,9 +25,9 @@ function AdminLayout() {
     setTheme(context?.theme);
   }, [context]);
   return (
-    <main className=" flex ">
+    <main className=" flex overflow-hidden">
       <aside
-        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 relative hidden lg:flex sticky top-0 left-0 ${
+        className={`h-screen border-r  flex-col pt-4 px-4 gap-5  hidden lg:flex  sticky top-0 left-0 ${
           sideExpand ? "min-w-72" : "min-w-28"
         } transition-all duration-500 ease-in-out`}
       >
@@ -54,19 +54,20 @@ function AdminLayout() {
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
           {adminSidebarLabel.map((item) => (
-            <Link
-              to={item?.link ? item?.link : "/"}
+            <NavLink
+              to={item?.link ? `${item?.link}/` : "/"}
               key={item.id}
-              className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
+              
+              className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm transition duration-500 ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
-              <item.icon className="text-textPrimary" />{" "}
+              <item.icon  />{" "}
               {sideExpand && (
-                <span className="text-textPrimary">{item.label as string}</span>
+                <span >{item.label as string}</span>
               )}
-            </Link>
+            </NavLink>
           ))}
         </div>
         <div className="w-full h-[1px] bg-textPrimary" />

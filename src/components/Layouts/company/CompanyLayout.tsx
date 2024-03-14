@@ -10,7 +10,7 @@ import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 
 import CompanyHeader from "@/components/common/CompanyHeader";
@@ -75,8 +75,9 @@ function CompanyLayout() {
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
           {companySidBarLabels.map((item) => (
-            <div
+            <NavLink
               key={item?.id}
+              to={item?.link?`${item?.link}/`:"/"}
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
@@ -88,7 +89,7 @@ function CompanyLayout() {
                   {item?.label as string}
                 </span>
               )}
-            </div>
+            </NavLink>
           ))}
         </div>
         <div className="w-full h-[1px] bg-textPrimary" />

@@ -1,4 +1,4 @@
-import { UserReducerInitial } from "@/types/AllTypes";
+import { ErrorPayload, UserReducerInitial } from "@/types/AllTypes";
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 import {
   companySignupSubmit,
@@ -51,9 +51,15 @@ const userReducer = createSlice({
       .addCase(signupUser.rejected, (state, { payload }) => {
         console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
+        const errorPayload = payload as ErrorPayload | undefined;
+        if (errorPayload) {
+          state.err = errorPayload.message;
+          toast.error(errorPayload.message);
+        } else {
+          state.err = "An unknown error occurred";
+          toast.error(state.err);
+        }
         state.user = null;
-        state.err = payload?.message;
-        toast.error(payload?.message);
       })
       .addCase(verifyinguser.pending, (state) => {
         state.loading = true;
@@ -67,9 +73,15 @@ const userReducer = createSlice({
       .addCase(verifyinguser.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
-        state.err = payload?.message;
+        const errorPayload = payload as ErrorPayload | undefined;
+        if (errorPayload) {
+          state.err = errorPayload.message;
+          toast.error(errorPayload.message);
+        } else {
+          state.err = "An unknown error occurred";
+          toast.error(state.err);
+        }
         state.user = null;
-        toast.error(payload?.message);
       })
       //get User and Check Authentication
       .addCase(getUser.pending, (state) => {
@@ -86,7 +98,9 @@ const userReducer = createSlice({
       })
       .addCase(getUser.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload?.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
       })
       // logout user
@@ -100,8 +114,10 @@ const userReducer = createSlice({
       })
       .addCase(logoutUser.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload?.message;
-        toast.success(payload?.message);
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
+        state.user=null
       })
       // login user
       .addCase(loginUser.pending, (state) => {
@@ -120,9 +136,10 @@ const userReducer = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
-        state.err = payload?.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
-        toast.error(payload?.message);
       })
       // Company Signup
       .addCase(companySignupSubmit.pending, (state) => {
@@ -139,9 +156,10 @@ const userReducer = createSlice({
       })
       .addCase(companySignupSubmit.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload?.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
-        toast.error(payload?.message);
       })
       // forgot password
       .addCase(verifyForgotEmail.pending, (state) => {
@@ -154,8 +172,9 @@ const userReducer = createSlice({
       })
       .addCase(verifyForgotEmail.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload.message;
-        toast.error(payload.message);
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
       })
       // password updation for forgot
       .addCase(passwordUpdation.pending, (state) => {
@@ -168,8 +187,9 @@ const userReducer = createSlice({
       })
       .addCase(passwordUpdation.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload.message;
-        toast.error(payload.message);
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
       })
       // company profile updation
@@ -186,9 +206,10 @@ const userReducer = createSlice({
       })
       .addCase(updateProfile.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
-        toast.error(payload.message);
       })
       .addCase(updateProfileTwoPercent.pending, (state) => {
         state.loading = true;
@@ -203,9 +224,10 @@ const userReducer = createSlice({
       })
       .addCase(updateProfileTwoPercent.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
-        toast.error(payload.message);
       })
       .addCase(updateProfileThreePercent.pending, (state) => {
         state.loading = true;
@@ -220,9 +242,10 @@ const userReducer = createSlice({
       })
       .addCase(updateProfileThreePercent.rejected, (state, { payload }) => {
         state.loading = false;
-        state.err = payload.message;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.user = null;
-        toast.error(payload.message);
       });
   },
 });

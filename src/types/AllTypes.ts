@@ -51,3 +51,7 @@ export type Login = {
   password: string;
   role: "user" | "admin" | "company";
 };
+
+export interface ErrorPayload {
+  message: string;
+}

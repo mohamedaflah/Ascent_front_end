@@ -26,8 +26,11 @@ function Categories() {
     dispatch(getPendingCompanies()).then();
   }, [dispatch, company]);
   return (
-    <main className="w-full h-full">
-      <div className="container mx-auto py-10">
+    <main className="w-full h-full flex flex-col">
+      <div className="container mx-auto py-10 flex flex-col gap-4">
+        <div className="w-full h-10  flex justify-end">
+          <Button className="font-semibold" variant={"default"}>Add Category</Button>
+        </div>
         <Table className="border p-2 rounded-md ">
           <TableHeader>
             <TableRow>
@@ -52,23 +55,6 @@ function Categories() {
                   {<TimeAgo key={data._id} timestamp={(data.createdAt) as unknown as string|number|Date } />}
                 </TableCell>
                 <TableCell className="text-right flex w-auto justify-end gap-3 ">
-                  {/* <Button className="bg-green-500  h-9">
-                    <ChangeCompanyApprovel
-                      status="Accepted"
-                      id={data._id as string}
-                      key={data._id}
-                    />
-                  </Button>
-                  <Button className="bg-red-400 h-9 relative">
-                    <ChangeCompanyApprovel
-                      status="Rejected"
-                      id={data._id as string}
-                      key={data._id}
-                    />
-                  </Button>
-                  <Button className="h-9">
-                    <CompanyViewModal companyData={data}/>
-                  </Button> */}
                   <button>
                     <Edit/>
                   </button>

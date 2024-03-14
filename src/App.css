@@ -45,3 +45,8 @@
   gap: 6px;
   outline: none;
 }
+.active{
+  background-color: #4786fa;
+  color: #ffffff !important
+
+}

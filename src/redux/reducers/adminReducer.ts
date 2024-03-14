@@ -5,6 +5,7 @@ import {
   getPendingCompanies,
 } from "../actions/adminActions";
 import toast from "react-hot-toast";
+import { ErrorPayload } from "@/types/AllTypes";
 
 const initialState: adminReducerInitial = {
   loading: false,
@@ -28,8 +29,9 @@ const adminReducer = createSlice({
       .addCase(getPendingCompanies.rejected, (state, { payload }) => {
         state.company = null;
         state.loading = false;
-        state.err = payload?.message;
-        toast.error(payload?.message);
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
       })
       // change approvle status
       .addCase(changeApprovleStatus.pending, (state) => {
@@ -45,8 +47,9 @@ const adminReducer = createSlice({
       })
       .addCase(changeApprovleStatus.rejected, (state, { payload }) => {
         state.loading = true;
-        state.err = payload?.message;
-        toast.error(payload?.message)
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
         state.company = null;
       });
   },

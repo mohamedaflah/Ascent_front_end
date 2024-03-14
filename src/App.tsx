@@ -93,7 +93,7 @@ function App() {
 
         {role === "admin" && (
           <>
-            <Route path="/admin/" element={<Layout role={role} />}>
+            <Route  path="/admin/" element={<Layout role={role}/>}>
               <Route index element={<AdminDashboard />} />
               <Route path="approvels" element={<RequestAndApprovel />} />
               <Route path="categories" element={<Categories />} />
