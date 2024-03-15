@@ -32,17 +32,22 @@ export const updateCategory = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      // const storageData: { id: string; file: File }[] = JSON.parse(
-      //   localStorage.getItem("files") ?? "{}"
-      // ) as { id: string; file: File }[];
-      // const existData = storageData.find(
-      //   (value) => value.id === sendPayload.id
-      // );
-
-      sendPayload.categoryData.categoryImage = await uploadImageToCloudinary(
-        sendPayload.categoryData.categoryImage
+      const storageData: { id: string; file: File }[] = JSON.parse(
+        localStorage.getItem("files") ?? "{}"
+      ) as { id: string; file: File }[];
+      console.log("🚀 ~ storageData:", storageData)
+      const existData = storageData.find(
+        (value) => value.id === sendPayload.id
       );
-
+      console.log("🚀 ~ existData:", existData)
+      if (
+        JSON.stringify(existData?.file) !==
+        JSON.stringify(sendPayload.categoryData.categoryImage)
+      ) {
+        sendPayload.categoryData.categoryImage = await uploadImageToCloudinary(
+          sendPayload.categoryData.categoryImage
+        );
+      }
       const { data } = await UserAxios.post(
         `/category/update-category/${sendPayload.id}`,
         sendPayload.categoryData

@@ -36,7 +36,7 @@ const categoryReducer = createSlice({
           const { payload } = action;
           state.err = false;
           const categories: Category[] | null = state.categories;
-          categories?.push(payload?.category);
+          categories?.unshift(payload?.category);
           state.categories = categories;
           toast.success("Category Added ")
         }

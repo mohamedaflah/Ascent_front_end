@@ -91,7 +91,6 @@ const userReducer = createSlice({
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
-        toast.error(errorPayload.message);
         state.user = null;
       })
       // logout user

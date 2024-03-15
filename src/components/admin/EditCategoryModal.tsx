@@ -70,7 +70,7 @@ export function EditCategory({ CategoryData }: ChildProp) {
       );
     }
     setFileObject();
-  }, [category, form]);
+  }, [category?.categoryDescription, category?.categoryImage, category?.categoryname, form]);
   const dispatch: AppDispatch = useDispatch();
   const closeRef = useRef<HTMLButtonElement>(null);
   const categoryFormSubmit = async (values: z.infer<typeof categorySchema>) => {
@@ -90,7 +90,7 @@ export function EditCategory({ CategoryData }: ChildProp) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="rounded-md  text-white   h-full items-center font-semibold bg-transparent ">
+      <AlertDialogTrigger className="rounded-md  text-white   h-full items-center font-semibold bg-transparent">
         <Edit3 />
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[32%] overflow-hidden">
@@ -140,18 +140,23 @@ export function EditCategory({ CategoryData }: ChildProp) {
                     htmlFor="ico"
                     className={`h-32 bg-background w-36 cursor-pointer border border-gray-400 rounded-md border-dashed flex items-center justify-center p-2`}
                   >
-                    <img
-                      src={
-                        form.watch("categoryImage")
-                          ? URL.createObjectURL(
-                              form.watch("categoryImage") as never
-                            )
-                          : uploadIcon
-                      }
-                      className="h-24"
-                      alt=""
-                    />
+                    {form.watch("categoryImage") ? (
+                      <>
+                        {/* Render the image from categoryImage if available */}
+                        <img
+                          src={URL.createObjectURL(
+                            form.watch("categoryImage") as never
+                          )}
+                          className="h-24"
+                          alt=""
+                        />
+                      </>
+                    ) : (
+                      // Render a single image with uploadIcon if categoryImage is not available
+                      <img src={uploadIcon} className="h-24" alt="" />
+                    )}
                   </label>
+
                   <div className="w-full h-32">
                     <FormField
                       control={form.control}
