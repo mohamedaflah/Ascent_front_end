@@ -28,7 +28,7 @@ export function DeleteAlert({ status,id }: ChildProp) {
     <AlertDialog>
       <AlertDialogTrigger
         asChild
-        className="rounded-md  text-white   h-full items-center font-semibold bg-transparent cursor-pointer"
+        className="rounded-md    h-full items-center font-semibold bg-transparent cursor-pointer"
       >
         {status ? <Trash /> : <RefreshCcw />}
       </AlertDialogTrigger>

@@ -90,7 +90,7 @@ export function EditCategory({ CategoryData }: ChildProp) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="rounded-md  text-white   h-full items-center font-semibold bg-transparent">
+      <AlertDialogTrigger className="rounded-md     h-full items-center font-semibold bg-transparent">
         <Edit3 />
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[32%] overflow-hidden">

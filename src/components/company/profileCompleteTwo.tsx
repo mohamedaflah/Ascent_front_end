@@ -42,7 +42,6 @@ const formSchema = z.object({
   registrationId: z.string().min(2),
   techStack: z.array(z.string()),
   locations: z.array(z.string()),
-  
 });
 export function TwoPercentageCompletion() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -94,9 +93,8 @@ export function TwoPercentageCompletion() {
     console.log(values);
 
     await dispatch(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       updateProfileTwoPercent({
-        sendData: { ...values } as Company | any,
+        sendData: { ...values } as unknown as Company ,
         id: user._id as string,
       })
     );
@@ -179,8 +177,8 @@ export function TwoPercentageCompletion() {
                           <Calendar
                             mode="single"
                             captionLayout="dropdown-buttons"
-                            selected={field.value}
-                            onSelect={(date: Date) =>
+                            selected={field.value as never}
+                            onSelect={(date: Date | undefined) =>
                               form.setValue("foundedDate", String(date))
                             }
                             fromYear={1960}
