@@ -22,4 +22,5 @@ export interface JobPosting {
   createdAt?: Date;
   updatedAt?: Date;
   expiry?: Date;
+  completdJobAdd: "first" | "second";
 }

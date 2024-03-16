@@ -76,7 +76,7 @@ export function JobpostModalTwo() {
     if (form.watch("qualification").length >= 1) {
       setQualificationErr(false);
     }
-  }, [form]);
+  }, [form.watch("skills"),form.watch("qualification")]);
 
   const handleSettingArrayValue = (
     value: string,

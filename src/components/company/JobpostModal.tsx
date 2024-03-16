@@ -89,8 +89,9 @@ export function JobPost() {
       return;
     }
     alert("8");
+    
   };
-  const isSecond = true;
+  const isSecond = !true;
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -106,11 +107,11 @@ export function JobPost() {
           <Plus /> Post job
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[40%] max-h-[790px] overflow-y-auto">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[37%] max-h-[790px] overflow-y-auto">
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
-            <AlertDialogTitle>Post job</AlertDialogTitle>
-            <AlertDialogCancel className="p-0  h-5">
+            <AlertDialogTitle>post a job</AlertDialogTitle>
+            <AlertDialogCancel className={`p-0  h-5 ${isSecond&&"hidden"}`}>
               <X className="w-5" />
             </AlertDialogCancel>
           </div>
@@ -119,7 +120,7 @@ export function JobPost() {
               {!isSecond ? (
                 <Form {...form}>
                   <form
-                    className="w-full flex flex-col h-full"
+                    className="w-full flex flex-col h-full gap-2"
                     onSubmit={form.handleSubmit(submitFirstForm)}
                   >
                     <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-3 min-h-16 ">
@@ -132,7 +133,7 @@ export function JobPost() {
                             <FormControl>
                               <Input
                                 type="text"
-                                placeholder="#92034"
+                                placeholder="title of job"
                                 {...field}
                               />
                             </FormControl>
@@ -212,7 +213,7 @@ export function JobPost() {
                           <FormItem>
                             <LabelField>job description</LabelField>
                             <FormControl>
-                              {/* <Input placeholder="Enter description" {...field} /> */}
+                         
                               <Textarea
                                 className="h-32 w-full resize-none "
                                 placeholder="Enter description"
@@ -235,7 +236,7 @@ export function JobPost() {
                             <FormControl>
                               <Input
                                 type="text"
-                                placeholder="#92034"
+                                placeholder="📍Location "
                                 {...field}
                               />
                             </FormControl>
@@ -254,7 +255,7 @@ export function JobPost() {
                             <FormControl>
                               <Input
                                 type="text"
-                                placeholder="#92034"
+                                placeholder="experince"
                                 // {...field}
                                 onChange={(e) =>
                                   form.setValue(
@@ -279,7 +280,7 @@ export function JobPost() {
                             <FormControl>
                               <Input
                                 type="text"
-                                placeholder="#92034"
+                                placeholder="vacancies"
                                 // {...field}
                                 onChange={(e) =>
                                   form.setValue(
@@ -354,7 +355,7 @@ export function JobPost() {
                               {/* <Input placeholder="Enter description" {...field} /> */}
                               <Textarea
                                 className="h-32 w-full resize-none "
-                                placeholder="Enter description"
+                                placeholder="Enter responsibilities"
                                 {...field}
                               ></Textarea>
                             </FormControl>

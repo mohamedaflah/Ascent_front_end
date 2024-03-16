@@ -3,7 +3,10 @@
 .maintxt {
   font-family: "Cairo", sans-serif;
 }
-
+*::-webkit-scrollbar{
+  width: 3px;
+  border-radius: 5px;
+}
 .company_text {
   font-family: "Overlock", sans-serif;
   font-weight: 400;
@@ -44,6 +47,7 @@
   display: flex;
   gap: 6px;
   outline: none;
+
 }
 .active{
   background-color: #4786fa;

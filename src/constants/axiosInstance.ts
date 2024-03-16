@@ -4,6 +4,7 @@ export const authbaseUrl = String(
 );
 export const userbaseURl = import.meta.env.VITE_USER_SERVICE_URI as string;
 export const companybaseURL = import.meta.env.VITE_COMPANY_SERVICE as string;
+export const jobBaseURL = import.meta.env.VITE_JOB_SERVICE as string;
 export const AuthAxios = axios.create({
   baseURL: authbaseUrl,
   withCredentials: true,
@@ -16,6 +17,10 @@ export const CompanyAxios = axios.create({
   baseURL: companybaseURL,
   withCredentials: true,
 });
+export const JobAxios = axios.create({
+  baseURL: jobBaseURL,
+  withCredentials: true,
+});
 type Role = "admin" | "user" | "company";
 export const getUserWithRole: Record<Role, string> = {
   user: `${userbaseURl}/user/get-user`,
@@ -24,9 +29,9 @@ export const getUserWithRole: Record<Role, string> = {
 };
 
 export const verifyForgotLinkWithRole: Record<Role, string> = {
-  user:`${authbaseUrl}/verify-forgotlink`,
-  admin:`${userbaseURl}/user/verify-forgotlink`,
-  company:`${userbaseURl}/verify-forgotlink`,
+  user: `${authbaseUrl}/verify-forgotlink`,
+  admin: `${userbaseURl}/user/verify-forgotlink`,
+  company: `${userbaseURl}/verify-forgotlink`,
 };
 
 // seperate folder for connection
