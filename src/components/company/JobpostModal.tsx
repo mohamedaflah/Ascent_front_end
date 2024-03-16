@@ -1,4 +1,4 @@
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -36,26 +36,16 @@ import {
   X,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 import { LabelField } from "../custom/LabelField";
 import { JobpostModalTwo } from "./jobpostModaltwo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../custom/Calendar";
-// import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
-// import { cn } from "@/lib/utils";
-// import { format } from "date-fns";
-// import { Calendar } from "../custom/Calendar";
-const salaryRangeSchema = z
-  .object({
-    from: z.number().min(0, { message: "Salary must be positive" }).optional(),
-    to: z.number().optional(),
-  })
-  .refine((data) => (data?.to && data?.from ? data.to >= data.from : true), {
-    message: "Max salary must be greater than or equal to min salary",
-    path: ["to"], // This indicates which field the error message is associated with
-  });
+import { useEffect } from "react";
+import { getAllCategories } from "@/redux/actions/categoryAction";
+import toast from "react-hot-toast";
 
 const jobformSchema = z.object({
   jobTitle: z.string().min(2).max(20),
@@ -63,12 +53,9 @@ const jobformSchema = z.object({
   description: z.string().min(8),
   category: z.string(),
   joblocation: z.string(),
-  salaryrange: salaryRangeSchema,
-  experience: z.number().max(100).optional(),
-  vacancies: z.number().optional(),
-  responsibilities: z.string().min(2),
-  qualification: z.array(z.string()),
-  skills: z.array(z.string()),
+  experience: z.number().max(100),
+  vacancies: z.number(),
+  responsibilities: z.string().min(5).max(500),
   expiry: z.string(),
 });
 
@@ -82,14 +69,28 @@ export function JobPost() {
       category: "",
       joblocation: "",
       responsibilities: "",
-      qualification: [],
-      skills: [],
-      expiry: "",
     },
   });
 
   const { user } = useSelector((state: RootState) => state.userData);
-  const isSecond = !true;
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+  const { categories } = useSelector((state: RootState) => state.category);
+  const submitFirstForm = (values: z.infer<typeof jobformSchema>) => {
+    console.log(values);
+    if (!values.category || values.category == "") {
+      toast.error("Please Select category");
+      return;
+    }
+    if (!values.employment || values.employment == "") {
+      toast.error("Please Select Employment type");
+      return;
+    }
+    alert("8");
+  };
+  const isSecond = true;
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -105,7 +106,7 @@ export function JobPost() {
           <Plus /> Post job
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[40%]">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[40%] max-h-[790px] overflow-y-auto">
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
             <AlertDialogTitle>Post job</AlertDialogTitle>
@@ -117,8 +118,11 @@ export function JobPost() {
             <div className="w-full min-h-56">
               {!isSecond ? (
                 <Form {...form}>
-                  <form className="w-full flex flex-col h-full">
-                    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 min-h-16 ">
+                  <form
+                    className="w-full flex flex-col h-full"
+                    onSubmit={form.handleSubmit(submitFirstForm)}
+                  >
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-3 min-h-16 ">
                       <FormField
                         control={form.control}
                         name="jobTitle"
@@ -151,7 +155,19 @@ export function JobPost() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value={"d"}>{"value"}</SelectItem>
+                                <SelectItem value={"Full-Time"}>
+                                  Full-Time
+                                </SelectItem>
+                                <SelectItem value={"Part-Time"}>
+                                  Part-Time
+                                </SelectItem>
+                                <SelectItem value={"Remote"}>Remote</SelectItem>
+                                <SelectItem value={"Internship"}>
+                                  Internship
+                                </SelectItem>
+                                <SelectItem value={"Contract"}>
+                                  Contract
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                             <FormDescription></FormDescription>
@@ -172,7 +188,14 @@ export function JobPost() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value={"d"}>{"value"}</SelectItem>
+                                {categories?.map((value) => (
+                                  <SelectItem
+                                    value={String(value?._id)}
+                                    key={value._id}
+                                  >
+                                    {value?.categoryname}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                             <FormDescription></FormDescription>
@@ -202,7 +225,7 @@ export function JobPost() {
                         )}
                       />
                     </div>
-                    <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-3 min-h-16 ">
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-3 min-h-16 ">
                       <FormField
                         control={form.control}
                         name="joblocation"
@@ -225,14 +248,20 @@ export function JobPost() {
                       <FormField
                         control={form.control}
                         name="experience"
-                        render={({ field }) => (
+                        render={() => (
                           <FormItem>
                             <LabelField>years of experience</LabelField>
                             <FormControl>
                               <Input
                                 type="text"
                                 placeholder="#92034"
-                                {...field}
+                                // {...field}
+                                onChange={(e) =>
+                                  form.setValue(
+                                    "experience",
+                                    Number(e.target.value)
+                                  )
+                                }
                               />
                             </FormControl>
 
@@ -244,14 +273,20 @@ export function JobPost() {
                       <FormField
                         control={form.control}
                         name="vacancies"
-                        render={({ field }) => (
+                        render={() => (
                           <FormItem>
                             <LabelField>number of vacancies</LabelField>
                             <FormControl>
                               <Input
                                 type="text"
                                 placeholder="#92034"
-                                {...field}
+                                // {...field}
+                                onChange={(e) =>
+                                  form.setValue(
+                                    "vacancies",
+                                    Number(e.target.value)
+                                  )
+                                }
                               />
                             </FormControl>
 
@@ -330,7 +365,7 @@ export function JobPost() {
                       />
                     </div>
                     <div className="w-full h-10 flex mt-4 justify-end">
-                      <Button className="flex gap-3">
+                      <Button className="flex gap-3" type="submit">
                         Next <MoveRight />
                       </Button>
                     </div>
