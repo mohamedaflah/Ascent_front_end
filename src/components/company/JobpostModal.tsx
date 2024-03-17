@@ -43,16 +43,17 @@ import { JobpostModalTwo } from "./jobpostModaltwo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/ui/popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../custom/Calendar";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllCategories } from "@/redux/actions/categoryAction";
 import toast from "react-hot-toast";
+import { generateToken } from "@/util/generateToken";
 
 const jobformSchema = z.object({
   jobTitle: z.string().min(2).max(20),
-  employment: z.string(),
+  employment: z.string().nonempty("Select employment"),
   description: z.string().min(8),
-  category: z.string(),
-  joblocation: z.string(),
+  category: z.string().nonempty("Select category"),
+  joblocation: z.string().nonempty("Required"),
   experience: z.number().max(100),
   vacancies: z.number(),
   responsibilities: z.string().min(5).max(500),
@@ -77,6 +78,18 @@ export function JobPost() {
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (localStorage.getItem("jobpost")) {
+      setIsSecond(true);
+      buttonRef.current?.click();
+    }
+  }, []);
+  const closModal = () => {
+    closeRef.current?.click();
+  };
+  const [isSecond, setIsSecond] = useState<boolean>(false);
   const { categories } = useSelector((state: RootState) => state.category);
   const submitFirstForm = (values: z.infer<typeof jobformSchema>) => {
     console.log(values);
@@ -88,14 +101,16 @@ export function JobPost() {
       toast.error("Please Select Employment type");
       return;
     }
-    alert("8");
-    
+    const token = generateToken(values);
+    localStorage.setItem("jobpost", token);
+    setIsSecond(true);
   };
-  const isSecond = !true;
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
+          ref={buttonRef}
           className="rounded-sm "
           disabled={
             status === "Pending" ||
@@ -111,7 +126,10 @@ export function JobPost() {
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
             <AlertDialogTitle>post a job</AlertDialogTitle>
-            <AlertDialogCancel className={`p-0  h-5 ${isSecond&&"hidden"}`}>
+            <AlertDialogCancel
+              className={`p-0  h-5 ${isSecond && "hidden"}`}
+              ref={closeRef}
+            >
               <X className="w-5" />
             </AlertDialogCancel>
           </div>
@@ -137,7 +155,6 @@ export function JobPost() {
                                 {...field}
                               />
                             </FormControl>
-
                             <FormDescription></FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -213,7 +230,6 @@ export function JobPost() {
                           <FormItem>
                             <LabelField>job description</LabelField>
                             <FormControl>
-                         
                               <Textarea
                                 className="h-32 w-full resize-none "
                                 placeholder="Enter description"
@@ -226,7 +242,7 @@ export function JobPost() {
                         )}
                       />
                     </div>
-                    <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-3 min-h-16 ">
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 min-h-16 ">
                       <FormField
                         control={form.control}
                         name="joblocation"
@@ -360,7 +376,7 @@ export function JobPost() {
                               ></Textarea>
                             </FormControl>
                             <FormDescription></FormDescription>
-                            <FormMessage className="py-3 " />
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
@@ -373,7 +389,7 @@ export function JobPost() {
                   </form>
                 </Form>
               ) : (
-                <JobpostModalTwo />
+                <JobpostModalTwo closeModal={closModal} />
               )}
             </div>
           </AlertDialogDescription>

@@ -6,7 +6,9 @@ import AdminProfile from "../../assets/IMG 3.png";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { JobPost } from "../company/JobpostModal";
+
 const CompanyHeader = () => {
+  
   const {  user,role } = useSelector((state: RootState) => state.userData);
   return (
     <header className={`w-full mx-auto sticky top-0 left-0 z-10 border-b`}>

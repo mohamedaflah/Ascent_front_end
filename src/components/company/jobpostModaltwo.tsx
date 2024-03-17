@@ -16,6 +16,12 @@ import { LabelField } from "../custom/LabelField";
 import { MoveHorizontal, X } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { decodeJWT } from "@/util/decodeToken";
+import { JobfirstSchema } from "@/types/types.jobReducer";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addJob } from "@/redux/actions/jobActions";
+import { LoaderSubmitButton } from "../custom/LoaderButton";
 
 const salaryRangeSchema = z
   .object({
@@ -31,16 +37,17 @@ const jobformSchema = z.object({
   salaryrange: salaryRangeSchema,
   qualification: z.array(z.string()),
   skills: z.array(z.string()),
-  expiry: z.string(),
 });
 
-export function JobpostModalTwo() {
+interface ChildProp {
+  closeModal: () => void;
+}
+export function JobpostModalTwo({ closeModal }: ChildProp) {
   const form = useForm<z.infer<typeof jobformSchema>>({
     resolver: zodResolver(jobformSchema),
     defaultValues: {
       qualification: [],
       skills: [],
-      expiry: "",
     },
   });
   const [arrayValues, setArrayValues] = useState<{
@@ -57,6 +64,8 @@ export function JobpostModalTwo() {
   };
   const [skillErr, setSkillErr] = useState<boolean>(false);
   const [qualificationErr, setQualificationErr] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userData);
   const handleSubmition = (values: z.infer<typeof jobformSchema>) => {
     if (values.skills.length <= 0) {
       setSkillErr(true);
@@ -66,8 +75,22 @@ export function JobpostModalTwo() {
       setQualificationErr(true);
       return;
     }
-    alert("b");
+
     console.log(values);
+    if (!localStorage.getItem("jobpost")) {
+      return toast.error("Something went wrong");
+    }
+    const payload = decodeJWT(localStorage.getItem("jobpost") as string)
+      .payload as unknown as JobfirstSchema;
+    dispatch(addJob({ ...payload, ...values, companyId: user._id })).then(
+      (res) => {
+        if (res.type.endsWith("fulfilled")) {
+          localStorage.removeItem("jobpost");
+          toast.success("job posted succesfully");
+          closeModal();
+        }
+      }
+    );
   };
   useEffect(() => {
     if (form.watch("skills").length >= 1) {
@@ -76,7 +99,7 @@ export function JobpostModalTwo() {
     if (form.watch("qualification").length >= 1) {
       setQualificationErr(false);
     }
-  }, [form.watch("skills"),form.watch("qualification")]);
+  }, [form.watch("skills"), form.watch("qualification")]);
 
   const handleSettingArrayValue = (
     value: string,
@@ -99,6 +122,7 @@ export function JobpostModalTwo() {
     values.splice(Idx, 1);
     form.setValue(type, values);
   };
+  const { loading } = useSelector((state: RootState) => state.job);
   return (
     <div className="w-full min-h-56">
       <Form {...form}>
@@ -132,7 +156,11 @@ export function JobpostModalTwo() {
                     className="h-10 min-w-28 bg-backgroundAccent p-2 flex justify-between items-center border rounded-md"
                     key={Idx}
                   >
-                    {value} <X className="w-5 cursor-pointer" onClick={()=>hanldeArrayValueDelete(Idx,"skills")} />
+                    {value}{" "}
+                    <X
+                      className="w-5 cursor-pointer"
+                      onClick={() => hanldeArrayValueDelete(Idx, "skills")}
+                    />
                   </div>
                 );
               })}
@@ -172,7 +200,13 @@ export function JobpostModalTwo() {
                     className="h-10 min-w-28 bg-backgroundAccent p-2 flex justify-between items-center border rounded-md"
                     key={Idx}
                   >
-                    {value} <X className="w-5 cursor-pointer" onClick={()=>hanldeArrayValueDelete(Idx,"qualification")}/>
+                    {value}{" "}
+                    <X
+                      className="w-5 cursor-pointer"
+                      onClick={() =>
+                        hanldeArrayValueDelete(Idx, "qualification")
+                      }
+                    />
                   </div>
                 );
               })}
@@ -240,9 +274,9 @@ export function JobpostModalTwo() {
             </div>
           </div>
           <div className="w-full h-10 flex justify-end mt-3">
-            <Button className="w-36" type="submit">
+            <LoaderSubmitButton loading={loading} className="min-w-36">
               Submit
-            </Button>
+            </LoaderSubmitButton>
           </div>
         </form>
       </Form>
