@@ -33,10 +33,10 @@ export interface Job {
 
 export interface JobfirstSchema {
   jobTitle: string;
-  employment: string 
+  employment: string;
   description: string;
-  category: string 
-  joblocation: string 
+  category: string;
+  joblocation: string;
   experience: number;
   vacancies: number;
   responsibilities: string;
@@ -54,18 +54,18 @@ export interface JobSecondSchema {
   skills: string[];
 }
 
-export interface JobPayload{
+export interface JobPayload {
   jobTitle: string;
-  employment: string 
+  employment: string;
   description: string;
-  category: string 
-  joblocation: string 
+  category: string;
+  joblocation: string;
   experience: number;
-  vacancies: number;
+  vacancies: { status: boolean; available: number; filled: number };
   responsibilities: string;
   expiry: string;
   salaryrange: SalaryRange;
   qualification: string[];
   skills: string[];
-  companyId:string
+  companyId: string;
 }

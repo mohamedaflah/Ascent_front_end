@@ -1,4 +1,3 @@
-import { Button } from "@/shadcn/ui/button";
 import {
   Table,
   TableBody,
@@ -10,66 +9,73 @@ import {
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getPendingCompanies } from "@/redux/actions/adminActions";
 
-import ChangeCompanyApprovel from "@/components/Layouts/admin/ChangeCompanystatus";
 import { formatDateAndTime } from "@/util/formateDate";
 
 import TimeAgo from "@/components/custom/LiveTime";
-import { CompanyViewModal } from "@/components/custom/CompanyViewModeal";
-import { Company } from "@/types/oneCompanyType";
+
+import { getJobWithCompany } from "@/redux/actions/jobActions";
+import { Job } from "@/types/types.jobReducer";
 
 export function JobListing() {
   const dispatch: AppDispatch = useDispatch();
-  const { company } = useSelector((state: RootState) => state.admin);
+
+  const { user } = useSelector((state: RootState) => state.userData);
+  const { jobs } = useSelector((state: RootState) => state.job);
   useEffect(() => {
-    dispatch(getPendingCompanies()).then();
-  }, [dispatch, company]);
+    dispatch(getJobWithCompany(user._id));
+  }, [dispatch, user]);
   return (
     <main className="w-full h-full">
       <div className="container mx-auto py-10">
         <Table className="border p-2 rounded-md ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Companyname</TableHead>
-              <TableHead>Logo</TableHead>
-              <TableHead>Company email</TableHead>
-              <TableHead>Requested date</TableHead>
-              <TableHead >Requested time</TableHead>
-              <TableHead ></TableHead>
+              <TableHead className="w-[240px]">Job title</TableHead>
+              <TableHead>job added At</TableHead>
+              <TableHead>Employment type</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Applications</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {company?.map((data:Company) => (
-              <TableRow key={data._id}>
-                <TableCell className="font-medium">{data.name}</TableCell>
+            {jobs?.map((job: Job) => (
+              <TableRow key={job._id}>
+                <TableCell className="font-medium">{job.jobTitle}</TableCell>
                 <TableCell className=" min-w-24">
-                  <img src={data?.icon} className="h-10 w-10 object-cover rounded-full" alt="Logo" />
+                  <div className="flex gap-2">
+                    {
+                      formatDateAndTime(
+                        job?.createdAt as unknown as string | number | Date
+                      ).date
+                    }
+                    <TimeAgo
+                      key={job._id}
+                      timestamp={
+                        job.createdAt as unknown as string | number | Date
+                      }
+                    />
+                  </div>
                 </TableCell>
-                <TableCell>{data.email}</TableCell>
-                <TableCell>{formatDateAndTime((data.createdAt)  as unknown as string|number|Date).date}</TableCell>
+                <TableCell>{job.employment}</TableCell>
+                <TableCell>{job.category}</TableCell>
+                <TableCell className="relative">
+                  {job?.vacancies?.filled} Vacancies of{" "}
+                  {job?.vacancies?.available}
+                  <div className="bottom-2 left-1 absolute flex items-center justify-center w-32">
+                    <div className="h-2 w-[82%] bg-green-700"></div>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right flex w-auto justify-start gap-2 ">
+                  <div className=" h-8 rounded-full bg-green-700 flex items-center gap-2 justify-between p-3">
+                    <span className="w-3 h-3 rounded-full bg-green-800"></span>
+                    Active
+                  </div>
+                </TableCell>
                 <TableCell>
-                  {<TimeAgo key={data._id} timestamp={(data.createdAt) as unknown as string|number|Date } />}
-                </TableCell>
-                <TableCell className="text-right flex w-auto justify-end gap-2 ">
-                  <Button variant={"secondary"}>
-                    <ChangeCompanyApprovel
-                      status="Accepted"
-                      id={data._id as string}
-                      key={data._id}
-                    />
-                  </Button>
-                  <Button variant={"ghost"} className="border">
-                    <ChangeCompanyApprovel
-                      status="Rejected"
-                      id={data._id as string}
-                      key={data._id}
-                    />
-                  </Button>
-                  <Button className="h-9 px-3 " variant={"outline"}>
-                    <CompanyViewModal companyData={data}/>
-                  </Button>
-                  
+                  d
                 </TableCell>
               </TableRow>
             ))}
@@ -79,4 +85,3 @@ export function JobListing() {
     </main>
   );
 }
-

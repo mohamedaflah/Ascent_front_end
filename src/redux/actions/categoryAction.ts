@@ -1,4 +1,4 @@
-import { UserAxios } from "@/constants/axiosInstance";
+import { JobAxios } from "@/constants/axiosInstance";
 import { categoryPayload } from "@/types/adminReducer";
 import { handleErrors } from "@/util/handleErrors";
 import { uploadImageToCloudinary } from "@/util/uploadImage";
@@ -13,8 +13,8 @@ export const addCategory = createAsyncThunk(
         categoryData.categoryImage
       );
 
-      const { data } = await UserAxios.post(
-        `/category/add-category`,
+      const { data } = await JobAxios.post(
+        `/api/category/add-category`,
         categoryData
       );
       return data;
@@ -48,8 +48,8 @@ export const updateCategory = createAsyncThunk(
           sendPayload.categoryData.categoryImage
         );
       }
-      const { data } = await UserAxios.post(
-        `/category/update-category/${sendPayload.id}`,
+      const { data } = await JobAxios.post(
+        `/api/category/update-category/${sendPayload.id}`,
         sendPayload.categoryData
       );
       return data;
@@ -63,7 +63,7 @@ export const deleteCategory = createAsyncThunk(
   "category/delete-category",
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await UserAxios.get(`/category/delete-category/${id}`);
+      const { data } = await JobAxios.get(`/api/category/delete-category/${id}`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -75,7 +75,7 @@ export const getAllCategories = createAsyncThunk(
   "category/get-allCategory",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await UserAxios.get(`/category/getall-category`);
+      const { data } = await JobAxios.get(`/api/category/getall-category`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

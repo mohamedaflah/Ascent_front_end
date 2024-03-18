@@ -14,3 +14,15 @@ export const addJob = createAsyncThunk(
     }
   }
 );
+
+export const getJobWithCompany = createAsyncThunk(
+  "job/get-job-company",
+  async (companyId: string, { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.get(`/api/v1/get-jobs/${companyId}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

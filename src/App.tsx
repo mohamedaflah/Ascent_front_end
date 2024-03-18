@@ -18,6 +18,7 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { SetPassword } from "./pages/setPassword";
 import VerifyForgotPass from "./pages/common_pages/verifyForgotPass";
 import Categories from "./pages/admin/CategoryMngment";
+import { JobListing } from "./pages/company/JobList";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -103,6 +104,7 @@ function App() {
         {role === "company" && (
           <Route path="/company/" element={<Layout role={role} />}>
             <Route index element={<CompanyDashbord />} />
+            <Route path="jobs" element={<JobListing/>}/>
           </Route>
         )}
 

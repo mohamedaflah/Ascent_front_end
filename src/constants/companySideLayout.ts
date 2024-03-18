@@ -31,6 +31,7 @@ export const companySidBarLabels: Labels[] = [
     id: uuidv4(),
     label: "Jobs",
     icon: Blinds,
+    link:"jobs"
   },
   {
     id: uuidv4(),

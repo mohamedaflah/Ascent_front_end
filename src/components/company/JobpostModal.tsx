@@ -88,6 +88,7 @@ export function JobPost() {
   }, []);
   const closModal = () => {
     closeRef.current?.click();
+    setIsSecond(false);
   };
   const [isSecond, setIsSecond] = useState<boolean>(false);
   const { categories } = useSelector((state: RootState) => state.category);

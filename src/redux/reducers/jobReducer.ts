@@ -1,6 +1,6 @@
 import { JobReduerInitial } from "@/types/types.jobReducer";
 import { createSlice } from "@reduxjs/toolkit";
-import { addJob } from "../actions/jobActions";
+import { addJob, getJobWithCompany } from "../actions/jobActions";
 import { ErrorPayload } from "@/types/AllTypes";
 import toast from "react-hot-toast";
 
@@ -32,6 +32,23 @@ const jobReducer = createSlice({
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
         state.jobs = null;
+      })
+      // get job with Company
+      .addCase(getJobWithCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getJobWithCompany.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.jobs = payload.jobs;
+      })
+      .addCase(getJobWithCompany.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.job = null;
+        state.jobs = null;
+        toast.error(state.err);
       });
   },
 });

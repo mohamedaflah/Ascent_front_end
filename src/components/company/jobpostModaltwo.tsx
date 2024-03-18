@@ -82,15 +82,20 @@ export function JobpostModalTwo({ closeModal }: ChildProp) {
     }
     const payload = decodeJWT(localStorage.getItem("jobpost") as string)
       .payload as unknown as JobfirstSchema;
-    dispatch(addJob({ ...payload, ...values, companyId: user._id })).then(
-      (res) => {
-        if (res.type.endsWith("fulfilled")) {
-          localStorage.removeItem("jobpost");
-          toast.success("job posted succesfully");
-          closeModal();
-        }
+    dispatch(
+      addJob({
+        ...payload,
+        ...values,
+        companyId: user._id,
+        vacancies: { status: true, available: payload.vacancies, filled: 0 },
+      })
+    ).then((res) => {
+      if (res.type.endsWith("fulfilled")) {
+        localStorage.removeItem("jobpost");
+        toast.success("job posted succesfully");
+        closeModal();
       }
-    );
+    });
   };
   useEffect(() => {
     if (form.watch("skills").length >= 1) {
