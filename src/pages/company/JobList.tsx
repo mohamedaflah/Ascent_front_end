@@ -16,6 +16,7 @@ import TimeAgo from "@/components/custom/LiveTime";
 
 import { getJobWithCompany } from "@/redux/actions/jobActions";
 import { Job } from "@/types/types.jobReducer";
+import { JobEdit } from "@/components/company/JobEdit";
 
 export function JobListing() {
   const dispatch: AppDispatch = useDispatch();
@@ -32,19 +33,19 @@ export function JobListing() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[240px]">Job title</TableHead>
-              <TableHead>job added At</TableHead>
-              <TableHead>Employment type</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Applications</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="w-[250px]">job added At</TableHead>
+              <TableHead className="w-[250px]">Employment type</TableHead>
+              <TableHead className="w-[180px]">Category</TableHead>
+              <TableHead className="w-[250px]">Applications</TableHead>
+              <TableHead className="w-[100px]">Status</TableHead>
+              <TableHead className="">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {jobs?.map((job: Job) => (
               <TableRow key={job._id}>
-                <TableCell className="font-medium">{job.jobTitle}</TableCell>
-                <TableCell className=" min-w-24">
+                <TableCell className="font-medium ">{job.jobTitle}</TableCell>
+                <TableCell className=" min-w-24 ">
                   <div className="flex gap-2">
                     {
                       formatDateAndTime(
@@ -75,7 +76,7 @@ export function JobListing() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  d
+                  <JobEdit jobData={job}/>
                 </TableCell>
               </TableRow>
             ))}
