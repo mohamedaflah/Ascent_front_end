@@ -14,11 +14,11 @@ import { formatDateAndTime } from "@/util/formateDate";
 
 import TimeAgo from "@/components/custom/LiveTime";
 
-import { getJobWithCompany } from "@/redux/actions/jobActions";
+import { deleteJob, getJobWithCompany } from "@/redux/actions/jobActions";
 import { Job } from "@/types/types.jobReducer";
 import { JobEdit } from "@/components/company/JobEdit";
 import ConfirmModal from "@/components/custom/confirmModal";
-import { Trash2Icon } from "lucide-react";
+import { Trash2Icon, Undo2 } from "lucide-react";
 
 export function JobListing() {
   const dispatch: AppDispatch = useDispatch();
@@ -98,8 +98,10 @@ export function JobListing() {
                   <JobEdit jobData={job} />
                 </TableCell>
                 <TableCell className="text-start ">
-                  <ConfirmModal action={() => alert("d")}>
-                    <Trash2Icon />
+                  <ConfirmModal
+                    action={() => dispatch(deleteJob(job?._id as string))}
+                  >
+                    {!job.status ? <Undo2 /> : <Trash2Icon />}
                   </ConfirmModal>
                 </TableCell>
               </TableRow>
