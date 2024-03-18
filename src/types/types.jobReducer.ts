@@ -29,6 +29,9 @@ export interface Job {
   updatedAt?: Date;
   expiry?: Date;
   completdJobAdd: "first" | "second";
+  categoryId?: string;
+  expired: boolean;
+  status:boolean
 }
 
 export interface JobfirstSchema {
@@ -61,11 +64,11 @@ export interface JobPayload {
   category: string;
   joblocation: string;
   experience: number;
-  vacancies: { status: boolean; available: number; filled: number };
+  vacancies?: { status: boolean; available: number; filled: number };
   responsibilities: string;
   expiry: string;
   salaryrange: SalaryRange;
   qualification: string[];
   skills: string[];
-  companyId: string;
+  companyId?: string;
 }

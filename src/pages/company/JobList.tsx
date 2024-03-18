@@ -17,6 +17,8 @@ import TimeAgo from "@/components/custom/LiveTime";
 import { getJobWithCompany } from "@/redux/actions/jobActions";
 import { Job } from "@/types/types.jobReducer";
 import { JobEdit } from "@/components/company/JobEdit";
+import ConfirmModal from "@/components/custom/confirmModal";
+import { Trash2Icon } from "lucide-react";
 
 export function JobListing() {
   const dispatch: AppDispatch = useDispatch();
@@ -39,6 +41,7 @@ export function JobListing() {
               <TableHead className="w-[250px]">Applications</TableHead>
               <TableHead className="w-[100px]">Status</TableHead>
               <TableHead className="">Actions</TableHead>
+              <TableHead className="w-[30px]"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -65,18 +68,39 @@ export function JobListing() {
                 <TableCell className="relative">
                   {job?.vacancies?.filled} Vacancies of{" "}
                   {job?.vacancies?.available}
-                  <div className="bottom-2 left-1 absolute flex items-center justify-center w-32">
-                    <div className="h-2 w-[82%] bg-green-700"></div>
+                  <div className="bottom-3 left-1 absolute flex items-center justify-center w-32">
+                    <div className="h-2 w-[82%] dark:bg-green-700 bg-green-400"></div>
                   </div>
                 </TableCell>
                 <TableCell className="text-right flex w-auto justify-start gap-2 ">
-                  <div className=" h-8 rounded-full bg-green-700 flex items-center gap-2 justify-between p-3">
-                    <span className="w-3 h-3 rounded-full bg-green-800"></span>
-                    Active
-                  </div>
+                  {job.status ? (
+                    <>
+                      {!job.expired ? (
+                        <div className=" h-8 rounded-full dark:bg-green-700 bg-green-400 flex items-center gap-2 justify-between p-3 text-white">
+                          <span className="w-3 h-3 rounded-full dark:bg-green-800 bg-green-500"></span>
+                          Active
+                        </div>
+                      ) : (
+                        <div className=" h-8 rounded-full dark:bg-red-700 bg-red-400 flex items-center gap-2 justify-between p-3 text-white">
+                          <span className="w-3 h-3 rounded-full dark:bg-red-800 bg-red-500"></span>
+                          expired
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className=" h-8 rounded-full dark:bg-red-700 bg-red-400 flex items-center gap-2 justify-between p-3 text-white">
+                      <span className="w-3 h-3 rounded-full dark:bg-red-800 bg-red-500"></span>
+                      Deleted
+                    </div>
+                  )}
                 </TableCell>
                 <TableCell>
-                  <JobEdit jobData={job}/>
+                  <JobEdit jobData={job} />
+                </TableCell>
+                <TableCell className="text-start ">
+                  <ConfirmModal action={() => alert("d")}>
+                    <Trash2Icon />
+                  </ConfirmModal>
                 </TableCell>
               </TableRow>
             ))}

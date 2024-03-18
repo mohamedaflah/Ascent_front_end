@@ -26,3 +26,33 @@ export const getJobWithCompany = createAsyncThunk(
     }
   }
 );
+
+export const updateJob = createAsyncThunk(
+  "job/update-job",
+  async (
+    payload: { id: string; sendPayload: JobPayload },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await JobAxios.patch(
+        `/api/v1//job/${payload.id}`,
+        payload.sendPayload
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const deleteJob = createAsyncThunk(
+  "job/delete-job",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.put(`/api/v1//job/${id}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

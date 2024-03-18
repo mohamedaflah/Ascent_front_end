@@ -207,7 +207,7 @@ export function JobPost() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {categories?.map((value) => (
+                                {categories?.filter(value=>value.status).map((value) => (
                                   <SelectItem
                                     value={String(value?._id)}
                                     key={value._id}

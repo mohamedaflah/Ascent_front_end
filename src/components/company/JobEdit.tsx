@@ -47,9 +47,9 @@ import { Calendar } from "../custom/Calendar";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { getAllCategories } from "@/redux/actions/categoryAction";
 import toast from "react-hot-toast";
-import { generateToken } from "@/util/generateToken";
 import { LoaderSubmitButton } from "../custom/LoaderButton";
 import { Job } from "@/types/types.jobReducer";
+import { updateJob } from "@/redux/actions/jobActions";
 const salaryRangeSchema = z
   .object({
     from: z.number().min(0, { message: "Salary must be positive" }),
@@ -96,28 +96,22 @@ export function JobEdit({ jobData }: ChildProp) {
     form.setValue("jobTitle", job?.jobTitle as string);
     form.setValue("description", job?.description as string);
     form.setValue("experience", Number(job?.experience));
-    form.setValue("category", job?.category as string);
+    form.setValue("category", job?.categoryId as string);
     form.setValue("employment", job?.employment as string);
-    form.setValue("joblocation",job?.joblocation as string)
-    form.setValue("salaryrange.from",job?.salaryrange.from as number)
-    form.setValue("salaryrange.to",job?.salaryrange.to as number)
-    form.setValue("vacancies",Number(job?.vacancies.available))
-    form.setValue("expiry",String(job?.expiry))
-    form.setValue("responsibilities",String(job?.responsibilities))
-    form.setValue("skills",job?.skills as string[])
-    form.setValue("qualification",job?.qualification as string[])
+    form.setValue("joblocation", job?.joblocation as string);
+    form.setValue("salaryrange.from", job?.salaryrange.from as number);
+    form.setValue("salaryrange.to", job?.salaryrange.to as number);
+    form.setValue("vacancies", Number(job?.vacancies.available));
+    form.setValue("expiry", String(job?.expiry));
+    form.setValue("responsibilities", String(job?.responsibilities));
+    form.setValue("skills", job?.skills as string[]);
+    form.setValue("qualification", job?.qualification as string[]);
   }, [form, job, jobData]);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (localStorage.getItem("jobpost")) {
-      buttonRef.current?.click();
-    }
-  }, []);
 
   const [arrayValues, setArrayValues] = useState<{
     skills: string;
@@ -156,7 +150,7 @@ export function JobEdit({ jobData }: ChildProp) {
 
   const { categories } = useSelector((state: RootState) => state.category);
   const { loading } = useSelector((state: RootState) => state.job);
-  const submitFirstForm = (values: z.infer<typeof jobformSchema>) => {
+  const submitFirstForm = async(values: z.infer<typeof jobformSchema>) => {
     console.log(values);
     if (!values.category || values.category == "") {
       toast.error("Please Select category");
@@ -166,8 +160,24 @@ export function JobEdit({ jobData }: ChildProp) {
       toast.error("Please Select Employment type");
       return;
     }
-    const token = generateToken(values);
-    localStorage.setItem("jobpost", token);
+    console.log(values);
+    const res = await dispatch(
+      updateJob({
+        id: job?._id as string,
+        sendPayload: {
+          ...values,
+          vacancies: {
+            status: true,
+            available: values.vacancies,
+            filled: Number(job?.vacancies.filled),
+          },
+        },
+      })
+    );
+    if (res.type.endsWith("fulfilled")) {
+      toast.success("Job updated");
+      closeRef.current?.click();
+    }
   };
 
   return (
@@ -256,14 +266,16 @@ export function JobEdit({ jobData }: ChildProp) {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {categories?.map((value) => (
-                                  <SelectItem
-                                    value={String(value?._id)}
-                                    key={value._id}
-                                  >
-                                    {value?.categoryname}
-                                  </SelectItem>
-                                ))}
+                                {categories
+                                  ?.filter((value) => value.status)
+                                  .map((value) => (
+                                    <SelectItem
+                                      value={String(value?._id)}
+                                      key={value._id}
+                                    >
+                                      {value?.categoryname}
+                                    </SelectItem>
+                                  ))}
                               </SelectContent>
                             </Select>
                             <FormDescription></FormDescription>
@@ -329,7 +341,7 @@ export function JobEdit({ jobData }: ChildProp) {
                                     Number(e.target.value)
                                   )
                                 }
-                                value={form.getValues('experience')}
+                                value={form.getValues("experience")}
                               />
                             </FormControl>
 
@@ -355,7 +367,7 @@ export function JobEdit({ jobData }: ChildProp) {
                                     Number(e.target.value)
                                   )
                                 }
-                                value={form.getValues('vacancies')}
+                                value={form.getValues("vacancies")}
                               />
                             </FormControl>
 
