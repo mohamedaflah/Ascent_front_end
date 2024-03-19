@@ -88,8 +88,8 @@ export function JobListing() {
                       )}
                     </>
                   ) : (
-                    <div className=" h-8 rounded-full dark:bg-red-700 bg-red-400 flex items-center gap-2 justify-between p-3 text-white">
-                      <span className="w-3 h-3 rounded-full dark:bg-red-800 bg-red-500"></span>
+                    <div className=" h-8 rounded-full  bg-red-400 flex items-center gap-2 justify-between p-3 text-white">
+                      <span className="w-3 h-3 rounded-full  bg-red-500"></span>
                       Deleted
                     </div>
                   )}

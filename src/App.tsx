@@ -19,6 +19,7 @@ import { SetPassword } from "./pages/setPassword";
 import VerifyForgotPass from "./pages/common_pages/verifyForgotPass";
 import Categories from "./pages/admin/CategoryMngment";
 import { JobListing } from "./pages/company/JobList";
+import { FindJobs } from "./pages/user/FindJobs";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -62,6 +63,7 @@ function App() {
             )
           }
         />
+        
 
         <Route
           path="/"
@@ -90,6 +92,7 @@ function App() {
           />
           <Route path="user/forgotpassword" element={user?<Navigate to={'/'}/>:<ForgotPassword/>}/>
           <Route path="user/setpassword" element={user?<Navigate to={'/'}/>:<SetPassword/>}/>
+          <Route path="findjobs" element={<FindJobs/>}/>
         </Route>
 
         {role === "admin" && (
