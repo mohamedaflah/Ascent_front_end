@@ -1,23 +1,32 @@
 import AscentIcon from "../../../assets/lightico.svg";
 import AscentDarkIcon from "../../../assets/darkIco.svg";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { ThemeProviderContext, ThemeProviderState } from "@/shadcn/theme-provider";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  ThemeProviderContext,
+  ThemeProviderState,
+} from "@/shadcn/theme-provider";
 import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
-import { useSidbarLayoutSection2, userSidebarLayout } from "@/constants/userSidLayout";
+import {
+  useSidbarLayoutSection2,
+  userSidebarLayout,
+} from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Header from "../../common/Header";
+import { getUser } from "@/redux/actions/userActions";
 function UserLayout() {
-    const [theme, setTheme] = useState<"dark" | "light" | "system">();
-    const { user } = useSelector((staet: RootState) => staet.userData);
-    const context: ThemeProviderState = useContext(ThemeProviderContext);
-    const [sideExpand, setIsSideExpand] = useState<boolean>(true);
-    useEffect(() => {
-      setTheme(context?.theme);
-    }, [context]);
+  const [theme, setTheme] = useState<"dark" | "light" | "system">();
+  const { user } = useSelector((staet: RootState) => staet.userData);
+  const context: ThemeProviderState = useContext(ThemeProviderContext);
+  const [sideExpand, setIsSideExpand] = useState<boolean>(true);
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    setTheme(context?.theme);
+    dispatch(getUser()).then();
+  }, [context, dispatch]);
   return (
     <main className=" flex ">
       <aside
@@ -48,8 +57,15 @@ function UserLayout() {
           className={`flex flex-col gap-3 ${!sideExpand && "justify-center"}`}
         >
           {userSidebarLayout.map((item) => (
-            <div
+            <NavLink
               key={item?.id}
+              to={
+                item.label !== "My profile"
+                  ? item?.link
+                    ? item?.link
+                    : "/"
+                  : `myprofile/${user._id}`
+              }
               className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
@@ -59,7 +75,7 @@ function UserLayout() {
               {sideExpand && (
                 <span className="text-textPrimary">{item.label as string}</span>
               )}
-            </div>
+            </NavLink>
           ))}
         </div>
         <div className="w-full h-[1px] bg-textPrimary" />

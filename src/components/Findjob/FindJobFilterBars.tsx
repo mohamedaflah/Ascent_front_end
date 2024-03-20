@@ -3,7 +3,7 @@ import { ChevronUp } from "lucide-react";
 
 export function FindJobFilterBar() {
   return (
-    <aside className="hidden h-full min-w-80  lg:flex flex-col pr-2">
+    <aside className="hidden h-full min-w-64  lg:flex flex-col pr-2">
       <div className="w-full py-2  flex flex-col gap-5">
         <div className="flex justify-between">
           <h2 className="text-lg font-bold ">Type of Employment </h2>
@@ -11,7 +11,7 @@ export function FindJobFilterBar() {
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex gap-5 items-center">
-            <Checkbox />
+            <Checkbox className=""  />
             <label className="text-textPrimary">
               Full time
             </label>

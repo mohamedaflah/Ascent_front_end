@@ -69,7 +69,11 @@ export function JobListing() {
                   {job?.vacancies?.filled} Vacancies of{" "}
                   {job?.vacancies?.available}
                   <div className="bottom-3 left-1 absolute flex items-center justify-center w-32">
-                    <div className="h-2 w-[82%] dark:bg-green-700 bg-green-400"></div>
+                    <div className="h-2 w-[82%] dark:bg-green-700  bg-gray-300">
+                      <div className="h-full w-[12%] bg-green-400">
+
+                      </div>
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell className="text-right flex w-auto justify-start gap-2 ">

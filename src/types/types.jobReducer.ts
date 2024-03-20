@@ -1,3 +1,5 @@
+import { Company } from "./oneCompanyType";
+
 export type JobReduerInitial = {
   loading: boolean;
   err: boolean | string;
@@ -32,6 +34,7 @@ export interface Job {
   categoryId?: string;
   expired: boolean;
   status:boolean
+  company?:Company
 }
 
 export interface JobfirstSchema {

@@ -20,6 +20,10 @@ import VerifyForgotPass from "./pages/common_pages/verifyForgotPass";
 import Categories from "./pages/admin/CategoryMngment";
 import { JobListing } from "./pages/company/JobList";
 import { FindJobs } from "./pages/user/FindJobs";
+import { Applicants } from "./pages/company/Applicants";
+import { MyProfile } from "./pages/user/Profile";
+import { ProfileLayout } from "./pages/user/ProfileLayout";
+import { PublicProfile } from "./pages/user/PublicProfile";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -32,7 +36,6 @@ function App() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full">
-      
       <Routes>
         <Route
           path="verify-email/:token/:role"
@@ -59,11 +62,10 @@ function App() {
             ) : role === "company" ? (
               <Navigate to={"/company/"} />
             ) : (
-             <VerifyForgotPass/>
+              <VerifyForgotPass />
             )
           }
         />
-        
 
         <Route
           path="/"
@@ -90,14 +92,24 @@ function App() {
             path="recruiter/login"
             element={user ? <Navigate to={"/"} /> : <CompanyLogin />}
           />
-          <Route path="user/forgotpassword" element={user?<Navigate to={'/'}/>:<ForgotPassword/>}/>
-          <Route path="user/setpassword" element={user?<Navigate to={'/'}/>:<SetPassword/>}/>
-          <Route path="findjobs" element={<FindJobs/>}/>
+          <Route
+            path="user/forgotpassword"
+            element={user ? <Navigate to={"/"} /> : <ForgotPassword />}
+          />
+          <Route
+            path="user/setpassword"
+            element={user ? <Navigate to={"/"} /> : <SetPassword />}
+          />
+          <Route path="findjobs" element={<FindJobs />} />
+          <Route path="settings/:id" element={<ProfileLayout/>}>
+            <Route index element={<MyProfile/>}/>
+          </Route>
+          <Route path="myprofile/:id" element={<PublicProfile/>}/>
         </Route>
 
         {role === "admin" && (
           <>
-            <Route  path="/admin/" element={<Layout role={role}/>}>
+            <Route path="/admin/" element={<Layout role={role} />}>
               <Route index element={<AdminDashboard />} />
               <Route path="approvels" element={<RequestAndApprovel />} />
               <Route path="categories" element={<Categories />} />
@@ -107,7 +119,8 @@ function App() {
         {role === "company" && (
           <Route path="/company/" element={<Layout role={role} />}>
             <Route index element={<CompanyDashbord />} />
-            <Route path="jobs" element={<JobListing/>}/>
+            <Route path="jobs" element={<JobListing />} />
+            <Route path="applicants" element={<Applicants />} />
           </Route>
         )}
 

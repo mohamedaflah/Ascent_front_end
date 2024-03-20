@@ -56,7 +56,7 @@ const jobformSchema = z.object({
   joblocation: z.string().nonempty("Required"),
   experience: z.number().max(100),
   vacancies: z.number(),
-  responsibilities: z.string().min(5).max(500),
+  responsibilities: z.string().min(5),
   expiry: z.string(),
 });
 

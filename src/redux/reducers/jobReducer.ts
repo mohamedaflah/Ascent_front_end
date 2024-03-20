@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addJob,
   deleteJob,
+  getAllJobs,
   getJobWithCompany,
+  getSpecificJob,
   updateJob,
 } from "../actions/jobActions";
 import { ErrorPayload } from "@/types/AllTypes";
@@ -100,10 +102,42 @@ const jobReducer = createSlice({
         state.err = false;
       })
       .addCase(deleteJob.rejected, (state, { payload }) => {
-        const errorPayload=payload as ErrorPayload
+        const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         state.jobs = null;
-        state.loading=false
+        state.loading = false;
+      })
+      // get all jobs especially for users
+      .addCase(getAllJobs.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllJobs.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.jobs = payload.jobs;
+        state.err = false;
+      })
+      .addCase(getAllJobs.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.jobs = null;
+        toast.error(errorPayload.message);
+      })
+      // get one job
+      .addCase(getSpecificJob.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSpecificJob.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.job = payload.job;
+        state.err = false;
+      })
+      .addCase(getSpecificJob.rejected, (state, { payload }) => {
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.job = null;
+        state.loading = false;
+        toast.error(state.err);
       });
   },
 });

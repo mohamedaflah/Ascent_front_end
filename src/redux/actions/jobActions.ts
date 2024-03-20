@@ -56,3 +56,27 @@ export const deleteJob = createAsyncThunk(
     }
   }
 );
+
+export const getAllJobs = createAsyncThunk(
+  "job/get-alljob",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.get(`/api/v1/job`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const getSpecificJob = createAsyncThunk(
+  "job/get-onejob",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.get(`/api/v1/job/${id}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

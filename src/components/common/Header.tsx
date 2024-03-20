@@ -29,11 +29,11 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     <header
-      className={`w-full mx-auto sticky top-0 left-0 z-10 bg-background ${
+      className={`w-full mx-auto sticky top-0 left-0 z-10  ${
         landing && !user
-          ? "bg-accenting dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative"
-          : ""
-      }`}
+          ? `dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative ${location.pathname!=='/'?"bg-background":"bg-accenting "}`
+          : `${location.pathname!=='/'?"bg-background":"bg-accenting "}`
+      } `}
     >
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center  [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <header

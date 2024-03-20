@@ -35,6 +35,7 @@ import { TechBox } from "../custom/TechBox";
 import { RiArrowRightFill } from "react-icons/ri";
 import { updateProfileTwoPercent } from "@/redux/actions/secondaryAction";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   industry: z.string().min(2),
@@ -91,6 +92,16 @@ export function TwoPercentageCompletion() {
   const dispatch: AppDispatch = useDispatch();
   async function submitForm(values: z.infer<typeof formSchema>) {
     console.log(values);
+    if(values.techStack.length<=0){
+      return toast.error("Please add atleas one stack")
+    }
+    if(values.locations.length<=0){
+      return toast.error("Please add location")
+    }
+    if(!values.foundedDate || !values.registrationId || !values.industry){
+      toast.error("Please check all fiields are filled")
+      return
+    }
 
     await dispatch(
       updateProfileTwoPercent({

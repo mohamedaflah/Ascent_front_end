@@ -42,5 +42,6 @@ export const companySidBarLabels: Labels[] = [
     id: uuidv4(),
     label: "Applicants",
     icon: BookText ,
+    link:"applicants"
   },
 ];
