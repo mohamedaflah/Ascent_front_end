@@ -4,7 +4,7 @@ export function PublicProfile() {
   return (
     <main className="w-full ">
       <main
-        className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start`}
+        className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start  `}
       >
         <div className="h-full w-full  space-y-2 ">
           <div className="w-full min-h-72  flex flex-col border">
@@ -29,10 +29,10 @@ export function PublicProfile() {
                 </div>
               </div>
               <div className="min-h-16 w-full flex justify-end">
-                <div className="w-[82%] h-full py-3 flex justify-between">
+                <div className="w-[70%] lg:w-[82%] h-full py-3 flex justify-between">
                   <div className="w-[60%] h-full  flex flex-col gap-3">
                     <div>
-                      <h1 className="maintxt text-3xl font-bold">Aflu</h1>
+                      <h1 className="maintxt text-3xl font-bold">Mohamemd Aflah</h1>
                     </div>
                     <div className="text-textPrimary ">
                       <p>Product Designer at Twitter</p>
@@ -41,7 +41,7 @@ export function PublicProfile() {
                       <MapPin /> India,Kolkata
                     </div>
                     <div className="text-textPrimary flex gap-2">
-                      <div className="ml-2 flex gap-3 uppercase text-green-300 p-2 items-center justify-center border border-green-300 rounded-sm">
+                      <div className="ml-2 flex gap-3 uppercase text-green-500 p-2 items-center justify-center border border-green-500 rounded-sm">
                         <Flag /> Open for oppertunieis
                       </div>
                     </div>
@@ -86,8 +86,8 @@ export function PublicProfile() {
                   <Plus className="w-5" />
                 </div>
               </div>
-              <div className="w-full flex min-h-32 ">
-                <div className="w-[14%] h-full">
+              <div className="w-full flex min-h-32 gap-2 md:gap-0 ">
+                <div className="w-28 lg:w-[14%] h-full">
                   <div className="w-28 h-28 rounded-full ">
                     <img
                       src={HeaderPic}
@@ -128,8 +128,8 @@ export function PublicProfile() {
                   <Plus className="w-5" />
                 </div>
               </div>
-              <div className="w-full flex min-h-32 ">
-                <div className="w-[14%] h-full">
+              <div className="w-full flex min-h-32 gap-2 lg:gap-0 ">
+                <div className="w-28 lg:w-[14%] h-full">
                   <div className="w-28 h-28 rounded-full ">
                     <img
                       src={HeaderPic}
@@ -193,7 +193,7 @@ export function PublicProfile() {
             </div>
           </div>
         </div>
-        <div className="hidden md:flex w-1/2 min-h-60    flex-col gap-3">
+        <div className="hidden md:flex w-1/2 min-h-60    flex-col gap-3 lg:sticky top-0 left-0">
           <div className="w-full p-3 border">
             <div className="w-full flex justify-between">
               <h1 className="maintxt text-xl font-semibold">Additional Details</h1>
