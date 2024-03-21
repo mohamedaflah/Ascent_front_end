@@ -1,6 +1,7 @@
 import { JobAxios } from "@/constants/axiosInstance";
 import { JobPayload } from "@/types/types.jobReducer";
 import { handleErrors } from "@/util/handleErrors";
+import { uploadImageToCloudinary } from "@/util/uploadImage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const addJob = createAsyncThunk(
@@ -74,6 +75,39 @@ export const getSpecificJob = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const { data } = await JobAxios.get(`/api/v1/job/${id}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const applyJob = createAsyncThunk(
+  "job/apply-job",
+  async (
+    sendPayload: { userId: string; jobId: string; resume: File },
+    { rejectWithValue }
+  ) => {
+    try {
+      sendPayload.resume = await uploadImageToCloudinary(sendPayload.resume);
+      const { data } = await JobAxios.post(`/api/v1/applicants`, sendPayload);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const getApplicants = createAsyncThunk(
+  "job/all-applicants",
+  async (
+    sendPayload: { companyId: string; limit: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await JobAxios.get(
+        `api/v1/applicants/${sendPayload.companyId}`
+      );
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

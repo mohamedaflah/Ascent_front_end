@@ -5,14 +5,19 @@ import {
   getUserWithRole,
 } from "@/constants/axiosInstance";
 import { Login, SignupForm, companySignup } from "@/types/AllTypes";
+import { decodeJWT } from "@/util/decodeToken";
+import { generateToken } from "@/util/generateToken";
 import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const signupUser = createAsyncThunk(
   "users/signupuser",
   async (userData: SignupForm, { rejectWithValue }) => {
     try {
+      const signupToken = generateToken({ ...userData, role: "user" });
+      localStorage.setItem("signupToken", signupToken);
       const { data } = await AuthAxios.post("/signup", {
         ...userData,
         role: "user",
@@ -127,7 +132,26 @@ export const loginUser = createAsyncThunk(
 
 export const submitLinks = createAsyncThunk(
   "company/submitLInks",
-  async (links:{website:string,linkedIn:string}) => {
-    links
+  async (links: { website: string; linkedIn: string }) => {
+    links;
+  }
+);
+
+export const resendMail = createAsyncThunk(
+  "users/resend-mail",
+  async (_, { rejectWithValue }) => {
+    try {
+      const sendPayload = decodeJWT(String(localStorage.getItem("signupToken")))
+        .payload as SignupForm;
+      if (!sendPayload.email) {
+        toast.error("Something went wrong");
+        return;
+      }
+      console.log("🚀 ~ sendPayload:", sendPayload);
+      const { data } = await AuthAxios.post(`/resendMail`, sendPayload);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
   }
 );

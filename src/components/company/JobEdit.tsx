@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/shadcn/ui/select";
 import { Textarea } from "@/shadcn/ui/textarea";
-import { format } from "date-fns";
+import { addDays, format, isBefore } from "date-fns";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import {
@@ -67,7 +67,7 @@ const jobformSchema = z.object({
   joblocation: z.string().nonempty("Required"),
   experience: z.number().max(100),
   vacancies: z.number(),
-  responsibilities: z.string().min(5).max(500),
+  responsibilities: z.string().min(5),
   expiry: z.string(),
   salaryrange: salaryRangeSchema,
   qualification: z.array(z.string()),
@@ -150,7 +150,7 @@ export function JobEdit({ jobData }: ChildProp) {
 
   const { categories } = useSelector((state: RootState) => state.category);
   const { loading } = useSelector((state: RootState) => state.job);
-  const submitFirstForm = async(values: z.infer<typeof jobformSchema>) => {
+  const submitFirstForm = async (values: z.infer<typeof jobformSchema>) => {
     console.log(values);
     if (!values.category || values.category == "") {
       toast.error("Please Select category");
@@ -179,7 +179,9 @@ export function JobEdit({ jobData }: ChildProp) {
       closeRef.current?.click();
     }
   };
-
+  const isDateDisabled = (day: Date): boolean => {
+    return isBefore(day, addDays(new Date(), -1));
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="cursor-pointer">
@@ -412,6 +414,7 @@ export function JobEdit({ jobData }: ChildProp) {
                                     onSelect={(date: Date | undefined) =>
                                       form.setValue("expiry", String(date))
                                     }
+                                    disabled={isDateDisabled}
                                     fromYear={1960}
                                     toYear={2030}
                                   />

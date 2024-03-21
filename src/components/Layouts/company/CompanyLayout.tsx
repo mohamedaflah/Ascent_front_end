@@ -78,14 +78,14 @@ function CompanyLayout() {
             <NavLink
               key={item?.id}
               to={item?.link?`${item?.link}/`:"/"}
-              className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
+              className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
-              <item.icon className="text-textPrimary" />{" "}
+              <item.icon className="" />{" "}
               {sideExpand && (
-                <span className="text-textPrimary">
+                <span className="">
                   {item?.label as string}
                 </span>
               )}

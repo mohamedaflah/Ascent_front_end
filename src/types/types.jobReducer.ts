@@ -1,3 +1,4 @@
+import { userType } from "./AllTypes";
 import { Company } from "./oneCompanyType";
 
 export type JobReduerInitial = {
@@ -5,6 +6,7 @@ export type JobReduerInitial = {
   err: boolean | string;
   job: Job | null;
   jobs: Job[] | null;
+  applicants: Applicant[] | null;
 };
 export interface Job {
   jobTitle: string;
@@ -33,8 +35,15 @@ export interface Job {
   completdJobAdd: "first" | "second";
   categoryId?: string;
   expired: boolean;
-  status:boolean
-  company?:Company
+  status: boolean;
+  company?: Company;
+  applicants?: {
+    applicantId: string;
+    appliedDate: Date;
+    hiringstage: string;
+    resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
+  }[];
+  applicantDetails: userType;
 }
 
 export interface JobfirstSchema {
@@ -74,4 +83,42 @@ export interface JobPayload {
   qualification: string[];
   skills: string[];
   companyId?: string;
+}
+
+export interface Applicant {
+  jobTitle?: string;
+  employment?: string;
+  description?: string;
+  category?: string;
+  joblocation?: string;
+  salaryrange?: {
+    status: boolean;
+    from: number;
+    to: number;
+  };
+  vacancies?: {
+    available: number;
+    filled: number;
+  };
+  responsibilities?: string;
+  qualification?: string[];
+  skills?: string[];
+  experience?: string;
+  companyId?: string;
+  _id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  expiry?: Date;
+  completdJobAdd: "first" | "second";
+  categoryId?: string;
+  expired: boolean;
+  status: boolean;
+  company?: Company;
+  applicants?: {
+    applicantId: string;
+    appliedDate: Date;
+    hiringstage: string;
+    resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
+  };
+  applicantDetails: userType;
 }

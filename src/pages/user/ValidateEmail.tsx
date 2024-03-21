@@ -18,7 +18,7 @@ const ValidateEmail = React.memo(() => {
   );
 
   useEffect(() => {
-    alert("first")
+    
     async function verifyUser() {
       try {
         const res = await dispatch(verifyinguser(token as string));

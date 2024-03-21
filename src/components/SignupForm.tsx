@@ -18,6 +18,7 @@ import React, { useRef} from "react";
 import { signupUser } from "@/redux/actions/userActions";
 import { z } from "zod";
 
+
 const signupFormSchema = z
   .object({
     firstname: z
@@ -58,6 +59,7 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
   
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
     await dispatch(signupUser(values))
+    
   }
   const {loading}=useSelector((state:RootState)=>state.userData)
   return (

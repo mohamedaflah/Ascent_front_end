@@ -3,14 +3,19 @@ import { FindJobFilterBar } from "./FindJobFilterBars";
 // import { JobCompanyCard } from "./JobCompanyCard";
 import { AppDispatch, RootState } from "@/redux/store";
 import { JobCompanyCard2 } from "./JobCard2";
-import { Bookmark, MapPin, Sparkles } from "lucide-react";
-import { Button } from "@/shadcn/ui/button";
+import { Bookmark, CaptionsOff, MapPin, Sparkles } from "lucide-react";
+
 import TechnologyIcon from "../custom/TechIcon";
 import { useEffect } from "react";
 import { getSpecificJob } from "@/redux/actions/jobActions";
+import { ApplyJob } from "./ApplyJobModal";
+import { Button } from "@/shadcn/ui/button";
+import toast from "react-hot-toast";
+import { CompleteProfie } from "../users/ProfileCompleteModal";
 
 export function FindJobList() {
   const { jobs, job } = useSelector((state: RootState) => state.job);
+  const { user } = useSelector((state: RootState) => state.userData);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (!job) {
@@ -30,14 +35,13 @@ export function FindJobList() {
           </div>
         </div>
         <div className="w-full mt-3   h-full flex gap-2">
-          <div className=" w-full lg:w-[500px] xl:min-w-[480px] h-full space-y-3 overflow-y-auto ">
+          <div className=" w-full lg:w-[500px] xl:min-w-[480px] h-full space-y-3  ">
             {jobs?.map((value) => (
               <JobCompanyCard2 key={value._id} jobData={value} />
             ))}
           </div>
           <div className="w-full  hidden   xl:block border rounded-[5px]  p-8 overflow-y-auto relative bg-background">
-            
-            <div className="flex w-full justify-between  h-28 sticky top-0 left-0 bg-background z-10 ">
+            <div className="flex w-full justify-between  h-28 bg-background z-10 ">
               <div className="   flex flex-col">
                 <div className="w-full h-10 flex justify-start">
                   <h3 className="maintxt text-xl font-semibold">
@@ -53,10 +57,31 @@ export function FindJobList() {
               </div>
               <div className="flex gap-8 h-16 items-center">
                 <Bookmark className="w-8" />
-                <Button className="rounded-[4px]  min-w-28 text-lg h-12 flex gap-2">
-                  <Sparkles />
-                  Apply
-                </Button>
+                {user ? (
+                  <>
+                    {!job?.expired ? (
+                      <>
+                        {user.profileCompleted ? (
+                          <ApplyJob key={job?._id} />
+                        ) : (
+                          <CompleteProfie/>
+                        )}
+                      </>
+                    ) : (
+                      <div className="min-w-20 h-10 flex justify-center items-center  rounded-3xl px-3   py-2 gap-2 bg-green-700/15">
+                        Application closed <CaptionsOff className="w-5" />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Button
+                    className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 `}
+                    onClick={() => toast.error("Please Login first")}
+                  >
+                    <Sparkles />
+                    Apply
+                  </Button>
+                )}
               </div>
             </div>
             <div>
@@ -120,7 +145,7 @@ export function FindJobList() {
                   <h2 className="maintxt  text-lg mt-1">/mo (Employer est.)</h2>
                 </div>
                 <div className="maintxt flex w-full gap-2 text-lg">
-                  <MapPin /> Calicut
+                  <MapPin /> {job?.joblocation}
                 </div>
               </div>
             </div>

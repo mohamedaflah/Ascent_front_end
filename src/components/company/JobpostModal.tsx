@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/shadcn/ui/select";
 import { Textarea } from "@/shadcn/ui/textarea";
-import { format } from "date-fns";
+import { addDays, format, isBefore } from "date-fns";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import {
@@ -106,7 +106,9 @@ export function JobPost() {
     localStorage.setItem("jobpost", token);
     setIsSecond(true);
   };
-
+  const isDateDisabled = (day: Date): boolean => {
+    return isBefore(day, addDays(new Date(), -1));
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -349,6 +351,7 @@ export function JobPost() {
                                     onSelect={(date: Date | undefined) =>
                                       form.setValue("expiry", String(date))
                                     }
+                                    disabled={isDateDisabled}
                                     fromYear={1960}
                                     toYear={2030}
                                   />

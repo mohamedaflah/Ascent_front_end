@@ -1,4 +1,4 @@
-import { Edit, Flag, Languages, Mail, MapPin, Phone, Plus } from "lucide-react";
+import { CalendarDays, Edit, Flag, Languages, Mail, MapPin, Phone, Plus } from "lucide-react";
 import HeaderPic from "../../assets/Header_Photo.svg";
 export function PublicProfile() {
   return (
@@ -6,7 +6,7 @@ export function PublicProfile() {
       <main
         className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start  `}
       >
-        <div className="h-full w-full  space-y-2 ">
+        <div className="h-full w-full  space-y-3 ">
           <div className="w-full min-h-72  flex flex-col border">
             <div className="h-56 w-full border relative">
               <div className="absolute right-2 top-2 text-white p-3">
@@ -42,7 +42,7 @@ export function PublicProfile() {
                     </div>
                     <div className="text-textPrimary flex gap-2">
                       <div className="ml-2 flex gap-3 uppercase text-green-500 p-2 items-center justify-center border border-green-500 rounded-sm">
-                        <Flag /> Open for oppertunieis
+                        <Flag /> Open for opportunists
                       </div>
                     </div>
                   </div>
@@ -214,6 +214,13 @@ export function PublicProfile() {
                 <h1 className="maintxt ">Phone</h1>
               </div>
               <div className="pl-7 font-semibold">94559399</div>
+            </div>
+            <div className="w-full flex flex-col mt-3 ">
+              <div className="flex gap-2 text-textPrimary">
+                <CalendarDays className="w-5" />
+                <h1 className="maintxt ">Date of birgth</h1>
+              </div>
+              <div className="pl-7 font-semibold">March 25th 2005</div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">

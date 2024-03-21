@@ -5,6 +5,7 @@ import {
   getUser,
   loginUser,
   logoutUser,
+  resendMail,
   signupUser,
   verifyinguser,
 } from "../actions/userActions";
@@ -236,6 +237,23 @@ const userReducer = createSlice({
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
         state.user = null;
+      })
+      // resend mail
+      .addCase(resendMail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(resendMail.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.user = null;
+        state.message = payload.message;
+        toast.success("Link was resneded")
+      })
+      .addCase(resendMail.rejected, (state, { payload }) => {
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.user = null;
+        state.loading = false;
       });
   },
 });

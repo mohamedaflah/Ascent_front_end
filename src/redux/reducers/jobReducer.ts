@@ -2,8 +2,10 @@ import { Job, JobReduerInitial } from "@/types/types.jobReducer";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addJob,
+  applyJob,
   deleteJob,
   getAllJobs,
+  getApplicants,
   getJobWithCompany,
   getSpecificJob,
   updateJob,
@@ -16,6 +18,7 @@ const initialState: JobReduerInitial = {
   err: false,
   job: null,
   jobs: null,
+  applicants: null,
 };
 const jobReducer = createSlice({
   name: "jobs",
@@ -64,12 +67,6 @@ const jobReducer = createSlice({
       .addCase(updateJob.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.err = false;
-        // const categories = state.categories?.map((category: Category) => {
-        //   if (category._id === updatedCategoryData._id) {
-        //     return { ...category, ...updatedCategoryData };
-        //   }
-        //   return category;
-        // });
         const jobs = state.jobs?.map((job: Job) => {
           if (job._id === payload.id) {
             return { ...job, ...payload.job };
@@ -136,6 +133,43 @@ const jobReducer = createSlice({
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         state.job = null;
+        state.loading = false;
+        toast.error(state.err);
+      })
+      .addCase(applyJob.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(applyJob.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        const jobs = state.jobs?.map((job: Job) => {
+          if (job._id === payload.id) {
+            return { ...job, ...payload.job };
+          }
+          return job;
+        });
+        state.jobs = jobs as Job[] | null;
+        state.err = false;
+      })
+      .addCase(applyJob.rejected, (state, { payload }) => {
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.jobs = null;
+        state.loading = false;
+        toast.error(state.err);
+      })
+      .addCase(getApplicants.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getApplicants.fulfilled, (state, { payload }) => {
+        state.applicants = payload.applicants;
+        state.err = false;
+        state.loading = false;
+      })
+      .addCase(getApplicants.rejected, (state, { payload }) => {
+        state.applicants = null;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
         state.loading = false;
         toast.error(state.err);
       });

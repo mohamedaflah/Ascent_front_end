@@ -14,9 +14,10 @@ import {
 import { Button } from "@/shadcn/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+// import { useSearchParams } from "react-router-dom";
 
 export function FindbJobHero() {
-  const {user}=useSelector((state:RootState)=>state.userData)
+  const { user } = useSelector((state: RootState) => state.userData);
   return (
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">
       <div className="w-full h-52  flex justify-center items-end">
@@ -37,13 +38,18 @@ export function FindbJobHero() {
         </p>
       </div>
       <div className="w-full flex justify-center items-center flex-col">
-        <div className={`${!user ? "w-[90%] md:w-[85%]" : "w-[95%] md:w-[95%]"} h-28 bg-white dark:bg-backgroundAccent rounded-sm flex justify-center items-center`}>
+        <div
+          className={`${
+            !user ? "w-[90%] md:w-[85%]" : "w-[95%] md:w-[95%]"
+          } h-28 bg-white dark:bg-backgroundAccent rounded-sm flex justify-center items-center`}
+        >
           <div className="md:h-16 w-[95%]  grid grid-cols-2 gap-5 ">
             <div className="border-r  flex justify-start items-end ">
               <div className="h-10 w-[80%]  flex justify-between items-center">
                 <SearchIcon />
                 <Input
                   type="search"
+                  // onChange={handleSearchChange}
                   placeholder="job title or keyword"
                   className="bg-transparent outline-none  focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300"
                 />
@@ -53,7 +59,9 @@ export function FindbJobHero() {
               <div className="h-10 w-[80%]  flex justify-between items-center">
                 <MapPin />
 
-                <Select>
+                <Select
+                //  onValueChange={handleLocationChange}
+                >
                   <SelectTrigger className="w-full bg-transparent   outline-none  focus-visible:ring-0 focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300">
                     <SelectValue placeholder="Kolkata,India" />
                   </SelectTrigger>
@@ -70,16 +78,19 @@ export function FindbJobHero() {
               </div>
               <div>
                 <Button className="rounded-none md:w-28 font-semibold ">
-                    Search
+                  Search
                 </Button>
               </div>
             </div>
           </div>
         </div>
-        <div className={`${!user ? "w-[90%] md:w-[85%]" : "w-[95%] md:w-[95%]"}  text-textPrimary mt-3`}>
-        <p>Popular : UI Designer, UX Researcher, Android, Admin</p>
+        <div
+          className={`${
+            !user ? "w-[90%] md:w-[85%]" : "w-[95%] md:w-[95%]"
+          }  text-textPrimary mt-3`}
+        >
+          <p>Popular : UI Designer, UX Researcher, Android, Admin</p>
         </div>
-       
       </div>
     </section>
   );
