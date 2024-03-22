@@ -46,7 +46,6 @@ const categoryReducer = createSlice({
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
-        state.categories = null;
       })
       //   update category
       .addCase(updateCategory.pending, (state) => {
