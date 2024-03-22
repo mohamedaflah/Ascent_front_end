@@ -1,6 +1,24 @@
-import { CalendarDays, Edit, Flag, Languages, Mail, MapPin, Phone, Plus } from "lucide-react";
+import {
+  CalendarDays,
+  Edit,
+  Flag,
+  Languages,
+  Mail,
+  MapPin,
+  Phone,
+  Plus,
+} from "lucide-react";
 import HeaderPic from "../../assets/Header_Photo.svg";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
+import { User } from "@/types/types.user";
+import { format } from "date-fns";
+import { AdditionalDetailsEdit } from "@/components/users/AdditionalDetailEdit";
 export function PublicProfile() {
+  const { user }: { user: User } = useSelector(
+    (state: RootState) => state.userData
+  );
   return (
     <main className="w-full ">
       <main
@@ -32,13 +50,33 @@ export function PublicProfile() {
                 <div className="w-[70%] lg:w-[82%] h-full py-3 flex justify-between">
                   <div className="w-[60%] h-full  flex flex-col gap-3">
                     <div>
-                      <h1 className="maintxt text-3xl font-bold">Mohamemd Aflah</h1>
+                      <h1 className="maintxt text-3xl font-bold">
+                        {user?.firstname && user.lastname ? (
+                          <>
+                            {user?.firstname} {user?.lastname}
+                          </>
+                        ) : (
+                          "Not provided"
+                        )}
+                      </h1>
                     </div>
                     <div className="text-textPrimary ">
-                      <p>Product Designer at Twitter</p>
+                      <p>
+                        {user?.currengDesignation ? (
+                          <>{user?.currengDesignation}</>
+                        ) : (
+                          "Not provided"
+                        )}
+                      </p>
                     </div>
                     <div className="text-textPrimary flex gap-2">
-                      <MapPin /> India,Kolkata
+                      {user?.location ? (
+                        <><MapPin /> {user?.location}</>
+                      ) : (
+                        <>
+                           location is Not provided
+                        </>
+                      )}
                     </div>
                     <div className="text-textPrimary flex gap-2">
                       <div className="ml-2 flex gap-3 uppercase text-green-500 p-2 items-center justify-center border border-green-500 rounded-sm">
@@ -196,17 +234,17 @@ export function PublicProfile() {
         <div className="hidden md:flex w-1/2 min-h-60    flex-col gap-3 lg:sticky top-0 left-0">
           <div className="w-full p-3 border">
             <div className="w-full flex justify-between">
-              <h1 className="maintxt text-xl font-semibold">Additional Details</h1>
-              <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                <Edit className="w-5" />
-              </div>
+              <h1 className="maintxt text-xl font-semibold">
+                Additional Details
+              </h1>
+              <AdditionalDetailsEdit/>
             </div>
             <div className="w-full flex flex-col">
-              <div className="flex gap-2 text-textPrimary" >
+              <div className="flex gap-2 text-textPrimary">
                 <Mail className="w-5" />
                 <h1 className="maintxt ">Email</h1>
               </div>
-              <div className="pl-7 font-semibold">aba@gmail.com</div>
+              <div className="pl-7 font-semibold">{user?.email}</div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
@@ -220,7 +258,13 @@ export function PublicProfile() {
                 <CalendarDays className="w-5" />
                 <h1 className="maintxt ">Date of birgth</h1>
               </div>
-              <div className="pl-7 font-semibold">March 25th 2005</div>
+              <div className="pl-7 font-semibold">
+              {user?.dateofbirth ? (
+                  <>{format(new Date(String(user?.dateofbirth)),"PPP")}</>
+                ) : (
+                  "Not provided"
+                )}
+              </div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
@@ -228,7 +272,8 @@ export function PublicProfile() {
                 <h1 className="maintxt ">Phone</h1>
               </div>
               <div className="pl-7 font-semibold">
-                <span>English</span>{" , "} <span>French</span>
+                <span>English</span>
+                {" , "} <span>French</span>
               </div>
             </div>
           </div>
@@ -240,18 +285,24 @@ export function PublicProfile() {
               </div>
             </div>
             <div className="w-full flex flex-col">
-              <div className="flex gap-2 text-textPrimary" >
+              <div className="flex gap-2 text-textPrimary">
                 <Mail className="w-5" />
                 <h1 className="maintxt ">Email</h1>
               </div>
-              <div className="pl-7 font-semibold">aba@gmail.com</div>
+              <div className="pl-7 font-semibold">{user?.email}</div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
                 <Phone className="w-5" />
                 <h1 className="maintxt ">Phone</h1>
               </div>
-              <div className="pl-7 font-semibold">94559399</div>
+              <div className="pl-7 font-semibold">
+                {user?.phonenumber ? (
+                  <>{user?.phonenumber}</>
+                ) : (
+                  "Not provided"
+                )}
+              </div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
@@ -259,7 +310,8 @@ export function PublicProfile() {
                 <h1 className="maintxt ">Phone</h1>
               </div>
               <div className="pl-7 font-semibold">
-                <span>English</span>{" , "} <span>French</span>
+                <span>English</span>
+                {" , "} <span>French</span>
               </div>
             </div>
           </div>

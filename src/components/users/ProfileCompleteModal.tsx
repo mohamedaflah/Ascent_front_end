@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   AlertDialog,
- 
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -28,22 +27,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Sparkles, X } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { z } from "zod";
 import { TechBox } from "../custom/TechBox";
 import { useRef, useState } from "react";
 import { LoaderSubmitButton } from "../custom/LoaderButton";
+import toast from "react-hot-toast";
+import { updateProfileUser } from "@/redux/actions/userActions";
+
 
 const profileSchema = z.object({
   phonenumber: z.string().min(10).max(10),
-  dateofbirth: z.string(),
+  dateofbirth: z.string().nonempty(),
   skills: z.array(z.string()),
   location: z.string(),
-  currengDesignation: z.string(),
+  currengDesignation: z.string().nonempty(),
 });
-export function CompleteProfie() {
+export function CompleteProfile() {
   const { job } = useSelector((state: RootState) => state.job);
-  const { user } = useSelector((state: RootState) => state.userData);
+  const { user, loading } = useSelector((state: RootState) => state.userData);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [stack, techStackValue] = useState<string>("");
@@ -70,6 +72,20 @@ export function CompleteProfie() {
     newtechStack.splice(index, 1); // Remove the element at the specified index
     form.setValue("skills", newtechStack);
   }
+  const dispatch: AppDispatch = useDispatch();
+  async function profileCompletionHandleSubmit(
+    values: z.infer<typeof profileSchema>
+  ) {
+    if (values.skills.length <= 0) toast.error("Please add atleast one skill");
+    values;
+    const res = await dispatch(
+      updateProfileUser({ userId: user._id as string, sendData: {...values,dateofbirth:new Date(values.dateofbirth)} })
+    );
+    if (res.type.endsWith("fulfilled")) {
+      closeRef.current?.click();
+    }
+  }
+  const closeRef = useRef<HTMLButtonElement>(null);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -97,7 +113,10 @@ export function CompleteProfie() {
           <AlertDialogDescription className=" w-full">
             <div className="w-full h-full">
               <Form {...form}>
-                <form className="w-full min-h-full flex flex-col gap-3">
+                <form
+                  className="w-full min-h-full flex flex-col gap-3"
+                  onSubmit={form.handleSubmit(profileCompletionHandleSubmit)}
+                >
                   <div className="w-full min-h-10 grid grid-cols-2 gap-3">
                     <FormField
                       control={form.control}
@@ -110,7 +129,7 @@ export function CompleteProfie() {
                           <FormControl>
                             <Input
                               type="text"
-                              placeholder="#92034"
+                              placeholder="1234567890"
                               {...field}
                             />
                           </FormControl>
@@ -218,7 +237,7 @@ export function CompleteProfie() {
                             </div>
                           </FormControl>
                           <FormDescription>
-                            This is your company using tech stack.
+                            This is your skills inluding technichal
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -270,8 +289,8 @@ export function CompleteProfie() {
                     />
                   </div>
                   <div className="w-full justify-end flex">
-                    <LoaderSubmitButton loading={false}>
-                        Submit
+                    <LoaderSubmitButton loading={loading}>
+                      Submit
                     </LoaderSubmitButton>
                   </div>
                 </form>
@@ -279,9 +298,7 @@ export function CompleteProfie() {
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-        
-        </AlertDialogFooter>
+        <AlertDialogFooter></AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );

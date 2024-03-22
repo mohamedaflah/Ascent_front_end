@@ -1,12 +1,14 @@
 import { ErrorPayload, UserReducerInitial } from "@/types/AllTypes";
 import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 import {
+  chanagePassword,
   companySignupSubmit,
   getUser,
   loginUser,
   logoutUser,
   resendMail,
   signupUser,
+  updateProfileUser,
   verifyinguser,
 } from "../actions/userActions";
 import toast from "react-hot-toast";
@@ -247,13 +249,45 @@ const userReducer = createSlice({
         state.err = false;
         state.user = null;
         state.message = payload.message;
-        toast.success("Link was resneded")
+        toast.success("Link was resneded");
       })
       .addCase(resendMail.rejected, (state, { payload }) => {
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         state.user = null;
         state.loading = false;
+      })
+      .addCase(updateProfileUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateProfileUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.user = payload.user;
+        state.role = payload.role;
+        if (payload.role === "company") {
+          state.status = payload.approvelStatus;
+        }
+      })
+      .addCase(updateProfileUser.rejected, (state, { payload }) => {
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.loading = false;
+        toast.error(state.err);
+      })
+      // change pass
+      .addCase(chanagePassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(chanagePassword.fulfilled, (state) => {
+        state.loading = false;
+        toast.success("password updated");
+      })
+      .addCase(chanagePassword.rejected, (state, { payload }) => {
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        state.loading = false;
+        toast.error(state.err);
       });
   },
 });

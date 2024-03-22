@@ -11,7 +11,7 @@ import { getSpecificJob } from "@/redux/actions/jobActions";
 import { ApplyJob } from "./ApplyJobModal";
 import { Button } from "@/shadcn/ui/button";
 import toast from "react-hot-toast";
-import { CompleteProfie } from "../users/ProfileCompleteModal";
+import {  CompleteProfile } from "../users/ProfileCompleteModal";
 
 export function FindJobList() {
   const { jobs, job } = useSelector((state: RootState) => state.job);
@@ -22,6 +22,7 @@ export function FindJobList() {
       dispatch(getSpecificJob(jobs?.[0]._id ?? ""));
     }
   }, [dispatch, job, jobs]);
+  
   return (
     <main className="w-full h-full flex ">
       <FindJobFilterBar />
@@ -64,7 +65,7 @@ export function FindJobList() {
                         {user.profileCompleted ? (
                           <ApplyJob key={job?._id} />
                         ) : (
-                          <CompleteProfie/>
+                          <CompleteProfile/>
                         )}
                       </>
                     ) : (

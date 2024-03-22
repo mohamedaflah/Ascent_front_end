@@ -71,11 +71,12 @@ export function ApplyJob() {
   const { job, loading } = useSelector((state: RootState) => state.job);
   const { user } = useSelector((state: RootState) => state.userData);
   const [jobApplied, setJobApplied] = useState(false);
+  const openRef=useRef<HTMLButtonElement>(null)
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 ${
+        <Button ref={openRef}
+          className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 relative ${
             (job?.applicants?.find(
               (value) => value?.applicantId === user?._id
             ) ||
@@ -90,6 +91,10 @@ export function ApplyJob() {
           jobApplied
             ? "Applied"
             : "Apply"}
+            {/* <div className="min-w-28 px-4 h-10 rounded-2xl bg-green-500/25 flex justify-center items-center gap-3">
+                                Application submitted
+                                <span className="block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                              </div> */}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[35%]">
@@ -151,7 +156,7 @@ export function ApplyJob() {
                                 className="h-[90px]"
                                 alt=""
                               />
-                              <span>Click and Upload Certificate</span>
+                              <span>Click and Upload Resume</span>
                             </>
                           )}
                         </label>

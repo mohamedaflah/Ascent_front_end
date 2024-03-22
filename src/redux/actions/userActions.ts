@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AuthAxios,
+  UserAxios,
   // UserAxios,
   getUserWithRole,
 } from "@/constants/axiosInstance";
@@ -149,6 +150,47 @@ export const resendMail = createAsyncThunk(
       }
       console.log("🚀 ~ sendPayload:", sendPayload);
       const { data } = await AuthAxios.post(`/resendMail`, sendPayload);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const updateProfileUser = createAsyncThunk(
+  "users/update-profile",
+  async (
+    sendPayload: {
+      userId: string;
+      sendData: {
+        phonenumber: string;
+        skills: string[];
+        currengDesignation: string;
+        dateofbirth: Date;
+      };
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await UserAxios.patch(
+        `/user/update-profile/${sendPayload.userId}`,
+        sendPayload.sendData
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const chanagePassword = createAsyncThunk(
+  "users/change-password",
+  async (
+    sendData: { email: string; currentpass: string; newpass: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await AuthAxios.put(`/change-pass`, sendData);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
