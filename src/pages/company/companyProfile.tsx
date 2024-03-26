@@ -14,18 +14,18 @@ export function CompanyProfile() {
   return (
     <main className="w-full h-screen ">
       <section className="  mx-auto w-[95%] space-y-4">
-        <div className="h-56 w-full   relative grid grid-cols-8 gap-4">
+        <div className="h-56 w-full  flex relative ">
           <div className="absolute -left-2 top-5 bg-background rounded-md">
             <EditBtn />
           </div>
-          <div className="h-full w-64   flex items-center justify-start col-span-1 ">
+          <div className="h-full w-64   flex items-center justify-start ">
             <img
               src={user.icon}
               className="w-[70%] h-[70%] object-cover rounded-xl"
               alt=""
             />
           </div>
-          <div className="h-full w-full  flex items-center col-span-7 ">
+          <div className="h-full w-full  flex items-center">
             <div className="w-full h-[70%] flex flex-col justify-between">
               <div className="w-full flex justify-between">
                 <div className="flex flex-col gap-3">

@@ -25,7 +25,8 @@ import {
   FaNode,
   FaCogs,
   FaCode,
-  FaWindows, // In case you want a different NodeJs icon
+  FaWindows,
+  FaFigma, // In case you want a different NodeJs icon
 } from "react-icons/fa";
 
 interface TechnologyIconProps {
@@ -60,6 +61,10 @@ const technologyIcons: Record<string, React.ReactElement> = {
   Csharp: <FaCode className="text-[#178600]" />, // Using a common representation for C#
   dotnet: <FaWindows className="text-[#512BD4]" />, // .NET often associated with Windows, using Windows brand color
   cpp: <FaCogs className="text-[#00599C]" />,
+  figma: <FaFigma className="text-[#F24E1E]" />,
+  excel: <FaMicrosoft className="text-[#217346]" />, // Using a generic Microsoft icon, adjust color as needed
+  libreoffice: <FaMicrosoft className="text-[#18A303]" />, // Using a generic Microsoft icon, adjust color to distinguish
+  word: <FaMicrosoft className="text-[#2B579A]" />
 };
 
 const TechnologyIcon: React.FC<TechnologyIconProps> = ({ technology }) => {
