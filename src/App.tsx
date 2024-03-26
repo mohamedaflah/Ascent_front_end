@@ -25,6 +25,10 @@ import { MyProfile } from "./pages/user/Profile";
 import { ProfileLayout } from "./pages/user/ProfileLayout";
 import { PublicProfile } from "./pages/user/PublicProfile";
 import { CompanyProfile } from "./pages/company/companyProfile";
+import { ApplicantDetail } from "./pages/company/ApplicantProfile";
+import { ApplicantLayout } from "./pages/company/ApplicantLayout/ApplicantLayout";
+import { ApplicantResume } from "./pages/company/ApplicantResume";
+import { ApplicantHiringStage } from "./pages/company/ApplicanHiringStage";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -102,10 +106,10 @@ function App() {
             element={user ? <Navigate to={"/"} /> : <SetPassword />}
           />
           <Route path="findjobs" element={<FindJobs />} />
-          <Route path="settings/:id" element={<ProfileLayout/>}>
-            <Route index element={<MyProfile/>}/>
+          <Route path="settings/:id" element={<ProfileLayout />}>
+            <Route index element={<MyProfile />} />
           </Route>
-          <Route path="myprofile/:id" element={<PublicProfile/>}/>
+          <Route path="myprofile/:id" element={<PublicProfile />} />
         </Route>
 
         {role === "admin" && (
@@ -122,12 +126,20 @@ function App() {
             <Route index element={<CompanyDashbord />} />
             <Route path="jobs" element={<JobListing />} />
             <Route path="applicants" element={<Applicants />} />
-            <Route path="companyprofile" element={<CompanyProfile/>}/>
+            <Route path="companyprofile" element={<CompanyProfile />} />
+            <Route
+              path="applicantdetail/:applicantId"
+              element={<ApplicantLayout />}
+            >
+              <Route index element={<ApplicantDetail />} />
+              <Route path="resume" element={<ApplicantResume />} />
+              <Route path="hiringstage" element={<ApplicantHiringStage/>}/>
+            </Route>
           </Route>
         )}
 
         {/* <Route path="admin/*" element={<Navigate to="/" />} /> */}
-        <Route path="company/*" element={<Navigate to="/" />} />
+        {/* <Route path="company/*" element={<Navigate to="/" />} /> */}
       </Routes>
     </main>
   );

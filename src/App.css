@@ -57,3 +57,12 @@
 .header.active{
   border-bottom:1px solid #4786fa;
 }
+.applicant.active{
+  border-bottom:1px solid #4786fa;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  padding: 2px;
+  color: unset;
+}
