@@ -22,11 +22,11 @@ export function FindbJobHero() {
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">
       <div className="w-full h-52  flex justify-center items-end">
         <div className="flex flex-col ">
-          <div className="maintxt text-center text-6xl md:text-4xl lg:text-7xl font-bold leading-tight md:text-left">
+          <div className="maintxt text-center text-6xl md:text-4xl lg:text-6xl font-bold leading-tight md:text-left">
             Find your <span className="text-primary">dream job</span>
           </div>
           <div className=" flex justify-end  ">
-            <img src={primaryLine} alt="" className="w-80" />
+            <img src={primaryLine} alt="" className="w-64" />
           </div>
         </div>
       </div>

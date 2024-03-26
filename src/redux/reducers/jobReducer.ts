@@ -7,6 +7,7 @@ import {
   getAllJobs,
   getApplicants,
   getJobWithCompany,
+  getOneApplicant,
   getSpecificJob,
   updateJob,
 } from "../actions/jobActions";
@@ -172,6 +173,19 @@ const jobReducer = createSlice({
         state.err = errorPayload.message;
         state.loading = false;
         toast.error(state.err);
+      })
+      .addCase(getOneApplicant.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getOneApplicant.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.job = payload.applicant;
+        state.err = false;
+      })
+      .addCase(getOneApplicant.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
       });
   },
 });

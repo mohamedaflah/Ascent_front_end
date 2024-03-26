@@ -8,6 +8,10 @@
   width: 3px;
   border-radius: 5px;
 }
+*{
+  font-size: 99%;
+  
+}
 .company_text {
   font-family: "Overlock", sans-serif;
   font-weight: 400;
@@ -51,7 +55,7 @@
 }
 .active {
   background-color: #4786fa;
-  color: #ffffff !important;
+  color: #ffffff ;
 }
 
 .header.active{

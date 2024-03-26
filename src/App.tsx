@@ -128,12 +128,12 @@ function App() {
             <Route path="applicants" element={<Applicants />} />
             <Route path="companyprofile" element={<CompanyProfile />} />
             <Route
-              path="applicantdetail/:applicantId"
+              path="applicantdetail/:jobId/:applicantId"
               element={<ApplicantLayout />}
             >
-              <Route index element={<ApplicantDetail />} />
+              <Route path="profile" element={<ApplicantDetail />} />
               <Route path="resume" element={<ApplicantResume />} />
-              <Route path="hiringstage" element={<ApplicantHiringStage/>}/>
+              <Route path="hiringstage" element={<ApplicantHiringStage />} />
             </Route>
           </Route>
         )}

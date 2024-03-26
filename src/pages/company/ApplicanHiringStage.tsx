@@ -1,3 +1,5 @@
+import { applicationStatus } from "@/constants/applicationStatus";
+import { RootState } from "@/redux/store";
 import {
   Select,
   SelectContent,
@@ -7,46 +9,90 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shadcn/ui/select";
+import { Applicant, Job } from "@/types/types.jobReducer";
 import { Pen, Plus } from "lucide-react";
+import { useSelector } from "react-redux";
+import { ShortListModal } from "./Applications/ShortlistModal";
+import { useRef } from "react";
+import { SelectingModal } from "./Applications/SelectingModal";
+import { InterviewModal } from "./Applications/IntreviewModal";
+import { RejectModal } from "./Applications/RejectModal";
 
 export function ApplicantHiringStage() {
+  const { job }: { job: Applicant } = useSelector(
+    (state: RootState) => state.job
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) as unknown as Job | Applicant | any;
+
+  const shortListBtnRef = useRef<HTMLButtonElement>(null);
+  const selectButtonRef = useRef<HTMLButtonElement>(null);
+  const interviewButton = useRef<HTMLButtonElement>(null);
+  const rejectedwButton = useRef<HTMLButtonElement>(null);
+  const handleStatusChange = (
+    value: "Shortlisted" | "Interview" | "Rejected" | "Selected"
+  ) => {
+    if (value === "Shortlisted") {
+      shortListBtnRef.current?.click();
+    } else if (value == "Selected") {
+      selectButtonRef.current?.click();
+    } else if (value == "Interview") {
+      interviewButton.current?.click();
+    } else if (value === "Rejected") {
+      rejectedwButton.current?.click();
+    }
+  };
   return (
     <main className="w-full h-full">
+      <div className="hidden">
+        <ShortListModal ref={shortListBtnRef} />
+        <SelectingModal ref={selectButtonRef} />
+        <InterviewModal ref={interviewButton} />
+        <RejectModal ref={rejectedwButton} />
+      </div>
       <div className="maintxt w-full min-h-56 p-1 space-y-2 ">
         <div className="flex justify-between ">
           <h1 className="text-2xl font-semibold">Current stage</h1>
-          <Select>
-            <SelectTrigger className="w-[100px] p-2 rounded-sm text-primary font-semibold">
-              <SelectValue placeholder="Rating" />
+          <Select onValueChange={handleStatusChange}>
+            <SelectTrigger className="w-[170px] p-2 rounded-sm ">
+              <SelectValue placeholder="Selecte Hiring stage" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
+                <SelectLabel className="text-primary bg-primary/5 m-3">
+                  Stages
+                </SelectLabel>
+
+                <SelectItem className="cursor-pointer" value="Shortlisted">
+                  Shortlisted
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="Interview">
+                  Interview
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="Rejected">
+                  Rejected
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="Selected">
+                  Selected
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
         <div className="w-full h-12 flex gap-2 ">
-          <div className="w-28 h-full flex items-center justify-center bg-primary/10 ">
-            In review
-          </div>
-          <div className="min-w-28 h-full flex items-center justify-center bg-primary/10 ">
-            Shortlisted
-          </div>
-          <div className="min-w-28 h-full flex items-center justify-center bg-primary/10 ">
-            Interview
-          </div>
-          <div className="min-w-28 h-full flex items-center justify-center bg-primary/10 ">
-            Hired
-          </div>
-          <div className="min-w-28 h-full flex items-center justify-center bg-primary/10 ">
-            Rejected
-          </div>
+          {applicationStatus.map((value, index) => (
+            <div
+              key={index}
+              className={`w-28 h-10 flex items-center justify-center  ${
+                index !== 0 && "-skew-x-12"
+              } ${
+                value === job?.applicants?.hiringstage
+                  ? "bg-primary text-white"
+                  : "bg-primary/10"
+              } `}
+            >
+              {value}
+            </div>
+          ))}
         </div>
         <div className="w-full">
           <div className="w-full mt-2">

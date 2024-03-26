@@ -1,8 +1,26 @@
 import { IconLeft } from "react-day-picker";
 import HeaderPic from "../../../assets/Header_Photo.svg";
 import { Mail, MessageSquareText, Phone, Star } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getOneApplicant } from "@/redux/actions/jobActions";
+import TimeAgo from "@/components/custom/LiveTime";
+import { Applicant, Job } from "@/types/types.jobReducer";
 export function ApplicantLayout() {
+  const { jobId, applicantId } = useParams();
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getOneApplicant({
+        jobId: String(jobId),
+        applicantId: String(applicantId),
+      })
+    );
+  }, [applicantId, dispatch, jobId]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { job }:{job:Applicant}=useSelector((state: RootState) => state.job) as unknown as Job | Applicant|any
   return (
     <main className="w-full min-h-screen ">
       <section className="mx-auto w-[95%] h-full  ">
@@ -18,17 +36,26 @@ export function ApplicantLayout() {
               <div className="flex min-h-28 gap-4 ">
                 <div className="w-28 h-28 rounded-full ">
                   <img
-                    src={HeaderPic}
+                    src={
+                      job?.applicantDetails.icon
+                        ? job?.applicantDetails.icon
+                        : HeaderPic
+                    }
                     className="h-full w-full object-cover rounded-full"
                     alt=""
                   />
                 </div>
                 <div className="h-28 flex flex-col justify-between py-1">
                   <div>
-                    <h1 className="maintxt text-3xl font-semibold">Aflu</h1>
+                    <h1 className="maintxt text-3xl font-semibold">
+                      {job?.applicantDetails.firstname}{" "}
+                      {job?.applicantDetails.lastname}
+                    </h1>
                   </div>
                   <div>
-                    <h2 className="text-textPrimary ">Product designer</h2>
+                    <h2 className="text-textPrimary ">
+                      {job?.applicantDetails.currengDesignation}
+                    </h2>
                   </div>
                   <div className="flex gap-2">
                     <Star className="w-5" /> 4.0
@@ -38,18 +65,20 @@ export function ApplicantLayout() {
               <div className="w-full min-h-28 p-3 bg-primary/5 rounded-md ">
                 <div className="h-9 w-full border-b flex justify-between">
                   <span>Applied jobs</span>
-                  <span className="text-textPrimary">2 days ago</span>
+                  <span className="text-textPrimary">
+                    {job?.applicants && job.applicants.appliedDate && (
+                      <TimeAgo timestamp={job?.applicants.appliedDate} />
+                    )}
+                  </span>
                 </div>
                 <div className="w-full flex flex-col pt-2">
                   <div>
-                    <h2 className="text-lg font-semibold">
-                      Product development
-                    </h2>
+                    <h2 className="text-lg font-semibold">{job?.jobTitle}</h2>
                   </div>
                   <div className="flex text-textPrimar items-center gap-3">
-                    <h4>Marketing</h4>
+                    <h4>{job?.category}</h4>
                     <span className="w-[4px] h-[4px] block bg-textPrimary rounded-full"></span>
-                    <h4>Full time</h4>
+                    <h4>{job?.employment}</h4>
                   </div>
                 </div>
               </div>
@@ -88,27 +117,43 @@ export function ApplicantLayout() {
                     <Mail className="w-5" />
                     Email
                   </div>
-                  <div className="pl-7">aadf@gmail.com</div>
+                  <div className="pl-7">{job?.applicantDetails.email}</div>
                 </div>
                 <div className="w-full flex-col ">
                   <div className="w-full flex gap-2">
                     <Phone className="w-5" />
                     Phone
                   </div>
-                  <div className="pl-7">aadf@gmail.com</div>
+                  <div className="pl-7">
+                    {job?.applicantDetails?.phonenumber}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="w-full h-full border ">
             <div className="w-full h-16 border-b flex py-3 px-5 items-center gap-5">
-                <NavLink to={'/company/applicantdetail/d'} className={`applicant text-textPrimary font-semibold`}>Applicant profile</NavLink>
-                <NavLink to={'resume'} className={`applicant text-textPrimary font-semibold`}>Resume</NavLink>
-                <NavLink to={'hiringstage'} className={`applicant text-textPrimary font-semibold`}>Hiring stage</NavLink>
-                <NavLink to={'/'} className={`applicant text-textPrimary font-semibold`}>interview Schedule</NavLink>
+              <NavLink
+                to={"profile"}
+                className={`applicant text-textPrimary font-semibold`}
+              >
+                Applicant profile
+              </NavLink>
+              <NavLink
+                to={"resume"}
+                className={`applicant text-textPrimary font-semibold`}
+              >
+                Resume
+              </NavLink>
+              <NavLink
+                to={"hiringstage"}
+                className={`applicant text-textPrimary font-semibold`}
+              >
+                Hiring stage
+              </NavLink>
             </div>
             <div className="p-4">
-                <Outlet/>
+              <Outlet />
             </div>
           </div>
         </div>

@@ -1,4 +1,11 @@
+import TechnologyIcon from "@/components/custom/TechIcon";
+import { RootState } from "@/redux/store";
+import { calculateAge } from "@/util/calculateage";
+import { format } from "date-fns";
+import { useSelector } from "react-redux";
+
 export function ApplicantDetail() {
+  const { job } = useSelector((state: RootState) => state.job);
   return (
     <main className="w-full h-full ">
       <div className="w-full h-10 maintxt">
@@ -8,7 +15,9 @@ export function ApplicantDetail() {
         <div className="grid grid-cols-2">
           <div className="flex flex-col">
             <span className="text-textPrimary text-lg">Full name</span>
-            <h2 className="text-lg">aflu k</h2>
+            <h2 className="text-lg">
+              {job?.applicantDetails.firstname} {job?.applicantDetails.lastname}
+            </h2>
           </div>
           <div className="flex flex-col">
             <span className="text-textPrimary text-lg">Gender</span>
@@ -19,8 +28,28 @@ export function ApplicantDetail() {
           <div className="flex flex-col">
             <span className="text-textPrimary text-lg">Date of Birth</span>
             <h2 className="text-lg">
-              Mar 24 2003
-              <span className="text-sm ml-1 text-textPrimary">(26 y.0)</span>
+              {job &&
+                job.applicantDetails &&
+                job.applicantDetails.dateofbirth && (
+                  <>
+                    {format(
+                      job?.applicantDetails.dateofbirth as
+                        | string
+                        | number
+                        | Date,
+                      "PPP"
+                    )}
+                  </>
+                )}
+              <span className="text-sm ml-1 text-textPrimary">
+                (
+                {job &&
+                  job.applicantDetails &&
+                  job.applicantDetails.dateofbirth && (
+                    <>{calculateAge(job.applicantDetails.dateofbirth)}</>
+                  )}
+                y.0)
+              </span>
             </h2>
           </div>
           <div className="flex flex-col">
@@ -57,7 +86,9 @@ export function ApplicantDetail() {
           <div className="grid grid-cols-2">
             <div className="flex flex-col">
               <span className="text-textPrimary text">Current designation</span>
-              <h2 className="font-semibold">Product designer</h2>
+              <h2 className="font-semibold">
+                {job?.applicantDetails.currengDesignation}r
+              </h2>
             </div>
             <div className="flex flex-col">
               <span className="text-textPrimary text">Experience in year</span>
@@ -74,9 +105,11 @@ export function ApplicantDetail() {
             <div className="flex flex-col">
               <span className="text-textPrimary text">Skill set</span>
               <div className="w-full min-h-10 flex flex-wrap mt-1 gap-2">
-                <div className="h-10 min-w-28 rounded-md flex items-center justify-center bg-primary/10 text-textPrimary px-4">
-                  communication
-                </div>
+                {job?.applicantDetails.skills?.map((value, index) => (
+                  <div key={index} className="h-10 rounded-md flex items-center justify-center  text-textPrimary px-3 border gap-2">
+                    <TechnologyIcon technology={value}/>{value} 
+                  </div>
+                ))}
               </div>
             </div>
           </div>

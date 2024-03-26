@@ -1,5 +1,5 @@
-import { userType } from "./AllTypes";
 import { Company } from "./oneCompanyType";
+import { User } from "./types.user";
 
 export type JobReduerInitial = {
   loading: boolean;
@@ -11,8 +11,14 @@ export type JobReduerInitial = {
 export interface ApplicantType {
   applicantId: string;
   appliedDate: Date;
-  hiringstage: string;
-  resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
+  hiringstage:
+    | "Applied"
+    | "Inreview"
+    | "Shortlisted"
+    | "Interview"
+    | "Selected"
+    | "Rejected";
+  resume: string;
 }
 export interface Job {
   jobTitle: string;
@@ -43,10 +49,10 @@ export interface Job {
   expired: boolean;
   status: boolean;
   company?: Company;
-  applicants?: ApplicantType[];
-  applicantDetails: userType;
+  applicants?: ApplicantType[] | ApplicantType;
+  applicantDetails: User;
+  applicant: ApplicantType;
 }
-
 
 export interface JobfirstSchema {
   jobTitle: string;
@@ -122,5 +128,5 @@ export interface Applicant {
     hiringstage: string;
     resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
   };
-  applicantDetails: userType;
+  applicantDetails: User;
 }

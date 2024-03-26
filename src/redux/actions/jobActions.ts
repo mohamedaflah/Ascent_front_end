@@ -114,3 +114,20 @@ export const getApplicants = createAsyncThunk(
     }
   }
 );
+
+export const getOneApplicant = createAsyncThunk(
+  "job/get-oneapplicant",
+  async (
+    sendData: { jobId: string; applicantId: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await JobAxios.get(
+        `api/v1/applicants/${sendData.jobId}/${sendData.applicantId}`
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

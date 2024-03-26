@@ -8,6 +8,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 // import { DataTableRowActions } from "./data-table-row-actions"
 import { Applicant } from "@/types/types.jobReducer";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<Applicant>[] = [
   {
@@ -47,12 +48,12 @@ export const columns: ColumnDef<Applicant>[] = [
   },
   {
     accessorKey: "email",
-    accessorFn:(row)=>row.applicantDetails.email,
+    accessorFn: (row) => row.applicantDetails.email,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Applicant email" />
     ),
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row)
+      console.log("🚀 ~ row:", row);
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
@@ -64,7 +65,7 @@ export const columns: ColumnDef<Applicant>[] = [
   },
   {
     accessorKey: "appliedDate",
-    accessorFn:(row)=>row?.applicants?.appliedDate,
+    accessorFn: (row) => row?.applicants?.appliedDate,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Applied at" />
     ),
@@ -80,7 +81,7 @@ export const columns: ColumnDef<Applicant>[] = [
   },
   {
     accessorKey: "hiringstage",
-    accessorFn:(row)=>row?.applicants?.hiringstage,
+    accessorFn: (row) => row?.applicants?.hiringstage,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Hiring stage" />
     ),
@@ -88,7 +89,9 @@ export const columns: ColumnDef<Applicant>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            <div className="h-10 min-w-20 flex items-center justify-center border rounded-full">{row.getValue("hiringstage")}</div>
+            <div className="h-10 min-w-20 flex items-center justify-center border rounded-full">
+              {row.getValue("hiringstage")}
+            </div>
           </span>
         </div>
       );
@@ -100,8 +103,8 @@ export const columns: ColumnDef<Applicant>[] = [
       <DataTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ row }) => {
-      console.log(row.getValue("category"),'ioiio');
-      
+      console.log(row.getValue("category"), "ioiio");
+
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
@@ -130,17 +133,20 @@ export const columns: ColumnDef<Applicant>[] = [
     accessorKey: "status",
     header: "Actions",
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row)
-      
+      console.log("🚀 ~ row:", row);
+
       // {row.original.applicants?.applicantId}
       return (
-        <div className="flex w-auto bg-primary/5  h-10 border border-primary items-center justify-center cursor-pointer">
-         See Application
-        </div>
-      )
+        <Link
+          className="flex w-auto bg-primary/5  h-10 border border-primary items-center justify-center cursor-pointer"
+          to={`/company/applicantdetail/${row.original._id}/${row.original.applicants?.applicantId}/profile`}
+        >
+          See Application
+        </Link>
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   // {

@@ -37,6 +37,7 @@ export type userType = {
   educations?: string[];
   socialLinks?: string[];
   _id?: string;
+  currengDesignation: string;
 };
 
 export interface signupUserReducerPayload {
