@@ -7,6 +7,7 @@ import { Checkbox } from "@/shadcn/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
 // import { DataTableRowActions } from "./data-table-row-actions"
 import { Applicant } from "@/types/types.jobReducer";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Applicant>[] = [
   {
@@ -34,32 +35,36 @@ export const columns: ColumnDef<Applicant>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "jobtitle",
+    accessorKey: "jobTitle",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="job title" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => (
+      <div className="w-[150px]  ">{row.getValue("jobTitle")}</div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "Applicantemail",
+    accessorKey: "email",
+    accessorFn:(row)=>row.applicantDetails.email,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Applicant email" />
     ),
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row.getValue("title"));
+      console.log("🚀 ~ row:", row)
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("Applicantemail")}
+            {row.getValue("email")}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "Appliedat",
+    accessorKey: "appliedDate",
+    accessorFn:(row)=>row?.applicants?.appliedDate,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Applied at" />
     ),
@@ -67,14 +72,15 @@ export const columns: ColumnDef<Applicant>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("Appliedat")}
+            {format(row.getValue("appliedDate"), "PPP")}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "Hiringstage",
+    accessorKey: "hiringstage",
+    accessorFn:(row)=>row?.applicants?.hiringstage,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Hiring stage" />
     ),
@@ -82,29 +88,31 @@ export const columns: ColumnDef<Applicant>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("Hiringstage")}
+            <div className="h-10 min-w-20 flex items-center justify-center border rounded-full">{row.getValue("hiringstage")}</div>
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "Category",
+    accessorKey: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ row }) => {
+      console.log(row.getValue("category"),'ioiio');
+      
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("Category")}
+            {row.getValue("category")}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: "Employment",
+    accessorKey: "employment",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Employment" />
     ),
@@ -112,39 +120,29 @@ export const columns: ColumnDef<Applicant>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium ">
-            {row.getValue("title")}
+            {row.getValue("employment")}
           </span>
         </div>
       );
     },
   },
-  // {
-  //   accessorKey: "status",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const status = statuses.find(
-  //       (status) => status.value === row.getValue("status")
-  //     )
-
-  //     if (!status) {
-  //       return null
-  //     }
-
-  //     return (
-  //       <div className="flex w-[100px] items-center">
-  //         {status.icon && (
-  //           <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         )}
-  //         <span>{status.label}</span>
-  //       </div>
-  //     )
-  //   },
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id))
-  //   },
-  // },
+  {
+    accessorKey: "status",
+    header: "Actions",
+    cell: ({ row }) => {
+      console.log("🚀 ~ row:", row)
+      
+      // {row.original.applicants?.applicantId}
+      return (
+        <div className="flex w-auto bg-primary/5  h-10 border border-primary items-center justify-center cursor-pointer">
+         See Application
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
   // {
   //   id: "actions",
   //   cell: ({ row }) => <DataTableRowActions row={row} />,

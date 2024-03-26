@@ -184,8 +184,9 @@ export function JobEdit({ jobData }: ChildProp) {
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild className="cursor-pointer">
+      <AlertDialogTrigger asChild className="cursor-pointer  w-9">
         <Edit />
+        
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[38%] max-h-[790px] overflow-y-auto">
         <AlertDialogHeader>

@@ -1,6 +1,8 @@
 export function formatDateAndTime(dateInput: string | number | Date): { date: string; time: string } {
+  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput)
   const now = new Date();
   const date = new Date(dateInput);
+  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput)
   const timeDiffInSeconds = (now.getTime() - date.getTime()) / 1000;
   const minutesAgo = Math.floor(timeDiffInSeconds / 60);
   const hoursAgo = Math.floor(timeDiffInSeconds / 3600);

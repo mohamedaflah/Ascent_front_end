@@ -37,6 +37,7 @@ export const companySidBarLabels: Labels[] = [
     id: uuidv4(),
     label: "Company Profile",
     icon: Landmark,
+    link:"companyprofile"
   },
   {
     id: uuidv4(),

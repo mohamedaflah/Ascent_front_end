@@ -28,6 +28,7 @@ const Header = () => {
   }, [location]);
   const navigate = useNavigate();
   return (
+    
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10  ${
         landing && !user
@@ -60,7 +61,7 @@ const Header = () => {
           <div className="flex items-center text-2xl gap-4 ">
             {!user && (
               <div className="text-sm flex gap-4">
-                <LoginModal />
+                <LoginModal  />
 
                 <SignupModal />
               </div>

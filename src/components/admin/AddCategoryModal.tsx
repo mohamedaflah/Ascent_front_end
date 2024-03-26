@@ -65,7 +65,7 @@ export function AddCategoryModal() {
   
   return (
     <AlertDialog>
-      <AlertDialogTrigger className=" px-5 rounded-md bg-primary text-white   h-full items-center font-semibold  ">
+      <AlertDialogTrigger className=" px-3 rounded-md bg-primary text-white   h-full items-center  text-sm ">
         Add Category 
       </AlertDialogTrigger>
       <AlertDialogContent className="min-w-[90%] sm:min-w-[60%] md:min-w-[45%] lg:min-w-[32%] overflow-hidden">

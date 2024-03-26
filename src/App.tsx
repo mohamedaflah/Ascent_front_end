@@ -24,6 +24,7 @@ import { Applicants } from "./pages/company/Applicants";
 import { MyProfile } from "./pages/user/Profile";
 import { ProfileLayout } from "./pages/user/ProfileLayout";
 import { PublicProfile } from "./pages/user/PublicProfile";
+import { CompanyProfile } from "./pages/company/companyProfile";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -121,6 +122,7 @@ function App() {
             <Route index element={<CompanyDashbord />} />
             <Route path="jobs" element={<JobListing />} />
             <Route path="applicants" element={<Applicants />} />
+            <Route path="companyprofile" element={<CompanyProfile/>}/>
           </Route>
         )}
 

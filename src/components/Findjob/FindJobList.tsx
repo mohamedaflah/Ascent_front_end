@@ -89,7 +89,7 @@ export function FindJobList() {
               <div className="divClass maintxt w-full min-h-12  ">
                 {job?.description}
               </div>
-              <div className="maintxt w-full min-h-12  mt-3">
+              <div className="divClass maintxt w-full min-h-12  mt-3">
                 {job?.responsibilities}
               </div>
             </div>

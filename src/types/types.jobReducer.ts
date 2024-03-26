@@ -8,6 +8,12 @@ export type JobReduerInitial = {
   jobs: Job[] | null;
   applicants: Applicant[] | null;
 };
+export interface ApplicantType {
+  applicantId: string;
+  appliedDate: Date;
+  hiringstage: string;
+  resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
+}
 export interface Job {
   jobTitle: string;
   employment: string;
@@ -37,14 +43,10 @@ export interface Job {
   expired: boolean;
   status: boolean;
   company?: Company;
-  applicants?: {
-    applicantId: string;
-    appliedDate: Date;
-    hiringstage: string;
-    resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
-  }[];
+  applicants?: ApplicantType[];
   applicantDetails: userType;
 }
+
 
 export interface JobfirstSchema {
   jobTitle: string;

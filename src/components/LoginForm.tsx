@@ -22,7 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const signupFormSchema = z.object({
   email: z.string().email({ message: " Please provide valid email " }),
-  password: z.string(),
+  password: z.string().nonempty(),
 });
 
 interface ChildProps {

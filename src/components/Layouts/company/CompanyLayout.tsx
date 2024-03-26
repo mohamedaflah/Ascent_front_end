@@ -12,7 +12,6 @@ import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
 import { NavLink, Outlet } from "react-router-dom";
 
-
 import CompanyHeader from "@/components/common/CompanyHeader";
 import AscentText from "@/components/common/AscentText";
 import { Loader } from "lucide-react";
@@ -23,9 +22,6 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { getUser } from "@/redux/actions/userActions";
 import CompanyProfileCompletion from "@/components/company/ProfileComplete";
 import { companySidBarLabels } from "@/constants/companySideLayout";
-
-
-
 
 function CompanyLayout() {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
@@ -38,12 +34,9 @@ function CompanyLayout() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     setTheme(context?.theme);
-    if(!user){
-      dispatch(getUser()).then();
-    }
-  }, [context?.theme, dispatch,user]);
-
-
+    
+    dispatch(getUser()).then();
+  }, [context?.theme, dispatch]);
 
   return (
     <main className=" flex ">
@@ -77,18 +70,14 @@ function CompanyLayout() {
           {companySidBarLabels.map((item) => (
             <NavLink
               key={item?.id}
-              to={item?.link?`${item?.link}/`:"/"}
+              to={item?.link ? `${item?.link}/` : "/"}
               className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
               <item.icon className="" />{" "}
-              {sideExpand && (
-                <span className="">
-                  {item?.label as string}
-                </span>
-              )}
+              {sideExpand && <span className="">{item?.label as string}</span>}
             </NavLink>
           ))}
         </div>
@@ -127,7 +116,11 @@ function CompanyLayout() {
             <div
               className={`h-16 w-16  rounded-full flex items-center justify-center `}
             >
-              <img src={!user?.icon?defaultProfile:user?.icon} alt="" className="rounded-full object-cover h-14 w-14" />
+              <img
+                src={!user?.icon ? defaultProfile : user?.icon}
+                alt=""
+                className="rounded-full object-cover h-14 w-14"
+              />
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
@@ -143,8 +136,8 @@ function CompanyLayout() {
 
       <main className="w-full relative">
         <CompanyHeader />
-        
-        {!user?.profileCompleted && <CompanyProfileCompletion/>}
+
+        {!user?.profileCompleted && <CompanyProfileCompletion />}
         {role === "company" &&
         (status === "Pending" ||
           status === "Rejected" ||
@@ -163,14 +156,13 @@ function CompanyLayout() {
                   user?.approvelStatus?.status == "Pending"
                     ? "Admin not Responded you Request Waiting for Getting Response from adming "
                     : `Your Response hasbeen Rejected by Admin Alreaady have been send reason of rejection please check and improve Reason : ${user?.approvelStatus?.description}`}
-                    
                 </p>
               </div>
               <div className="w-full flex justify-center mt-10 font-semibold flex-col items-center gap-4">
                 {status === "Pending" ||
                 user?.approvelStatus?.status == "Pending" ? (
                   <>
-                    Waiting for getting response from admin 
+                    Waiting for getting response from admin
                     {/* <TechnologyIcon technology="javascript  " key={"1"} /> */}
                     <div className="flex justify-center items-center ">
                       <Loader className="animate-spin text-2xl" />

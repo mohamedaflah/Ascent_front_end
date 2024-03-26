@@ -16,7 +16,7 @@ export function ExploreByCategory() {
       className={`${!user ? "w-[90%] md:w-[85%]" : "w-[95%] md:w-[95%]"} mx-auto space-y-10 mt-16`}
     >
       <div className="w-full h-16">
-        <h1 className="maintxt text-5xl font-bold">
+        <h1 className="maintxt text-3xl md:text-5xl font-bold">
           Explore by <span className="text-primary">Category</span>{" "}
         </h1>
       </div>
@@ -24,7 +24,7 @@ export function ExploreByCategory() {
         {categories?.map((value) => (
           <div
             key={value._id}
-            className="min-h-60 border flex items-center justify-center"
+            className="min-h-60 border flex items-center justify-center hover:bg-backgroundAccent hover:rounded-md  "
           >
             <div className="w-[80%] h-[80%] grid grid-rows-2 gap-2">
                 <div className="w-full h-28">

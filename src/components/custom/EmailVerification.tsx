@@ -97,7 +97,7 @@ const EmailVerification = ({ setVerificationState }: childProp) => {
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className={`grid grid-cols-${Number(formatTimeLeft().split(":")[0]) <= 3?"2":"1"} gap-3`}>
         <Button className="w-full font-semibold">Go to home page</Button>
         {Number(formatTimeLeft().split(":")[0]) <= 3 && (
           <Button
