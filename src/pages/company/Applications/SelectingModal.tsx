@@ -1,5 +1,6 @@
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -8,7 +9,7 @@ import {
 } from "@/shadcn/ui/alert-dialog";
 import { Button } from "@/shadcn/ui/button";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { ModalHeader } from "./ModalHeader";
 
 import { z } from "zod";
@@ -32,6 +33,9 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/custom/Calendar";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { shortListApplication } from "@/redux/actions/jobActions";
 const shortListFormSchema = z.object({
   title: z.string().min(5).max(100),
   feedback: z.string().min(10).max(430),
@@ -49,8 +53,27 @@ export const SelectingModal = forwardRef<
       feedback: "",
     },
   });
-  const handleSubmition = (values: z.infer<typeof shortListFormSchema>) => {
-    values;
+  const { job, loading } = useSelector((state: RootState) => state.job);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const dispatch: AppDispatch = useDispatch();
+  const handleSubmition = async (
+    values: z.infer<typeof shortListFormSchema>
+  ) => {
+    const res = await dispatch(
+      shortListApplication({
+        jobId: String(job?._id),
+        applicantId: String(job?.applicantDetails._id),
+        payload: {
+          title: values.title,
+          description: values.feedback,
+          status: "Selected",
+          ...(values.joiningDate && { joiningDate: values.joiningDate }),
+        },
+      })
+    );
+    if (res.type.endsWith("fulfilled")) {
+      closeRef.current?.click();
+    }
   };
   return (
     <AlertDialog>
@@ -59,7 +82,7 @@ export const SelectingModal = forwardRef<
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <ModalHeader>Interview selection</ModalHeader>
+          <ModalHeader>applicant hiring</ModalHeader>
           <AlertDialogDescription>
             <div className="w-full">
               <Form {...form}>
@@ -157,15 +180,21 @@ export const SelectingModal = forwardRef<
                             </PopoverContent>
                           </Popover>
                         </FormControl>
-                        <FormDescription>company founded date</FormDescription>
+                        <FormDescription>
+                          candidate joining date
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <div className="flex justify-end">
-                    <LoaderSubmitButton loading={false}>
+                    <LoaderSubmitButton loading={loading}>
                       Submit
                     </LoaderSubmitButton>
+                    <AlertDialogCancel
+                      ref={closeRef}
+                      className="hidden"
+                    ></AlertDialogCancel>
                   </div>
                 </form>
               </Form>

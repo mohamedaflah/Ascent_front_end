@@ -19,8 +19,10 @@ export function ApplicantLayout() {
       })
     );
   }, [applicantId, dispatch, jobId]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { job }:{job:Applicant}=useSelector((state: RootState) => state.job) as unknown as Job | Applicant|any
+  const { job }: { job: Applicant } = useSelector(
+    (state: RootState) => state.job
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) as unknown as Job | Applicant | any;
   return (
     <main className="w-full min-h-screen ">
       <section className="mx-auto w-[95%] h-full  ">
@@ -48,8 +50,8 @@ export function ApplicantLayout() {
                 <div className="h-28 flex flex-col justify-between py-1">
                   <div>
                     <h1 className="maintxt text-3xl font-semibold">
-                      {job?.applicantDetails.firstname}{" "}
-                      {job?.applicantDetails.lastname}
+                      {job?.applicantDetails?.firstname}{" "}
+                      {job?.applicantDetails?.lastname}
                     </h1>
                   </div>
                   <div>
@@ -86,15 +88,36 @@ export function ApplicantLayout() {
                 <div className="maintxt w-full flex justify-between b">
                   <span>Stage</span>
                   <div className="flex gap-2 items-center">
-                    <span className="w-[8px] h-[8px] block bg-primary rounded-full"></span>
-                    Interview
+                    <span className={`w-[8px] h-[8px] block  ${job?.applicants?.hiringstage=="Rejected"?"bg-red-500":"bg-primary"} rounded-full`}></span>
+                    {job?.applicants?.hiringstage}
                   </div>
                 </div>
                 <div>
-                  <div className="w-full flex gap-1">
-                    <div className="h-2 w-20 bg-primary"></div>
-                    <div className="h-2 w-20 bg-primary"></div>
-                    <div className="h-2 w-20 bg-primary"></div>
+                  <div className="w-full flex gap-1 bg-background">
+                    {job?.applicants?.hiringstage === "Inreview" && (
+                      <div className="h-2 w-20 bg-primary"></div>
+                    )}
+                    {job?.applicants?.hiringstage === "Shortlisted" && (
+                      <>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                      </>
+                    )}
+                    {job?.applicants?.hiringstage === "Interview" && (
+                      <>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                      </>
+                    )}
+                    {job?.applicants?.hiringstage === "Selected" && (
+                      <>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                        <div className="h-2 w-20 bg-primary"></div>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="mt-3 flex justify-between  ">

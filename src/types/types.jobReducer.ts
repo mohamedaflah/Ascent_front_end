@@ -125,8 +125,27 @@ export interface Applicant {
   applicants?: {
     applicantId: string;
     appliedDate: Date;
-    hiringstage: string;
-    resume: "Applied" | "Inreview" | "Shortlisted" | "Interview";
+    hiringstage:
+      | "Applied"
+      | "Inreview"
+      | "Shortlisted"
+      | "Interview"
+      | "Selected"
+      | "Rejected";
+    resume: string;
+    statusDescription: {
+      title: string;
+      description: string;
+      joiningDate: Date;
+    };
+    interviewDate: Date;
+    applicationSeen: boolean;
+    interviewSchedules: {
+      _id: string;
+      title: string;
+      time: string;
+      status: "Pending" | "Completed";
+    }[];
   };
   applicantDetails: User;
 }

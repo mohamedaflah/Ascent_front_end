@@ -131,3 +131,62 @@ export const getOneApplicant = createAsyncThunk(
     }
   }
 );
+
+export const shortListApplication = createAsyncThunk(
+  "job/change-applicationstatus",
+  async (
+    sendPayload: {
+      jobId: string;
+      applicantId: string;
+      payload: {
+        title: string;
+        description: string;
+        joiningDate?: string;
+        interviewDate?: Date;
+        status:
+          | "Applied"
+          | "Inreview"
+          | "Shortlisted"
+          | "Interview"
+          | "Selected"
+          | "Rejected";
+      };
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await JobAxios.put(
+        `api/v1/applicants/${sendPayload.jobId}/${sendPayload.applicantId}`,
+        sendPayload.payload
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const scheduleInterview = createAsyncThunk(
+  "job/schedule-interview",
+  async (
+    sendPayload: {
+      jobId: string;
+      applicantId: string;
+      payload: {
+        time: string;
+        title: string;
+      };
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { data } = await JobAxios.patch(
+        `api/v1/applicants/${sendPayload.jobId}/${sendPayload.applicantId}`,
+        sendPayload.payload
+      );
+      return data; 
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

@@ -1,19 +1,13 @@
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog";
-import { Button } from "@/shadcn/ui/button";
-
-import { forwardRef, useRef } from "react";
-import { ModalHeader } from "./ModalHeader";
-
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -24,110 +18,119 @@ import {
   FormMessage,
 } from "@/shadcn/ui/form";
 import { Input } from "@/shadcn/ui/input";
-import { Textarea } from "@/shadcn/ui/textarea";
-import { LoaderSubmitButton } from "@/components/custom/LoaderButton";
-import { AppDispatch, RootState } from "@/redux/store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { LoaderSubmitButton } from "../custom/LoaderButton";
 import { useDispatch, useSelector } from "react-redux";
-import { shortListApplication } from "@/redux/actions/jobActions";
-import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
-
-const shortListFormSchema = z.object({
-  title: z.string().min(5).max(100),
-  description: z.string().min(10).max(430),
+import { AppDispatch, RootState } from "@/redux/store";
+import { scheduleInterview } from "@/redux/actions/jobActions";
+import { useRef } from "react";
+const interviewFormSchema = z.object({
+  title: z.string().max(50).min(2),
+  time: z.string(),
 });
-type ShortListModalProps = object;
-export const ShortListModal = forwardRef<
-  HTMLButtonElement,
-  ShortListModalProps
->((_, ref) => {
-  const form = useForm<z.infer<typeof shortListFormSchema>>({
-    resolver: zodResolver(shortListFormSchema),
+export function InterviewShedule() {
+  const dispatch: AppDispatch = useDispatch();
+  const form = useForm<z.infer<typeof interviewFormSchema>>({
+    resolver: zodResolver(interviewFormSchema),
     defaultValues: {
       title: "",
-      description: "",
     },
   });
-  const dispatch: AppDispatch = useDispatch();
-  const { job, loading } = useSelector((state: RootState) => state.job);
+  const { job } = useSelector((state: RootState) => state.job);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const handleSubmition = async (
-    values: z.infer<typeof shortListFormSchema>
+  const submitInterviewScheduleForm = async (
+    values: z.infer<typeof interviewFormSchema>
   ) => {
     const res = await dispatch(
-      shortListApplication({
+      scheduleInterview({
         jobId: String(job?._id),
         applicantId: String(job?.applicantDetails._id),
-        payload: { title: values.title, description: values.description,status:"Shortlisted" },
+        payload: {
+          time: values.time,
+          title: values.title,
+        },
       })
     );
     if (res.type.endsWith("fulfilled")) {
       closeRef.current?.click();
     }
   };
+  const { loading } = useSelector((state: RootState) => state.userData);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button ref={ref}>Shortlisted</Button>
+        <button className="min-w-36 h-12 flex items-center justify-center gap-2 text-primary bg-primary/5 px-3">
+          <Plus /> Add Schedule intreview
+        </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <ModalHeader>Application shortlist</ModalHeader>
+          <div className="flex w-full justify-between items-center">
+            <AlertDialogTitle>Schedule interviews</AlertDialogTitle>
+            <AlertDialogCancel
+              className="p-0 border-none bg-transparent hover:bg-transparent"
+              ref={closeRef}
+            >
+              <X className="w-5" />
+            </AlertDialogCancel>
+          </div>
           <AlertDialogDescription>
             <div className="w-full">
               <Form {...form}>
                 <form
-                  className="w-full flex flex-col gap-5"
-                  onSubmit={form.handleSubmit(handleSubmition)}
+                  className="w-full flex flex-col gap-3"
+                  onSubmit={form.handleSubmit(submitInterviewScheduleForm)}
                 >
                   <FormField
                     control={form.control}
                     name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-semibold capitalize">
-                          title
+                        <FormLabel className="font-semibold">
+                          Type of interview
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter title" {...field} />
+                          <Input
+                            placeholder="example:- HR round,Mechine test"
+                            {...field}
+                          />
                         </FormControl>
                         <FormDescription>
-                          This is the title of stage.
+                          This is type of inerview
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
-                    name="description"
+                    name="time"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-semibold">
-                          Description of stage
+                          Time of interview
                         </FormLabel>
                         <FormControl>
-                          {/* <Input placeholder="Enter description" {...field} /> */}
-                          <Textarea
-                            placeholder="Enter description"
+                          <Input
+                            type="time"
+                            placeholder="example:- HR round,Mechine test"
                             {...field}
-                          ></Textarea>
+                          />
                         </FormControl>
                         <FormDescription>
-                          This is your public linked in profile.
+                          This is the time of interview
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div className="flex justify-end">
+                  <div className="w-full flex justify-end">
                     <LoaderSubmitButton loading={loading}>
                       Submit
                     </LoaderSubmitButton>
-                    <AlertDialogCancel
-                      ref={closeRef}
-                      className="hidden"
-                    ></AlertDialogCancel>
                   </div>
                 </form>
               </Form>
@@ -138,4 +141,4 @@ export const ShortListModal = forwardRef<
       </AlertDialogContent>
     </AlertDialog>
   );
-});
+}

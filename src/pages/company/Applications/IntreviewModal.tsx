@@ -1,5 +1,6 @@
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -8,7 +9,7 @@ import {
 } from "@/shadcn/ui/alert-dialog";
 import { Button } from "@/shadcn/ui/button";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { ModalHeader } from "./ModalHeader";
 
 import { z } from "zod";
@@ -31,11 +32,13 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/custom/Calendar";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { shortListApplication } from "@/redux/actions/jobActions";
 const shortListFormSchema = z.object({
   title: z.string().min(5).max(100),
   description: z.string().min(10).max(430),
   interviewDate: z.string(),
-  interviewTime: z.string(),
 });
 type ShortListModalProps = object;
 export const InterviewModal = forwardRef<
@@ -49,8 +52,30 @@ export const InterviewModal = forwardRef<
       description: "",
     },
   });
-  const handleSubmition = (values: z.infer<typeof shortListFormSchema>) => {
-    values;
+  const { job, loading } = useSelector((state: RootState) => state.job);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const dispatch: AppDispatch = useDispatch();
+  const handleSubmition = async (
+    values: z.infer<typeof shortListFormSchema>
+  ) => {
+  
+    const res = await dispatch(
+      shortListApplication({
+        jobId: String(job?._id),
+        applicantId: String(job?.applicantDetails._id),
+        payload: {
+          title: values.title,
+          description: values.description,
+          status: "Interview",
+          ...(values.interviewDate && {
+            interviewDate: new Date((values.interviewDate)),
+          }),
+        },
+      })
+    );
+    if (res.type.endsWith("fulfilled")) {
+      closeRef.current?.click();
+    }
   };
   return (
     <AlertDialog>
@@ -107,14 +132,14 @@ export const InterviewModal = forwardRef<
                       </FormItem>
                     )}
                   />
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <FormField
                       control={form.control}
                       name="interviewDate"
                       render={({ field }) => (
                         <FormItem className="">
                           <FormLabel className="font-semibold">
-                            Select candidate joining date
+                            Select interview Scheduled date
                           </FormLabel>
                           <FormControl>
                             <Popover>
@@ -149,7 +174,7 @@ export const InterviewModal = forwardRef<
                                   mode="single"
                                   captionLayout="dropdown-buttons"
                                   selected={field.value as never}
-                                  onSelect={(date: Date) =>
+                                  onSelect={(date: Date | undefined) =>
                                     form.setValue("interviewDate", String(date))
                                   }
                                   fromYear={1960}
@@ -163,36 +188,16 @@ export const InterviewModal = forwardRef<
                         </FormItem>
                       )}
                     />
-                    <div className="flex items-center   justify-end ">
-                      <FormField
-                        control={form.control}
-                        name="interviewTime"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormLabel className="font-semibold capitalize">
-                              title
-                            </FormLabel>
-                            <FormControl className="w-full">
-                              <Input
-                                placeholder="selecte time"
-                                type="time"
-                                className="w-full"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              This is the time of interview
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                    
                   </div>
                   <div className="flex justify-end">
-                    <LoaderSubmitButton loading={false}>
+                    <LoaderSubmitButton loading={loading}>
                       Submit
                     </LoaderSubmitButton>
+                    <AlertDialogCancel
+                      ref={closeRef}
+                      className="hidden"
+                    ></AlertDialogCancel>
                   </div>
                 </form>
               </Form>

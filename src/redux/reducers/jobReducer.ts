@@ -9,6 +9,8 @@ import {
   getJobWithCompany,
   getOneApplicant,
   getSpecificJob,
+  scheduleInterview,
+  shortListApplication,
   updateJob,
 } from "../actions/jobActions";
 import { ErrorPayload } from "@/types/AllTypes";
@@ -186,6 +188,34 @@ const jobReducer = createSlice({
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
+      })
+      .addCase(shortListApplication.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(shortListApplication.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.job = payload.applicant;
+        state.err = false;
+      })
+      .addCase(shortListApplication.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(state.err);
+      })
+      .addCase(scheduleInterview.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(scheduleInterview.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.job = payload.applicant;
+        state.err = false;
+      })
+      .addCase(scheduleInterview.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(state.err);
       });
   },
 });

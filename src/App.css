@@ -9,7 +9,7 @@
   border-radius: 5px;
 }
 *{
-  font-size: 99%;
+  font-size: 98.5%;
   
 }
 .company_text {
@@ -55,7 +55,7 @@
 }
 .active {
   background-color: #4786fa;
-  color: #ffffff ;
+  color: #ffffff !important;
 }
 
 .header.active{
@@ -68,5 +68,5 @@
   align-items: center;
   background: transparent;
   padding: 2px;
-  color: unset;
+  color: unset !important;
 }
