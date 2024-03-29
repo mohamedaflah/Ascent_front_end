@@ -15,7 +15,7 @@ export const CustomNavLink: React.FC<CustomNavLinkProps> = ({ to, children, ...p
     <NavLink
       to={to}
       {...props}
-      className={({ isActive }) =>
+      className={() =>
         `header text-textPrimary hover:border-b hover:border-primary py-2 transition-all duration-500 px-2 ${
           match ? 'border-b-2 border-primary' : ''
         }`

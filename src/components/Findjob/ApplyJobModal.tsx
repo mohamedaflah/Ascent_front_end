@@ -73,7 +73,8 @@ export function ApplyJob() {
   const { user } = useSelector((state: RootState) => state.userData);
   const [jobApplied, setJobApplied] = useState(false);
   const openRef = useRef<HTMLButtonElement>(null);
-  const jobApplicant:ApplicantType[]=job?.applicants 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jobApplicant:ApplicantType[]|any=job?.applicants 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -81,7 +82,7 @@ export function ApplyJob() {
           ref={openRef}
           className={`rounded-[4px]  min-w-24  h-10 flex gap-2 relative ${
             (jobApplicant?.find(
-              (value) => value?.applicantId === user?._id
+              (value:{ applicantId: string }) => value?.applicantId === user?._id
             ) ||
               jobApplied) &&
             "pointer-events-none bg-blue-400"
@@ -89,7 +90,7 @@ export function ApplyJob() {
         >
           <Sparkles className="w-5"/>
 
-          {jobApplicant?.find((value) => value?.applicantId === user?._id) ||
+          {jobApplicant?.find((value:{ applicantId: string }) => value?.applicantId === user?._id) ||
           jobApplied
             ? "Applied"
             : "Apply"}

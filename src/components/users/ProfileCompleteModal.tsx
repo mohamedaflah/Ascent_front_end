@@ -34,7 +34,7 @@ import { useRef, useState } from "react";
 import { LoaderSubmitButton } from "../custom/LoaderButton";
 import toast from "react-hot-toast";
 import { updateProfileUser } from "@/redux/actions/userActions";
-
+import { ApplicantType } from "@/types/types.jobReducer";
 
 const profileSchema = z.object({
   phonenumber: z.string().min(10).max(10),
@@ -79,25 +79,31 @@ export function CompleteProfile() {
     if (values.skills.length <= 0) toast.error("Please add atleast one skill");
     values;
     const res = await dispatch(
-      updateProfileUser({ userId: user._id as string, sendData: {...values,dateofbirth:new Date(values.dateofbirth)} })
+      updateProfileUser({
+        userId: user._id as string,
+        sendData: { ...values, dateofbirth: new Date(values.dateofbirth) },
+      })
     );
     if (res.type.endsWith("fulfilled")) {
       closeRef.current?.click();
     }
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jobApplicant: ApplicantType[] | any = job?.applicants;
   const closeRef = useRef<HTMLButtonElement>(null);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 ${
-            job?.applicants?.find(
-              (value) => value?.applicantId === user?._id
+            jobApplicant?.find(
+              (value: { applicantId: string }) =>
+                value?.applicantId === user?._id
             ) && "pointer-events-none bg-blue-400"
           }`}
         >
           <Sparkles />
-          {job?.applicants?.find((value) => value?.applicantId === user?._id)
+          {jobApplicant?.find((value:{ applicantId: string }) => value?.applicantId === user?._id)
             ? "Applied"
             : "Apply"}
         </Button>
