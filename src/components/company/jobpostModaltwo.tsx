@@ -202,7 +202,7 @@ export function JobpostModalTwo({ closeModal }: ChildProp) {
               {form.watch("qualification").map((value, Idx) => {
                 return (
                   <div
-                    className="h-10 min-w-28 bg-backgroundAccent p-2 flex justify-between items-center border rounded-md"
+                    className="min-h-10 min-w-28 bg-backgroundAccent p-2 flex justify-between items-center border rounded-md"
                     key={Idx}
                   >
                     {value}{" "}

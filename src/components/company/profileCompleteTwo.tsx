@@ -138,7 +138,7 @@ export function TwoPercentageCompletion() {
                     </FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger className="w-[220px]">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a Industry" />
                         </SelectTrigger>
                       </FormControl>
@@ -163,7 +163,7 @@ export function TwoPercentageCompletion() {
                 render={({ field }) => (
                   <FormItem className="">
                     <FormLabel className="font-semibold">
-                      Select company founded date
+                      company founded date
                     </FormLabel>
                     <FormControl>
                       <Popover>
@@ -171,7 +171,7 @@ export function TwoPercentageCompletion() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[220px] justify-start text-left font-normal",
+                              "w-full justify-start text-left font-normal",
                               !form.watch("foundedDate") &&
                                 "text-muted-foreground"
                             )}

@@ -24,7 +24,7 @@ export function FindJobList() {
   }, [dispatch, job, jobs]);
   
   return (
-    <main className="w-full h-full flex ">
+    <main className="w-full h-[768px] flex ">
       <FindJobFilterBar />
       <div className="w-full h-full pt-3 pl-3  flex flex-col">
         <div className="w-full flex justify-between">
@@ -36,7 +36,7 @@ export function FindJobList() {
           </div>
         </div>
         <div className="w-full mt-3   h-full flex gap-2">
-          <div className=" w-full lg:w-[500px] xl:min-w-[480px] h-full space-y-3  ">
+          <div className=" w-full lg:w-[500px] xl:min-w-[410px] h-full space-y-3  ">
             {jobs?.map((value) => (
               <JobCompanyCard2 key={value._id} jobData={value} />
             ))}

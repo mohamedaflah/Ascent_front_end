@@ -22,6 +22,7 @@ const initialState: JobReduerInitial = {
   job: null,
   jobs: null,
   applicants: null,
+  pages: 0,
 };
 const jobReducer = createSlice({
   name: "jobs",
@@ -115,6 +116,7 @@ const jobReducer = createSlice({
         state.loading = false;
         state.jobs = payload.jobs;
         state.err = false;
+        state.pages=payload.totalPages
       })
       .addCase(getAllJobs.rejected, (state, { payload }) => {
         state.loading = false;

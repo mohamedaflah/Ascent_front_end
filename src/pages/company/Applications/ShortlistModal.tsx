@@ -30,6 +30,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { shortListApplication } from "@/redux/actions/jobActions";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { Toast } from "primereact/toast";
 
 const shortListFormSchema = z.object({
   title: z.string().min(5).max(100),
@@ -57,85 +58,102 @@ export const ShortListModal = forwardRef<
       shortListApplication({
         jobId: String(job?._id),
         applicantId: String(job?.applicantDetails._id),
-        payload: { title: values.title, description: values.description,status:"Shortlisted" },
+        payload: {
+          title: values.title,
+          description: values.description,
+          status: "Shortlisted",
+        },
       })
     );
     if (res.type.endsWith("fulfilled")) {
+      showSuccess();
       closeRef.current?.click();
     }
   };
+  const toast = useRef<Toast>(null);
+  const showSuccess = () => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Registration Completed",
+      life: 3000,
+    });
+  };
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button ref={ref}>Shortlisted</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <ModalHeader>Application shortlist</ModalHeader>
-          <AlertDialogDescription>
-            <div className="w-full">
-              <Form {...form}>
-                <form
-                  className="w-full flex flex-col gap-5"
-                  onSubmit={form.handleSubmit(handleSubmition)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-semibold capitalize">
-                          title
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter title" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is the title of stage.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+    <>
+      <Toast ref={toast} />
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button ref={ref}>Shortlisted</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <ModalHeader>Application shortlist</ModalHeader>
+            <AlertDialogDescription>
+              <div className="w-full">
+                <Form {...form}>
+                  <form
+                    className="w-full flex flex-col gap-5"
+                    onSubmit={form.handleSubmit(handleSubmition)}
+                  >
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-semibold capitalize">
+                            title
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter title" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            This is the title of stage.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-semibold">
-                          Description of stage
-                        </FormLabel>
-                        <FormControl>
-                          {/* <Input placeholder="Enter description" {...field} /> */}
-                          <Textarea
-                            placeholder="Enter description"
-                            {...field}
-                          ></Textarea>
-                        </FormControl>
-                        <FormDescription>
-                          This is your public linked in profile.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex justify-end">
-                    <LoaderSubmitButton loading={loading}>
-                      Submit
-                    </LoaderSubmitButton>
-                    <AlertDialogCancel
-                      ref={closeRef}
-                      className="hidden"
-                    ></AlertDialogCancel>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter></AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-semibold">
+                            Description of stage
+                          </FormLabel>
+                          <FormControl>
+                            {/* <Input placeholder="Enter description" {...field} /> */}
+                            <Textarea
+                              placeholder="Enter description"
+                              {...field}
+                            ></Textarea>
+                          </FormControl>
+                          <FormDescription>
+                            This is your public linked in profile.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex justify-end">
+                      <LoaderSubmitButton loading={loading}>
+                        Submit
+                      </LoaderSubmitButton>
+                      <AlertDialogCancel
+                        ref={closeRef}
+                        className="hidden"
+                      ></AlertDialogCancel>
+                    </div>
+                  </form>
+                </Form>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter></AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 });

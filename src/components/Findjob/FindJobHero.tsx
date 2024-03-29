@@ -14,10 +14,20 @@ import {
 import { Button } from "@/shadcn/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useSearchParams } from "react-router-dom";
+import { ChangeEvent } from "react";
 // import { useSearchParams } from "react-router-dom";
 
 export function FindbJobHero() {
+  const [searchParam, setSearchParam] = useSearchParams();
   const { user } = useSelector((state: RootState) => state.userData);
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const param = new URLSearchParams(searchParam);
+    param.set("search", event.target.value);
+    setTimeout(() => {
+      setSearchParam(param);
+    }, 2000);
+  };
   return (
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">
       <div className="w-full h-52  flex justify-center items-end">
@@ -49,7 +59,8 @@ export function FindbJobHero() {
                 <SearchIcon />
                 <Input
                   type="search"
-                  // onChange={handleSearchChange}
+                  onChange={handleSearchChange}
+                  
                   placeholder="job title or keyword"
                   className="bg-transparent outline-none  focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300"
                 />

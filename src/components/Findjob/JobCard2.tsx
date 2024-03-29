@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Bookmark, Sparkles } from "lucide-react";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import { BsBookmarkStarFill } from "react-icons/bs";
 import { getSpecificJob } from "@/redux/actions/jobActions";
 interface ChildProp {
   jobData: Job;
@@ -17,9 +18,10 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
   const hadleClick = (id: string) => {
     dispatch(getSpecificJob(id));
   };
+  const [saved, setSaved] = useState<boolean>(false);
   return (
     <div
-      className="w-full h-36 border  flex justify-center items-center hover:bg-backgroundAccent transition-all duration-500 cursor-pointer rounded-[5px]"
+      className="w-full min-h-36 border  flex justify-center items-center hover:bg-backgroundAccent transition-all duration-500 cursor-pointer rounded-[5px]"
       onClick={() => hadleClick(job?._id ?? "")}
     >
       <div className="w-[95%] h-[80%] flex justify-between">
@@ -52,7 +54,18 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
           </div>
         </div>
         <div className="w-60 flex flex-col items-end  gap-2  justify-between">
-          <Bookmark />
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setSaved(!saved);
+            }}
+          >
+            {!saved ? (
+              <Bookmark className="w-5" />
+            ) : (
+              <BsBookmarkStarFill className="text-lg" />
+            )}
+          </div>
           <div className="maintxt text-green-600 flex gap-1">
             <Sparkles className="w-4" />
             <span>Easy Apply</span>

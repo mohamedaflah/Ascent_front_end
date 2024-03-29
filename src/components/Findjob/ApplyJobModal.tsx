@@ -26,6 +26,7 @@ import { LoaderSubmitButton } from "../custom/LoaderButton";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { applyJob } from "@/redux/actions/jobActions";
 import toast from "react-hot-toast";
+import { ApplicantType } from "@/types/types.jobReducer";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // Example: 5MB max size
 const ACCEPTED_FILE_TYPE = "application/pdf";
 const fileSchema = z
@@ -71,27 +72,28 @@ export function ApplyJob() {
   const { job, loading } = useSelector((state: RootState) => state.job);
   const { user } = useSelector((state: RootState) => state.userData);
   const [jobApplied, setJobApplied] = useState(false);
-  const openRef=useRef<HTMLButtonElement>(null)
+  const openRef = useRef<HTMLButtonElement>(null);
+  const jobApplicant:ApplicantType[]=job?.applicants 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button ref={openRef}
-          className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 relative ${
-            (job?.applicants?.find(
+        <Button
+          ref={openRef}
+          className={`rounded-[4px]  min-w-24  h-10 flex gap-2 relative ${
+            (jobApplicant?.find(
               (value) => value?.applicantId === user?._id
             ) ||
               jobApplied) &&
             "pointer-events-none bg-blue-400"
           }`}
-          
         >
-          <Sparkles />
+          <Sparkles className="w-5"/>
 
-          {job?.applicants?.find((value) => value?.applicantId === user?._id) ||
+          {jobApplicant?.find((value) => value?.applicantId === user?._id) ||
           jobApplied
             ? "Applied"
             : "Apply"}
-            {/* <div className="min-w-28 px-4 h-10 rounded-2xl bg-green-500/25 flex justify-center items-center gap-3">
+          {/* <div className="min-w-28 px-4 h-10 rounded-2xl bg-green-500/25 flex justify-center items-center gap-3">
                                 Application submitted
                                 <span className="block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                               </div> */}

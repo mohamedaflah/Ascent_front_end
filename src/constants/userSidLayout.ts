@@ -36,7 +36,7 @@ export const userSidebarLayout: Labels[] = [
     id: uuidv4(),
     label: "Find jobs",
     icon: Search,
-    link:"findjobs",
+    link:"findjobs?page=1&pageSize=5",
 
   },
   {

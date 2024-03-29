@@ -60,9 +60,9 @@ export const deleteJob = createAsyncThunk(
 
 export const getAllJobs = createAsyncThunk(
   "job/get-alljob",
-  async (_, { rejectWithValue }) => {
+  async (query:{page:number,pageSize:number}, { rejectWithValue }) => {
     try {
-      const { data } = await JobAxios.get(`/api/v1/job`);
+      const { data } = await JobAxios.get(`/api/v1/job?page=${query.page}&pageSize=${query.pageSize}`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

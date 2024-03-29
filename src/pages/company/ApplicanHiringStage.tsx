@@ -19,6 +19,7 @@ import { InterviewModal } from "./Applications/IntreviewModal";
 import { RejectModal } from "./Applications/RejectModal";
 import { format } from "date-fns";
 import { InterviewShedule } from "@/components/company/InteviewSchedule";
+import { convertTimeToAMPM } from "@/util/convertTimeAMPM";
 
 export function ApplicantHiringStage() {
   const { job }: { job: Applicant } = useSelector(
@@ -123,7 +124,7 @@ export function ApplicantHiringStage() {
           <InterviewShedule />
         </div>
         <div className="w-full">
-          {job?.applicants?.interviewSchedules.map((value) => (
+          {job?.applicants?.interviewSchedules?.map((value) => (
             <div className="w-full h-28 relative " key={value._id}>
               {/* <div className="w-full">Tomorrow - 10 july 2024</div> */}
               <div className="w-full">
@@ -136,7 +137,7 @@ export function ApplicantHiringStage() {
                 <div className="w-full h-full border flex items-center justify-between px-5">
                   <div className=" flex flex-col gap-2">
                     <h4 className="font-semibold">
-                      {value.time} AM {value.title}
+                      {convertTimeToAMPM(value.time)} AM {value.title}
                     </h4>
                     <span>Online Interview</span>
                   </div>

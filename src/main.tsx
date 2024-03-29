@@ -6,16 +6,19 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "./shadcn/theme-provider.tsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.ts";
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from "react-hot-toast";
+import { PrimeReactProvider } from "primereact/api";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-    <Router>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Provider store={store}>
-          <Toaster position="top-center"/>
+  <Router>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Provider store={store}>
+        <Toaster position="top-center" />
+        <PrimeReactProvider>
           <App />
-        </Provider>
-      </ThemeProvider>
-    </Router>
+        </PrimeReactProvider>
+      </Provider>
+    </ThemeProvider>
+  </Router>
   // </React.StrictMode>
 );

@@ -7,6 +7,7 @@ export type JobReduerInitial = {
   job: Job | null;
   jobs: Job[] | null;
   applicants: Applicant[] | null;
+  pages?:number
 };
 export interface ApplicantType {
   applicantId: string;

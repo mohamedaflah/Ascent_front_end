@@ -31,7 +31,7 @@ function UserLayout() {
     <main className=" flex ">
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5 sticky top-0 left-0 hidden lg:flex ${
-          sideExpand ? "w-72" : "w-28"
+          sideExpand ? "w-60" : "w-24"
         } transition-all duration-500 ease-in-out`}
       >
         <div
@@ -66,12 +66,12 @@ function UserLayout() {
                     : "/"
                   : `myprofile/${user?._id}`
               }
-              className={`flex text-1xl items-center gap-4 hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm text-textPrimary ${
+              className={`flex text-sm items-center gap-4 hover:bg-primary hover:text-white px-2  h-9 cursor-pointer rounded-sm text-textPrimary  ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
-              <item.icon className="" />{" "}
+              <item.icon className="w-5" />{" "}
               {sideExpand && (
                 <span className="">{item.label as string}</span>
               )}
@@ -93,7 +93,7 @@ function UserLayout() {
                   !sideExpand && "justify-center"
                 }`}
               >
-                <value.icon />{" "}
+                <value.icon className="w-5"/>{" "}
                 {sideExpand &&
                   (value.extraLabel === "Logout" ? (
                     <value.label />

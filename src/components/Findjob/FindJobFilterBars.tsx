@@ -15,18 +15,18 @@ export function FindJobFilterBar() {
   return (
     <aside
       className={`hidden h-full   lg:flex flex-col pr-2 transition-all duration-300 ${
-        expand ? "min-w-56" : "min-w-0"
+        expand ? "min-w-48" : "min-w-0"
       } relative`}
     >
       <SlidersHorizontal
-        className={`cursor-pointer absolute ${!expand?"-right-5 p-1 bg-background rounded-full":"right-0"}  top-2`}
+        className={`cursor-pointer absolute  ${!expand?"-right-5 p-1 bg-background rounded-full ":"right-0 w-5"}  top-2`}
         onClick={() => setIsExpand(!expand)}
       />
       {expand && (
         <>
           <div className={`w-full py-2  flex flex-col gap-5`}>
             <div className="flex justify-between">
-              <h2 className="text-lg font-bold ">Type of Employment </h2>
+              <h2 className="text- font-bold ">Type of Employment </h2>
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex gap-5 items-center">
@@ -57,8 +57,8 @@ export function FindJobFilterBar() {
           </div>
           <div className="w-full py-2  flex flex-col gap-5">
             <div className="flex justify-between">
-              <h2 className="text-lg font-bold ">Categories </h2>
-              <ChevronUp />
+              <h2 className="font-bold ">Categories </h2>
+              <ChevronUp className="w-5" />
             </div>
             <div className="flex flex-col gap-4">
               {categories?.map((value) => {
@@ -75,8 +75,8 @@ export function FindJobFilterBar() {
           </div>
           <div className="w-full py-2  flex flex-col gap-5">
             <div className="flex justify-between">
-              <h2 className="text-lg font-bold ">Job level </h2>
-              <ChevronUp />
+              <h2 className=" font-bold ">Job level </h2>
+              <ChevronUp className="w-5" />
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex gap-5 items-center">
@@ -107,8 +107,8 @@ export function FindJobFilterBar() {
           </div>
           <div className="w-full py-2  flex flex-col gap-5">
             <div className="flex justify-between">
-              <h2 className="text-lg font-bold ">Salary range </h2>
-              <ChevronUp />
+              <h2 className=" font-bold ">Salary range </h2>
+              <ChevronUp className="w-5" />
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex gap-5 items-center">
