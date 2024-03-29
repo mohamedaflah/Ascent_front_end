@@ -74,7 +74,7 @@ export function ApplyJob() {
   const [jobApplied, setJobApplied] = useState(false);
   const openRef = useRef<HTMLButtonElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const jobApplicant:ApplicantType[]|any=job?.applicants 
+  const jobApplicant: ApplicantType[] | any = job?.applicants;
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -82,16 +82,18 @@ export function ApplyJob() {
           ref={openRef}
           className={`rounded-[4px]  min-w-24  h-10 flex gap-2 relative ${
             (jobApplicant?.find(
-              (value:{ applicantId: string }) => value?.applicantId === user?._id
+              (value: { applicantId: string }) =>
+                value?.applicantId === user?._id
             ) ||
               jobApplied) &&
             "pointer-events-none bg-blue-400"
           }`}
         >
-          <Sparkles className="w-5"/>
+          <Sparkles className="w-5" />
 
-          {jobApplicant?.find((value:{ applicantId: string }) => value?.applicantId === user?._id) ||
-          jobApplied
+          {jobApplicant?.find(
+            (value: { applicantId: string }) => value?.applicantId === user?._id
+          ) || jobApplied
             ? "Applied"
             : "Apply"}
           {/* <div className="min-w-28 px-4 h-10 rounded-2xl bg-green-500/25 flex justify-center items-center gap-3">

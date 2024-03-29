@@ -10,7 +10,7 @@ import defaultProfile from "../../../assets/IMG 3.png";
 import ascentFirecon from "../../../assets/Ascent_firicon.svg";
 import { useSidbarLayoutSection2 } from "@/constants/userSidLayout";
 import { RiMenu3Fill } from "react-icons/ri";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 import CompanyHeader from "@/components/common/CompanyHeader";
 import AscentText from "@/components/common/AscentText";
@@ -31,13 +31,14 @@ function CompanyLayout() {
 
   const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [sideExpand, setIsSideExpand] = useState<boolean>(true);
+  
   const dispatch: AppDispatch = useDispatch();
+  const location=useLocation()
   useEffect(() => {
     setTheme(context?.theme);
-    
     dispatch(getUser()).then();
   }, [context?.theme, dispatch]);
-
+  
   return (
     <main className=" flex ">
       <aside
@@ -124,7 +125,9 @@ function CompanyLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span className="line-clamp-1">{user?.firstname ? user?.firstname : user?.name}</span>
+                <span className="line-clamp-1">
+                  {user?.firstname ? user?.firstname : user?.name}
+                </span>
                 <span className="line-clamp-1" title={user?.email}>
                   {user?.email}
                 </span>
@@ -138,14 +141,14 @@ function CompanyLayout() {
         <CompanyHeader />
 
         {!user?.profileCompleted && <CompanyProfileCompletion />}
-        {role === "company" &&
+        {(role === "company" && location.pathname!=='/company/updateprofile') &&
         (status === "Pending" ||
           status === "Rejected" ||
           user?.approvelStatus?.status == "Rejected" ||
           user?.approvelStatus?.status == "Pending") ? (
           <main className="w-full h-screen flex items-center justify-center absolute top-0 left-0">
             <div className="absolute top-0 left-0 w-full h-full -z-10 backdrop-blur-sm opacity-70"></div>
-            <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
+            <div className="w-[90%] sm:w-[80%] md:w-[40%] lg:w-[34%] min-h-96  bg-backgroundAccent rounded-xl border flex flex-col p-5 gap-4">
               <div className="w-full h-10  flex justify-center items-center text-3xl font-bold">
                 <AscentText />
               </div>
@@ -171,6 +174,9 @@ function CompanyLayout() {
                 ) : (
                   "Admin has been rejected you "
                 )}
+              </div>
+              <div className="w-full flex justify-center h-10">
+                <Link className="w-56 h-10 border flex items-center justify-center bg-background rounded-md font-semibold" to={'updateprofile'}>Update profile</Link>
               </div>
               <div className="flex justify-center gap-2">
                 <div

@@ -11,7 +11,7 @@ const CompanyHeader = () => {
   
   const {  user,role } = useSelector((state: RootState) => state.userData);
   return (
-    <header className={`w-full mx-auto sticky top-0 left-0 z-10 border-b z-10 bg-background`}>
+    <header className={`w-full mx-auto sticky top-0 left-0 z-50 border-b  bg-background`}>
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center  [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <header
         className={`h-20 flex items-center justify-center  "w-[95%] md:w-[95%] mx-auto`}

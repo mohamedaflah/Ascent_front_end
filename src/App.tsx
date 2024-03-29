@@ -29,6 +29,7 @@ import { ApplicantDetail } from "./pages/company/ApplicantProfile";
 import { ApplicantLayout } from "./pages/company/ApplicantLayout/ApplicantLayout";
 import { ApplicantResume } from "./pages/company/ApplicantResume";
 import { ApplicantHiringStage } from "./pages/company/ApplicanHiringStage";
+import { DocumentReupload } from "./pages/company/DocumentReupload";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -122,11 +123,15 @@ function App() {
           </>
         )}
         {role === "company" && (
-          <Route path="/company/" element={<Layout role={role} />}>
+          <Route
+            path="/company/"
+            element={user ? <Layout role={role} /> : <Navigate to={"/"} />}
+          >
             <Route index element={<CompanyDashbord />} />
             <Route path="jobs" element={<JobListing />} />
             <Route path="applicants" element={<Applicants />} />
             <Route path="companyprofile" element={<CompanyProfile />} />
+            <Route path="updateprofile" element={<DocumentReupload/>}/>
             <Route
               path="applicantdetail/:jobId/:applicantId"
               element={<ApplicantLayout />}

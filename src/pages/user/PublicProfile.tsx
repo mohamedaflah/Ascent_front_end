@@ -25,8 +25,8 @@ export function PublicProfile() {
         className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start  `}
       >
         <div className="h-full w-full  space-y-3 ">
-          <div className="w-full min-h-72  flex flex-col border">
-            <div className="h-56 w-full border relative">
+          <div className="w-full min-h-72  flex flex-col border ">
+            <div className="h-56 w-full border relative ">
               <div className="absolute right-2 top-2 text-white p-3">
                 <Edit />
               </div>
@@ -36,9 +36,9 @@ export function PublicProfile() {
                 alt=""
               />
             </div>
-            <div className="min-h-28 w-full flex  ">
+            <div className="min-h-28 w-full flex   ">
               <div className="relative">
-                <div className="h-36 w-36  rounded-full absolute -top-16 left-5 bg-white p-2">
+                <div className="h-36 w-36  rounded-full absolute -top-16 left-5 bg-white p-1">
                   <img
                     src={HeaderPic}
                     className="h-full w-full object-cover rounded-full"
@@ -46,9 +46,10 @@ export function PublicProfile() {
                   />
                 </div>
               </div>
-              <div className="min-h-16 w-full flex justify-end">
+              <div className="min-h-16 w-full flex justify-end ">
+                <div className="w-40 h-36 "></div>
                 <div className="w-[70%] lg:w-[82%] h-full py-3 flex justify-between">
-                  <div className="w-[60%] h-full  flex flex-col gap-3">
+                  <div className="w-[60%] ml-5 h-full  flex flex-col gap-3">
                     <div>
                       <h1 className="maintxt text-3xl font-bold">
                         {user?.firstname && user.lastname ? (

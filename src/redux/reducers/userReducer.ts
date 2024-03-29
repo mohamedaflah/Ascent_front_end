@@ -14,6 +14,7 @@ import {
 import toast from "react-hot-toast";
 import {
   passwordUpdation,
+  updateCompleteProfileCompany,
   updateProfile,
   updateProfileThreePercent,
   updateProfileTwoPercent,
@@ -239,6 +240,26 @@ const userReducer = createSlice({
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
         state.user = null;
+      })
+      .addCase(updateCompleteProfileCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCompleteProfileCompany.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.err = false;
+        state.role = payload.role;
+        state.message = payload.message;
+        state.user = payload.user;
+        state.status = payload.status;
+        toast.success("Documents updated")
+      })
+      .addCase(updateCompleteProfileCompany.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
+        state.user = null;
+        toast.error(state.err)
       })
       // resend mail
       .addCase(resendMail.pending, (state) => {

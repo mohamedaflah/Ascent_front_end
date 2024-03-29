@@ -66,7 +66,7 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
               <BsBookmarkStarFill className="text-lg" />
             )}
           </div>
-          <div className="maintxt text-green-600 flex gap-1">
+          <div className="maintxt text-green-600 flex gap-1 items-center">
             <Sparkles className="w-4" />
             <span>Easy Apply</span>
           </div>

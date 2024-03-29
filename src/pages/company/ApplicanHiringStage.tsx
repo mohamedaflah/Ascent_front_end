@@ -80,7 +80,7 @@ export function ApplicantHiringStage() {
             </SelectContent>
           </Select>
         </div>
-        <div className="w-full h-12 flex gap-2 ">
+        <div className="w-full h-12 flex gap-2 mt-2 ">
           {applicationStatus.map((value, index) => (
             <div
               key={index}
