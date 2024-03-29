@@ -42,7 +42,7 @@ function CompanyLayout() {
     <main className=" flex ">
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5  sticky top-0 left-0 hidden lg:flex ${
-          sideExpand ? "w-72" : "w-28"
+          sideExpand ? "w-64" : "w-28"
         } transition-all duration-500 ease-in-out`}
       >
         <div
@@ -53,7 +53,7 @@ function CompanyLayout() {
           {sideExpand ? (
             <img
               src={theme === "light" ? AscentIcon : AscentDarkIcon}
-              className="w-28"
+              className="w-24"
             />
           ) : (
             <img src={ascentFirecon} alt="" />
@@ -71,12 +71,12 @@ function CompanyLayout() {
             <NavLink
               key={item?.id}
               to={item?.link ? `${item?.link}/` : "/"}
-              className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm ${
+              className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-1 h-9 cursor-pointer rounded-sm ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
-              <item.icon className="" />{" "}
+              <item.icon className="w-5" />{" "}
               {sideExpand && <span className="">{item?.label as string}</span>}
             </NavLink>
           ))}
@@ -96,7 +96,7 @@ function CompanyLayout() {
                   !sideExpand && "justify-center"
                 }`}
               >
-                <value.icon />{" "}
+                <value.icon className="w-5" />{" "}
                 {sideExpand &&
                   (value.extraLabel === "Logout" ? (
                     <value.label />
@@ -124,7 +124,7 @@ function CompanyLayout() {
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
-                <span>{user?.firstname ? user?.firstname : user?.name}</span>
+                <span className="line-clamp-1">{user?.firstname ? user?.firstname : user?.name}</span>
                 <span className="line-clamp-1" title={user?.email}>
                   {user?.email}
                 </span>

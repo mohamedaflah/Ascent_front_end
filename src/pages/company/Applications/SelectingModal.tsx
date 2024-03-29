@@ -78,7 +78,7 @@ export const SelectingModal = forwardRef<
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button ref={ref}>Selected</Button>
+        <button className=" h-full w-full flex justify-start items-center " ref={ref}>Selected</button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

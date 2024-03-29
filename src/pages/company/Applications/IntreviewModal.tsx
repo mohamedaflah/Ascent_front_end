@@ -80,7 +80,7 @@ export const InterviewModal = forwardRef<
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button ref={ref}>interview</Button>
+        <button className=" h-full w-full flex justify-start items-center " ref={ref}>interview</button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

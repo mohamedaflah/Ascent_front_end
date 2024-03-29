@@ -4,7 +4,6 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
@@ -13,13 +12,14 @@ import { Applicant, Job } from "@/types/types.jobReducer";
 import { Pen } from "lucide-react";
 import { useSelector } from "react-redux";
 import { ShortListModal } from "./Applications/ShortlistModal";
-import { useRef } from "react";
+
 import { SelectingModal } from "./Applications/SelectingModal";
 import { InterviewModal } from "./Applications/IntreviewModal";
 import { RejectModal } from "./Applications/RejectModal";
 import { format } from "date-fns";
 import { InterviewShedule } from "@/components/company/InteviewSchedule";
 import { convertTimeToAMPM } from "@/util/convertTimeAMPM";
+import { CustomSelectItem } from "@/components/custom/customeSelectItem";
 
 export function ApplicantHiringStage() {
   const { job }: { job: Applicant } = useSelector(
@@ -27,56 +27,55 @@ export function ApplicantHiringStage() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as unknown as Job | Applicant | any;
 
-  const shortListBtnRef = useRef<HTMLButtonElement>(null);
-  const selectButtonRef = useRef<HTMLButtonElement>(null);
-  const interviewButton = useRef<HTMLButtonElement>(null);
-  const rejectedwButton = useRef<HTMLButtonElement>(null);
-  const handleStatusChange = (
-    value: "Shortlisted" | "Interview" | "Rejected" | "Selected"
-  ) => {
-    if (value === "Shortlisted") {
-      shortListBtnRef.current?.click();
-    } else if (value == "Selected") {
-      selectButtonRef.current?.click();
-    } else if (value == "Interview") {
-      interviewButton.current?.click();
-    } else if (value === "Rejected") {
-      rejectedwButton.current?.click();
-    }
-  };
+  // const shortListBtnRef = useRef<HTMLButtonElement>(null);
+  // const selectButtonRef = useRef<HTMLButtonElement>(null);
+  // const interviewButton = useRef<HTMLButtonElement>(null);
+  // const rejectedwButton = useRef<HTMLButtonElement>(null);
+  // const handleStatusChange = (
+  //   value: "Shortlisted" | "Interview" | "Rejected" | "Selected"
+  // ) => {
+  //   if (value === "Shortlisted") {
+  //     shortListBtnRef.current?.click();
+  //   } else if (value == "Selected") {
+  //     selectButtonRef.current?.click();
+  //   } else if (value == "Interview") {
+  //     interviewButton.current?.click();
+  //   } else if (value === "Rejected") {
+  //     rejectedwButton.current?.click();
+  //   }
+  // };
   return (
     <main className="w-full h-full">
-      <div className="hidden">
+      {/* <div className="hidden">
         <ShortListModal ref={shortListBtnRef} />
         <SelectingModal ref={selectButtonRef} />
         <InterviewModal ref={interviewButton} />
         <RejectModal ref={rejectedwButton} />
-      </div>
+      </div> */}
       <div className="maintxt w-full min-h-56 p-1 space-y-2 ">
         <div className="flex justify-between ">
           <h1 className="text-2xl font-semibold">Current stage</h1>
-          <Select onValueChange={handleStatusChange}>
+          <Select >
             <SelectTrigger className="w-[170px] px-4 rounded-md ">
               <SelectValue placeholder="Selecte Hiring stage" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel className="text-primary bg-primary/5 m-3" >
+                <SelectLabel className="text-primary bg-primary/5 m-3">
                   Stages
                 </SelectLabel>
-
-                <SelectItem className="cursor-pointer" value="Shortlisted">
-                  Shortlisted
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="Interview">
-                  Interview
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="Rejected">
-                  Rejected
-                </SelectItem>
-                <SelectItem className="cursor-pointer" value="Selected">
-                  Selected
-                </SelectItem>
+                <CustomSelectItem className="cursor-pointer flex justify-center">
+                  <ShortListModal  />
+                </CustomSelectItem>
+                <CustomSelectItem className="cursor-pointer">
+                  <InterviewModal/>
+                </CustomSelectItem>
+                <CustomSelectItem className="cursor-pointer">
+                  <RejectModal/>
+                </CustomSelectItem>
+                <CustomSelectItem className="cursor-pointer">
+                  <SelectingModal/>
+                </CustomSelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -150,7 +149,6 @@ export function ApplicantHiringStage() {
                   </div>
                 </div>
               </div>
-              
             </div>
           ))}
         </div>

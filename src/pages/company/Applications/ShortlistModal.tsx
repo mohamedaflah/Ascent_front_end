@@ -6,7 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog";
-import { Button } from "@/shadcn/ui/button";
+
 
 import { forwardRef, useRef } from "react";
 import { ModalHeader } from "./ModalHeader";
@@ -83,8 +83,8 @@ export const ShortListModal = forwardRef<
     <>
       <Toast ref={toast} />
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button ref={ref}>Shortlisted</Button>
+        <AlertDialogTrigger asChild className="">
+          <button className=" h-full w-full flex justify-start items-center " ref={ref}>Shortlisted</button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

@@ -104,7 +104,7 @@ export function CompanyProfile() {
             </div>
           </div>
           <div className="w-full md:w-1/2 md:block pl-10 min-h-56 space-y-4 ">
-            <div className="space-y-3 md:h-96 border-b w-full">
+            <div className="space-y-3 md:min-h-96 border-b w-full">
               <div className="maintxt w-full flex justify-between">
                 <h1 className="text-3xl font-semibold">Tech stack</h1>
                 <div className="flex gap-2">
@@ -119,7 +119,7 @@ export function CompanyProfile() {
               <div className=" w-full  flex flex-wrap pr-4">
                 {user.techStack?.map((value, index) => (
                   <div className="flex flex-col w-28 h-32 " key={index}>
-                    <div className="w-full h-24  text-8xl flex items-center justify-center">
+                    <div className="w-full h-20  text-7xl flex items-center justify-center">
                       <TechnologyIcon technology={value} />
                     </div>
                     <div className="w-full flex items-center justify-center text-lg">

@@ -68,7 +68,7 @@ export const RejectModal = forwardRef<HTMLButtonElement, ShortListModalProps>(
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button ref={ref}>Rejected</Button>
+          <button className=" h-full w-full flex justify-start items-center " ref={ref}>Rejected</button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

@@ -114,7 +114,6 @@ export const jobListColumns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="Applications" />
     ),
     cell: ({ row }) => {
-      console.log(row.getValue("vacancies"), "vakdidi");
       const rowValue = row.getValue("vacancies") as string;
       return (
         <div className="flex flex-col gap-2 h-10">
@@ -123,7 +122,13 @@ export const jobListColumns: ColumnDef<Job>[] = [
           </div>
           <div>
             <div className="h-2 w-[100px] dark:bg-green-700  bg-gray-300">
-              <div className="h-full w-[12%] bg-green-400"></div>
+              <div
+                className={`h-full w-[${String(
+                  (Number(rowValue.split("-")[0]) /
+                    Number(rowValue.split("-")[1])) *
+                    100
+                )}%] bg-green-400`}
+              ></div>
             </div>
           </div>
         </div>

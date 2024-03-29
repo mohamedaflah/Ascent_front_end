@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOneApplicant } from "@/redux/actions/jobActions";
 import TimeAgo from "@/components/custom/LiveTime";
 import { Applicant, Job } from "@/types/types.jobReducer";
+import { formatDateAndTime } from "@/util/formateDate";
 export function ApplicantLayout() {
   const { jobId, applicantId } = useParams();
   const dispatch: AppDispatch = useDispatch();
@@ -67,8 +68,12 @@ export function ApplicantLayout() {
               <div className="w-full min-h-28 p-3 bg-primary/5 rounded-md ">
                 <div className="h-9 w-full border-b flex justify-between">
                   <span>Applied jobs</span>
-                  <span className="text-textPrimary">
-                    {job?.applicants && job.applicants.appliedDate && (
+                  <span className="text-textPrimary flex gap-2">
+                    
+                    {job?.applicants && job?.applicants.appliedDate && <>
+                      {formatDateAndTime(job?.applicants.appliedDate).date}
+                    </>}
+                    {job?.applicants && job?.applicants.appliedDate && (
                       <TimeAgo timestamp={job?.applicants.appliedDate} />
                     )}
                   </span>
