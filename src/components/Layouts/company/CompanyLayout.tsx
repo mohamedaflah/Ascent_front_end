@@ -31,16 +31,16 @@ function CompanyLayout() {
 
   const context: ThemeProviderState = useContext(ThemeProviderContext);
   const [sideExpand, setIsSideExpand] = useState<boolean>(true);
-  
+
   const dispatch: AppDispatch = useDispatch();
-  const location=useLocation()
+  const location = useLocation();
   useEffect(() => {
     setTheme(context?.theme);
     dispatch(getUser()).then();
   }, [context?.theme, dispatch]);
-  
+
   return (
-    <main className=" flex ">
+    <main className=" flex  ">
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5  sticky top-0 left-0 hidden lg:flex ${
           sideExpand ? "w-64" : "w-28"
@@ -120,7 +120,7 @@ function CompanyLayout() {
               <img
                 src={!user?.icon ? defaultProfile : user?.icon}
                 alt=""
-                className="rounded-full object-cover h-14 w-14"
+                className="rounded-full object-cover h-12 w-12"
               />
             </div>
             {sideExpand && (
@@ -141,7 +141,8 @@ function CompanyLayout() {
         <CompanyHeader />
 
         {!user?.profileCompleted && <CompanyProfileCompletion />}
-        {(role === "company" && location.pathname!=='/company/updateprofile') &&
+        {role === "company" &&
+        location.pathname !== "/company/updateprofile" &&
         (status === "Pending" ||
           status === "Rejected" ||
           user?.approvelStatus?.status == "Rejected" ||
@@ -176,7 +177,12 @@ function CompanyLayout() {
                 )}
               </div>
               <div className="w-full flex justify-center h-10">
-                <Link className="w-56 h-10 border flex items-center justify-center bg-background rounded-md font-semibold" to={'updateprofile'}>Update profile</Link>
+                <Link
+                  className="w-56 h-10 border flex items-center justify-center bg-background rounded-md font-semibold"
+                  to={"updateprofile"}
+                >
+                  Update profile
+                </Link>
               </div>
               <div className="flex justify-center gap-2">
                 <div

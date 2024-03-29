@@ -26,7 +26,7 @@
 .pdf-container {
   position: relative;
   width: 100%;
-  padding-top: 100%; /* Example for an aspect ratio of 1:1.4142 (A4) */
+  padding-top: 80%; /* Example for an aspect ratio of 1:1.4142 (A4) */
 }
 
 .pdf-container iframe {

@@ -11,6 +11,7 @@ const initialState: adminReducerInitial = {
   loading: false,
   err: false,
   company: null,
+  page: 0,
 };
 const adminReducer = createSlice({
   name: "admin",
@@ -25,6 +26,7 @@ const adminReducer = createSlice({
         state.loading = false;
         state.err = false;
         state.company = payload?.companies;
+        state.page = payload.totalPages;
       })
       .addCase(getPendingCompanies.rejected, (state, { payload }) => {
         state.company = null;

@@ -28,7 +28,7 @@ function AdminLayout() {
     <main className=" flex overflow-hidden">
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5  hidden lg:flex  sticky top-0 left-0 ${
-          sideExpand ? "min-w-72" : "min-w-28"
+          sideExpand ? "min-w-60" : "min-w-28"
         } transition-all duration-500 ease-in-out`}
       >
         <div
@@ -55,15 +55,15 @@ function AdminLayout() {
         >
           {adminSidebarLabel.map((item) => (
             <NavLink
-              to={item?.link ? `${item?.link}/` : "/"}
+              to={item?.link ? `${item?.link}` : "/"}
               key={item.id}
               
-              className={`flex text-1xl items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm transition duration-500 ${
+              className={`flex text-sm items-center gap-4 text-textPrimary hover:bg-primary hover:text-white px-3 py-2 cursor-pointer rounded-sm transition duration-500 ${
                 !sideExpand && "justify-center"
               }`}
             >
               {/* <Home /> <span>Home</span> */}
-              <item.icon  />{" "}
+              <item.icon className="w-5"  />{" "}
               {sideExpand && (
                 <span >{item.label as string}</span>
               )}
@@ -85,12 +85,12 @@ function AdminLayout() {
                   !sideExpand && "justify-center"
                 }`}
               >
-                <value.icon />{" "}
+                <value.icon className="w-5" />{" "}
                 {sideExpand &&
                   (value.extraLabel === "Logout" ? (
                     <value.label />
                   ) : (
-                    <span>{value.label as string}</span>
+                    <span className="text-sm">{value.label as string}</span>
                   ))}
               </div>
             ))}

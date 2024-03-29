@@ -31,7 +31,7 @@ const ChangeCompanyApprovel = ({ status, id }: childProps) => {
       {status === "Rejected" ? (
         <AlertDialog>
           <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold">
-          <UserX />
+          <UserX className="w-5" />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -60,7 +60,7 @@ const ChangeCompanyApprovel = ({ status, id }: childProps) => {
       ) : (
         <AlertDialog>
           <AlertDialogTrigger className="w-full flex justify-start  h-9 items-center font-semibold">
-          <UserCheck />
+          <UserCheck className="w-5" />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

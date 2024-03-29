@@ -28,6 +28,7 @@ const initialState: UserReducerInitial = {
   user: null,
   message: "",
   status: "",
+  
 };
 
 const userReducer = createSlice({
@@ -251,7 +252,7 @@ const userReducer = createSlice({
         state.message = payload.message;
         state.user = payload.user;
         state.status = payload.status;
-        toast.success("Documents updated")
+        toast.success("Documents updated");
       })
       .addCase(updateCompleteProfileCompany.rejected, (state, { payload }) => {
         state.loading = false;
@@ -259,7 +260,7 @@ const userReducer = createSlice({
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
         state.user = null;
-        toast.error(state.err)
+        toast.error(state.err);
       })
       // resend mail
       .addCase(resendMail.pending, (state) => {

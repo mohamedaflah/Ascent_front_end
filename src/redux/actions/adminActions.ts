@@ -4,9 +4,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getPendingCompanies = createAsyncThunk(
   "admin/getPendingcompanies",
-  async (_, { rejectWithValue }) => {
+  async (queries: { page: number; pageSize: number }, { rejectWithValue }) => {
     try {
-      const { data } = await CompanyAxios.get(`/get-approvelcompanies`);
+      const { data } = await CompanyAxios.get(
+        `/get-approvelcompanies?page=${queries.page}&pageSize=${queries.pageSize}`
+      );
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

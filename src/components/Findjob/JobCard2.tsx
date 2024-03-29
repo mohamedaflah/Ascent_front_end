@@ -29,7 +29,7 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
           <img
             src={job?.company?.icon}
             alt=""
-            className="h-8  object-cover rounded-full "
+            className=" size-8  object-cover rounded-full "
           />
         </div>
         <div className="w-full flex flex-col  gap-1 ">

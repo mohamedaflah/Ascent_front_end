@@ -24,6 +24,7 @@ export type adminReducerInitial = {
   loading: boolean;
   err: boolean | string;
   company: null | Company[];
+  page?:number
 };
 
 export interface categoryPayload {

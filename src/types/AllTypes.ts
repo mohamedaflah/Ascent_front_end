@@ -22,6 +22,7 @@ export type UserReducerInitial = {
   user: null | any;
   message?: string;
   status?: string;
+  
 };
 
 export type userType = {

@@ -20,13 +20,13 @@ export const adminSidebarLabel: Labels[] = [
     id: uuidv4(),
     label: "Dashbaord",
     icon: LayoutDashboard,
-    link: "/admin/",
+    link: "/admin//",
   },
   {
     id: uuidv4(),
     label: "Request and Approvel",
     icon: GitPullRequest,
-    link: "approvels",
+    link: "approvels/?page=1&pageSize=7",
   },
   {
     id: uuidv4(),
@@ -50,6 +50,6 @@ export const adminSidebarLabel: Labels[] = [
     id: uuidv4(),
     label: "Categories",
     icon: PackageSearch,
-    link: "categories",
+    link: "categories/",
   },
 ];

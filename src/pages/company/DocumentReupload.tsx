@@ -140,8 +140,8 @@ export function DocumentReupload() {
     setValues();
   }, [user, form]);
   return (
-    <main className="w-full h-screen z-20">
-      <section className="w-[95%] mx-auto h-full">
+    <main className="w-full h-screen z-20 overflow-y-auto ">
+      <section className="w-[95%] mx-auto h-full py-2">
         <div className="w-full h-full">
           <Form {...form}>
             <form
@@ -150,7 +150,7 @@ export function DocumentReupload() {
             >
               <div className="w-full min-h-64  relative  ">
                 <label
-                  className="w-full h-56 relative flex items-center "
+                  className="w-full h-36 lg:h-56 relative flex items-center cursor-pointer"
                   htmlFor="cover"
                 >
                   {form.watch("coverImage") ? (
@@ -158,7 +158,7 @@ export function DocumentReupload() {
                       src={URL.createObjectURL(
                         form.watch("coverImage") as never
                       )}
-                      className="w-full h-full absolute object-cover"
+                      className="w-full h-full absolute object-cover rounded-sm "
                       alt=""
                     />
                   ) : (
@@ -178,7 +178,7 @@ export function DocumentReupload() {
                   <div className="w-[95%]   z-10 absolute left-1/2 -translate-x-1/2 bottom-2 flex items-end gap-4 ">
                     <label
                       htmlFor="icon"
-                      className="w-40 flex items-center justify-center h-36 rounded-3xl overflow-hidden border  bg-white p-1  left-5 -bottom-20"
+                      className="lg:w-40 cursor-pointer w-24 flex items-center justify-center h-24 lg:h-36 rounded-3xl overflow-hidden border  bg-white p-1  left-5 -bottom-20"
                     >
                       {form.watch("icon") ? (
                         <img
@@ -219,7 +219,7 @@ export function DocumentReupload() {
                       <FormControl>
                         {/* <Input placeholder="Enter description" {...field} /> */}
                         <Textarea
-                          className="w-full"
+                          className="w-full h-32"
                           placeholder="Enter description"
                           {...field}
                         ></Textarea>
@@ -523,9 +523,9 @@ export function DocumentReupload() {
                             {form.getValues("certificate") && (
                               <label
                                 htmlFor="ceritifcate"
-                                className="absolute cursor-pointer right-0 -bottom-3 h-9 w-9 bg-primary flex items-center justify-center rounded-full"
+                                className="absolute text-white cursor-pointer right-0 -bottom-3 h-9 w-9 bg-primary flex items-center justify-center rounded-full"
                               >
-                                <Upload />
+                                <Upload className="w-5"/>
                               </label>
                             )}
                           </div>
