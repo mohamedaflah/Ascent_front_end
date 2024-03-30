@@ -30,7 +30,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { shortListApplication } from "@/redux/actions/jobActions";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
-import { Toast } from "primereact/toast";
+
 
 const shortListFormSchema = z.object({
   title: z.string().min(5).max(100),
@@ -66,22 +66,15 @@ export const ShortListModal = forwardRef<
       })
     );
     if (res.type.endsWith("fulfilled")) {
-      showSuccess();
+
       closeRef.current?.click();
     }
   };
-  const toast = useRef<Toast>(null);
-  const showSuccess = () => {
-    toast.current?.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Registration Completed",
-      life: 3000,
-    });
-  };
+  
+
   return (
     <>
-      <Toast ref={toast} />
+     
       <AlertDialog>
         <AlertDialogTrigger asChild className="">
           <button className=" h-full w-full flex justify-start items-center " ref={ref}>Shortlisted</button>

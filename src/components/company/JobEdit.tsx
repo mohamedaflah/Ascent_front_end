@@ -228,7 +228,7 @@ export function JobEdit({ jobData }: ChildProp) {
                         name="employment"
                         render={({ field }) => (
                           <FormItem>
-                            <LabelField>Choose an employment type</LabelField>
+                            <LabelField>employment type</LabelField>
                             <Select onValueChange={field.onChange}>
                               <FormControl>
                                 <SelectTrigger className="w-full">
