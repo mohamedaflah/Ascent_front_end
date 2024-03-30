@@ -24,6 +24,9 @@ export function FindJobs() {
       getAllJobs({
         page: Number(searchParam.get("page")),
         pageSize: Number(searchParam.get("pageSize")),
+        category: (String(searchParam.get("category"))),
+        employment: String(searchParam.get("employment")),
+        search:String(searchParam.get('search'))
       })
     );
   }, [dispatch, searchParam]);
@@ -40,7 +43,6 @@ export function FindJobs() {
     setSearchParam(params);
   };
 
- 
   return (
     <main className="w-full  ">
       <FindbJobHero />
@@ -89,9 +91,7 @@ export function FindJobs() {
               <DoubleArrowRightIcon className="h-4 w-4" />
             </Button>
           </div>
-          <div className="w-full h-20">
-
-          </div>
+          <div className="w-full h-20"></div>
         </div>
       </main>
     </main>

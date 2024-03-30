@@ -1,12 +1,13 @@
 // const defaultTheme = require("tailwindcss/defaultTheme");
 
-import 'tailwindcss/defaultTheme'
+import "tailwindcss/defaultTheme";
 // const svgToDataUri = require("mini-svg-data-uri");
-import svgToDataUri from 'mini-svg-data-uri'
-import "tailwindcss/colors"
+import svgToDataUri from "mini-svg-data-uri";
+import "tailwindcss/colors";
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
-const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
-
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
 
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
@@ -93,6 +94,7 @@ module.exports = {
   },
   plugins: [
     require("tailwindcss-animate"),
+    require("daisyui"),
     addVariablesForColors,
     function ({ matchUtilities, theme }) {
       matchUtilities(

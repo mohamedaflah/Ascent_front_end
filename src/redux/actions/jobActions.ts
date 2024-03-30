@@ -60,9 +60,21 @@ export const deleteJob = createAsyncThunk(
 
 export const getAllJobs = createAsyncThunk(
   "job/get-alljob",
-  async (query:{page:number,pageSize:number}, { rejectWithValue }) => {
+  async (
+    query: {
+      page: number;
+      pageSize: number;
+      category?: string;
+      employment?: string;
+      search?: string;
+    },
+    { rejectWithValue }
+  ) => {
     try {
-      const { data } = await JobAxios.get(`/api/v1/job?page=${query.page}&pageSize=${query.pageSize}`);
+      const { data } = await JobAxios.get(
+        `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}`
+      );
+      console.log("🚀 ~ data: JB", data)
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -184,7 +196,7 @@ export const scheduleInterview = createAsyncThunk(
         `api/v1/applicants/${sendPayload.jobId}/${sendPayload.applicantId}`,
         sendPayload.payload
       );
-      return data; 
+      return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
     }

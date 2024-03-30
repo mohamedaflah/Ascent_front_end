@@ -24,9 +24,10 @@ export function FindbJobHero() {
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const param = new URLSearchParams(searchParam);
     param.set("search", event.target.value);
+    param.set("page","1")
     setTimeout(() => {
       setSearchParam(param);
-    }, 2000);
+    }, 1000);
   };
   return (
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">

@@ -49,7 +49,7 @@ import toast from "react-hot-toast";
 import { generateToken } from "@/util/generateToken";
 
 const jobformSchema = z.object({
-  jobTitle: z.string().min(2).max(20),
+  jobTitle: z.string().min(2).max(30),
   employment: z.string().nonempty("Select employment"),
   description: z.string().min(8),
   category: z.string().nonempty("Select category"),

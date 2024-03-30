@@ -11,7 +11,7 @@ import { getSpecificJob } from "@/redux/actions/jobActions";
 import { ApplyJob } from "./ApplyJobModal";
 import { Button } from "@/shadcn/ui/button";
 import toast from "react-hot-toast";
-import {  CompleteProfile } from "../users/ProfileCompleteModal";
+import { CompleteProfile } from "../users/ProfileCompleteModal";
 
 export function FindJobList() {
   const { jobs, job } = useSelector((state: RootState) => state.job);
@@ -19,10 +19,10 @@ export function FindJobList() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (!job) {
-      dispatch(getSpecificJob(jobs?.[0]._id ?? ""));
+      dispatch(getSpecificJob(jobs?.[0]?._id ?? ""));
     }
   }, [dispatch, job, jobs]);
-  
+
   return (
     <main className="w-full h-[768px] flex ">
       <FindJobFilterBar />
@@ -38,8 +38,23 @@ export function FindJobList() {
         <div className="w-full mt-3   h-full flex gap-2">
           <div className=" w-full lg:w-[500px] xl:min-w-[410px] h-full space-y-3  ">
             {jobs?.map((value) => (
-              <JobCompanyCard2 key={value._id} jobData={value} />
+              <JobCompanyCard2 key={value?._id} jobData={value} />
             ))}
+            {/* {jobs && jobs?.length <= 0 ? (
+              <>
+                {jobs.map((value) => (
+                  <JobCompanyCard2 key={value?._id} jobData={value} />
+                ))}
+              </>
+            ) : (
+              <>
+                <div className="w-full h-28 rounded-sm border flex items-center justify-center">
+                  <h2 className="maintxt text-lg font-semibold">
+                    No jobs found with this condition
+                  </h2>
+                </div>
+              </>
+            )} */}
           </div>
           <div className="w-full  hidden   xl:block border rounded-[5px]  p-8 overflow-y-auto relative bg-background">
             <div className="flex w-full justify-between  h-28 bg-background z-10 ">
@@ -65,7 +80,7 @@ export function FindJobList() {
                         {user.profileCompleted ? (
                           <ApplyJob key={job?._id} />
                         ) : (
-                          <CompleteProfile/>
+                          <CompleteProfile />
                         )}
                       </>
                     ) : (

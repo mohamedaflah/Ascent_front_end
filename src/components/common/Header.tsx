@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CustomNavLink } from "../custom/CustomNav";
 
+
 const Header = () => {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
   const [landing, setisLanding] = useState<boolean>();
@@ -27,6 +28,7 @@ const Header = () => {
     setisLanding(location.pathname === "/");
   }, [location]);
   const navigate = useNavigate();
+
   return (
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10   ${
@@ -67,11 +69,12 @@ const Header = () => {
 
               <ModeToggle />
               <RiMenu3Fill className="md:hidden" />
+
             </div>
           </div>
         ) : (
           <div className="h-[80%] bg-transparent w-full flex justify-between items-center ">
-              <div></div>
+            <div></div>
             <div className="h-full flex gap-3">
               <NavLink
                 to={"/"}

@@ -123,11 +123,14 @@ export const jobListColumns: ColumnDef<Job>[] = [
           <div>
             <div className="h-2 w-[100px] dark:bg-green-700  bg-gray-300">
               <div
-                className={`h-full w-[${String(
-                  (Number(rowValue.split("-")[0]) /
-                    Number(rowValue.split("-")[1])) *
-                    100
-                )}%] bg-green-400`}
+                className={`h-full bg-green-400`}
+                style={{
+                  width: `${String(
+                    (Number(rowValue.split("-")[0]) /
+                      Number(rowValue.split("-")[1])) *
+                      100
+                  )}%`,
+                }}
               ></div>
             </div>
           </div>
@@ -182,7 +185,7 @@ export const jobListColumns: ColumnDef<Job>[] = [
           <ConfirmModal
             action={() => dispatch(deleteJob(row.original?._id as string))}
           >
-            {!row.original.status ? <Undo2 /> : <Trash2Icon />}
+            {!row.original.status ? <Undo2 className="w-5" /> : <Trash2Icon />}
           </ConfirmModal>
         </div>
       );
