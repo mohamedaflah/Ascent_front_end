@@ -15,16 +15,29 @@ import { Button } from "@/shadcn/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useSearchParams } from "react-router-dom";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 // import { useSearchParams } from "react-router-dom";
 
 export function FindbJobHero() {
   const [searchParam, setSearchParam] = useSearchParams();
   const { user } = useSelector((state: RootState) => state.userData);
+  const [searchVal, setSearchVal] = useState<string>("");
+  useEffect(() => {
+    const searchValue = new URLSearchParams(window.location.search).get(
+      "search"
+    );
+    if (searchValue) {
+      setSearchVal(searchValue);
+    }
+  }, []);
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchVal(event.target.value);
+    setValuetoSearchBox(event.target.value);
+  };
+  const setValuetoSearchBox = (value: string) => {
     const param = new URLSearchParams(searchParam);
-    param.set("search", event.target.value);
-    param.set("page","1")
+    param.set("search", value);
+    param.set("page", "1");
     setTimeout(() => {
       setSearchParam(param);
     }, 1000);
@@ -61,7 +74,7 @@ export function FindbJobHero() {
                 <Input
                   type="search"
                   onChange={handleSearchChange}
-                  
+                  value={searchVal}
                   placeholder="job title or keyword"
                   className="bg-transparent outline-none  focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300"
                 />
@@ -74,7 +87,7 @@ export function FindbJobHero() {
                 <Select
                 //  onValueChange={handleLocationChange}
                 >
-                  <SelectTrigger className="w-full bg-transparent   outline-none  focus-visible:ring-0 focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300">
+                  <SelectTrigger className="w-full bg-transparent  focus:ring-0 focus:ring-offset-0   outline-none  focus-visible:ring-0 focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300">
                     <SelectValue placeholder="Kolkata,India" />
                   </SelectTrigger>
                   <SelectContent className="w-full">

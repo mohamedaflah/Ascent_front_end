@@ -98,7 +98,7 @@ export function FindJobFilterBar() {
               <ChevronUp className="w-5" />
             </div>
             <div className="flex flex-col gap-2">
-              {categories?.map((value) => {
+              {categories?.filter(value=>value.status).map((value) => {
                 return (
                   <form className="flex gap-3 items-center" key={value._id}>
                     <CustomCheck
