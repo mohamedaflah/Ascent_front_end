@@ -2,8 +2,8 @@ import { Job } from "@/types/types.jobReducer";
 
 import { useEffect, useState } from "react";
 import { Bookmark, Sparkles } from "lucide-react";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { BsBookmarkStarFill } from "react-icons/bs";
 import { getSpecificJob } from "@/redux/actions/jobActions";
 interface ChildProp {
@@ -15,13 +15,16 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
     setJob(jobData);
   }, [jobData]);
   const dispatch: AppDispatch = useDispatch();
+  const { job: jobDetail } = useSelector((state: RootState) => state.job);
   const hadleClick = (id: string) => {
     dispatch(getSpecificJob(id));
   };
   const [saved, setSaved] = useState<boolean>(false);
   return (
     <div
-      className="w-full min-h-36 border  flex justify-center items-center hover:bg-backgroundAccent transition-all duration-500 cursor-pointer rounded-[5px]"
+      className={`w-full min-h-36 border  flex justify-center items-center hover:bg-backgroundAccent transition-all duration-500 cursor-pointer rounded-[5px] ${
+        jobDetail?._id == job?._id && "bg-backgroundAccent"
+      }`}
       onClick={() => hadleClick(job?._id ?? "")}
     >
       <div className="w-[95%] h-[80%] flex justify-between">
