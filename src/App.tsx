@@ -30,6 +30,7 @@ import { ApplicantLayout } from "./pages/company/ApplicantLayout/ApplicantLayout
 import { ApplicantResume } from "./pages/company/ApplicantResume";
 import { ApplicantHiringStage } from "./pages/company/ApplicanHiringStage";
 import { DocumentReupload } from "./pages/company/DocumentReupload";
+import { Messages } from "./pages/Messages";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -111,6 +112,7 @@ function App() {
             <Route index element={<MyProfile />} />
           </Route>
           <Route path="myprofile/:id" element={<PublicProfile />} />
+          <Route path="messages" element={<Messages />} />
         </Route>
 
         {role === "admin" && (
@@ -131,7 +133,7 @@ function App() {
             <Route path="jobs" element={<JobListing />} />
             <Route path="applicants" element={<Applicants />} />
             <Route path="companyprofile" element={<CompanyProfile />} />
-            <Route path="updateprofile" element={<DocumentReupload/>}/>
+            <Route path="updateprofile" element={<DocumentReupload />} />
             <Route
               path="applicantdetail/:jobId/:applicantId"
               element={<ApplicantLayout />}
