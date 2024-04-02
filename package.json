@@ -60,6 +60,7 @@
     "reactjs-pdf-reader": "^1.0.12",
     "recharts": "^2.12.3",
     "simple-icons": "^11.8.0",
+    "socket.io-client": "^4.7.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",

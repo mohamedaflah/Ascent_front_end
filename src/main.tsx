@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store.ts";
 import { Toaster } from "react-hot-toast";
 import { PrimeReactProvider } from "primereact/api";
+import { SocketProvider } from "./contexts/SocketContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <Router>
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <Toaster position="top-center" />
         <PrimeReactProvider>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </PrimeReactProvider>
       </Provider>
     </ThemeProvider>

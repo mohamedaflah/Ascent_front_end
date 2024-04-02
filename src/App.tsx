@@ -133,6 +133,7 @@ function App() {
             <Route path="jobs" element={<JobListing />} />
             <Route path="applicants" element={<Applicants />} />
             <Route path="companyprofile" element={<CompanyProfile />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="updateprofile" element={<DocumentReupload />} />
             <Route
               path="applicantdetail/:jobId/:applicantId"

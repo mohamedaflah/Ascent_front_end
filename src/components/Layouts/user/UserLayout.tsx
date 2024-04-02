@@ -25,8 +25,10 @@ function UserLayout() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     setTheme(context?.theme);
+  }, [context]);
+  useEffect(() => {
     dispatch(getUser()).then();
-  }, [context, dispatch]);
+  }, [dispatch]);
   return (
     <main className=" flex ">
       <aside
@@ -72,9 +74,7 @@ function UserLayout() {
             >
               {/* <Home /> <span>Home</span> */}
               <item.icon className="w-5" />{" "}
-              {sideExpand && (
-                <span className="">{item.label as string}</span>
-              )}
+              {sideExpand && <span className="">{item.label as string}</span>}
             </NavLink>
           ))}
         </div>
@@ -93,7 +93,7 @@ function UserLayout() {
                   !sideExpand && "justify-center"
                 }`}
               >
-                <value.icon className="w-5"/>{" "}
+                <value.icon className="w-5" />{" "}
                 {sideExpand &&
                   (value.extraLabel === "Logout" ? (
                     <value.label />

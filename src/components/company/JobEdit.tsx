@@ -358,7 +358,7 @@ export function JobEdit({ jobData }: ChildProp) {
                         name="vacancies"
                         render={() => (
                           <FormItem>
-                            <LabelField>number of vacancies</LabelField>
+                            <LabelField>vacancies</LabelField>
                             <FormControl>
                               <Input
                                 type="text"

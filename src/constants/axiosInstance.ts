@@ -5,6 +5,8 @@ export const authbaseUrl = String(
 export const userbaseURl = import.meta.env.VITE_USER_SERVICE_URI as string;
 export const companybaseURL = import.meta.env.VITE_COMPANY_SERVICE as string;
 export const jobBaseURL = import.meta.env.VITE_JOB_SERVICE as string;
+export const communicationbaseURL = import.meta.env
+  .VITE_COMMUNICATION_SERVICE as string;
 export const AuthAxios = axios.create({
   baseURL: authbaseUrl,
   withCredentials: true,
@@ -19,6 +21,11 @@ export const CompanyAxios = axios.create({
 });
 export const JobAxios = axios.create({
   baseURL: jobBaseURL,
+  withCredentials: true,
+});
+
+export const CommunicationAxios = axios.create({
+  baseURL: communicationbaseURL,
   withCredentials: true,
 });
 type Role = "admin" | "user" | "company";

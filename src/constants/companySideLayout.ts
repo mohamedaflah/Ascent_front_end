@@ -25,7 +25,7 @@ export const companySidBarLabels: Labels[] = [
     id: uuidv4(),
     label: "Messages",
     icon: MessagesSquare,
-    link: "approvels",
+    link: "messages",
   },
   {
     id: uuidv4(),
