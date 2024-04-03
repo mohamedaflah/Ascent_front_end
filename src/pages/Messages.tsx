@@ -119,7 +119,7 @@ export function Messages() {
   return (
     <main className="w-full  ">
       <main className="w-[95%] md:w-[95%] mx-auto h-screen grid grid-cols-10">
-        <div className="col-span-10 sm:col-span-4  lg:col-span-3 border-r h-screen ">
+        <div className="col-span-10 sm:col-span-4  lg:col-span-3 border-r h-screen  ">
           <div className="mx-auto md:m-0 flex flex-col h-full w-[90%] ">
             <div className="w-full h-28  flex items-end">
               <div className="h-[70%] w-full flex items-start">

@@ -46,3 +46,17 @@ export const getAllMessages = createAsyncThunk(
     }
   }
 );
+
+export const deleteMessage = createAsyncThunk(
+  "messages/delte-message",
+  async (messageId: string, { rejectWithValue }) => {
+    try {
+      const { data } = await CommunicationAxios.delete(
+        `/api/v2/messages/${messageId}`
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

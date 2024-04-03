@@ -4,7 +4,11 @@ import {
   MessageReducerInitial,
 } from "@/types/types.messagereducer";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { createMessage, getAllMessages } from "../actions/messageAction";
+import {
+  createMessage,
+  deleteMessage,
+  getAllMessages,
+} from "../actions/messageAction";
 import { ErrorPayload } from "@/types/AllTypes";
 import toast from "react-hot-toast";
 
@@ -60,9 +64,30 @@ const messageReducer = createSlice({
         state.err = errorPayload.message;
         state.messages = null;
         toast.error(state.err);
+      })
+      .addCase(deleteMessage.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteMessage.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        const messages = state.messages;
+        
+        state.messages = messages?.map((value) => {
+          if (value._id === payload.message._id) {
+            return payload.message;
+          } else {
+            return value;
+          }
+        }) as Message[] | null;
+      })
+      .addCase(deleteMessage.rejected, (state,{payload}) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(state.err);
       });
   },
 });
 
-export const {setMessage}=messageReducer.actions
+export const { setMessage } = messageReducer.actions;
 export default messageReducer.reducer;

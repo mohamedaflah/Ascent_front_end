@@ -49,23 +49,33 @@ export function SenderCard({ message }: ChildProp) {
               </div>
             </div>
           ) : message.content.type === "image" ? (
-            <div
-              className={` ${
-                message.content.subcontent && "border p-2"
-              }  rounded-md`}
-            >
-              <div className="flex flex-col w-56 h-48 ">
-                <img
-                  src={message.content.content}
-                  className="w-full h-full object-cover rounded-sm"
-                  alt=""
-                />
-              </div>
-              {message.content.subcontent && (
-                <div className="divClass mt-2">
-                  {message.content.subcontent.content}
+            <div className="relative">
+              
+              <div
+                className={` ${
+                  message.content.subcontent && "border p-2"
+                }  rounded-md`}
+              >
+                <div className="flex flex-col w-full h-48  ">
+                  <img
+                    src={message.content.content}
+                    className="w-full h-full object-cover rounded-sm"
+                    alt=""
+                  />
                 </div>
-              )}
+                {message.content.subcontent && (
+                  <div className="divClass mt-2">
+                    {message.content.subcontent.content}
+                  </div>
+                )}
+              </div>
+              <div className="maintxt text-textPrimary w-full pt-1 ">
+                <span>
+                  <TimeAgo
+                    timestamp={message?.createdAt as string | number | Date}
+                  />
+                </span>
+              </div>
             </div>
           ) : (
             <div></div>

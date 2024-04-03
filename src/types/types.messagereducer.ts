@@ -28,6 +28,7 @@ export interface Message {
   senderName?: string;
   senderProfile?: string;
   ChatId?: string;
+  deleteStatus?: boolean;
 }
 
 export interface CreateMessagePayload {
