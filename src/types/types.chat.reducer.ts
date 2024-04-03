@@ -8,4 +8,5 @@ export interface ChatInitial {
   users?: User[] | null;
   selectedUser?: Company | User | null;
   chatId?: string;
+  typingUsers?: string[];
 }

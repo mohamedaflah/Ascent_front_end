@@ -17,7 +17,13 @@ const initialState: MessageReducerInitial = {
 const messageReducer = createSlice({
   name: "messages",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessage: (state, action: PayloadAction<Message>) => {
+      const messages = state.messages;
+      messages?.push(action.payload);
+      state.messages = messages;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createMessage.pending, (state) => {
@@ -58,4 +64,5 @@ const messageReducer = createSlice({
   },
 });
 
+export const {setMessage}=messageReducer.actions
 export default messageReducer.reducer;

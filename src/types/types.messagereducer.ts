@@ -13,7 +13,7 @@ interface IMessageContentSubcontent {
 interface IMessageContent {
   type: "audio" | "video" | "text" | "image" | "doc";
   content: string;
-  subcontent: IMessageContentSubcontent;
+  subcontent?: IMessageContentSubcontent;
   isReply?: boolean;
   repliedMessage?: string;
 }

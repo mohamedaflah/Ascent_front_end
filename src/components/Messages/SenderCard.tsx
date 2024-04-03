@@ -19,31 +19,57 @@ export function SenderCard({ message }: ChildProp) {
   return (
     <div className={`w-full flex justify-start`} key={message?._id}>
       <div className="min-h-20  w-96 flex ">
-        <div className="h-full w-14 flex justify-start ">
+        <div className="h-full min-w-14 flex justify-start ">
           <img
             src={message.senderProfile ? message.senderProfile : profileImage}
             className="w-10 h-10 rounded-full object-cover"
             alt=""
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2  ">
           <div className="">
             <span className="font-semibold text-[12px]">
               {role === "company" ? regularUser.firstname : companyUser.name}
             </span>
           </div>
-          <div className="flex flex-col w-full">
-            {message.content.type === "text" && (
-              <div className="w-full p-2 border">{message.content.content}</div>
-            )}
-            <div className="maintxt text-textPrimary w-full pt-1 ">
-              <span>
-                <TimeAgo
-                  timestamp={message?.createdAt as string | number | Date}
-                />
-              </span>
+
+          {message.content.type === "text" ? (
+            <div className="flex flex-col w-full">
+              {message.content.type === "text" && (
+                <div className="divClass w-full p-2 border ">
+                  {message.content.content}
+                </div>
+              )}
+              <div className="maintxt text-textPrimary w-full pt-1 ">
+                <span>
+                  <TimeAgo
+                    timestamp={message?.createdAt as string | number | Date}
+                  />
+                </span>
+              </div>
             </div>
-          </div>
+          ) : message.content.type === "image" ? (
+            <div
+              className={` ${
+                message.content.subcontent && "border p-2"
+              }  rounded-md`}
+            >
+              <div className="flex flex-col w-56 h-48 ">
+                <img
+                  src={message.content.content}
+                  className="w-full h-full object-cover rounded-sm"
+                  alt=""
+                />
+              </div>
+              {message.content.subcontent && (
+                <div className="divClass mt-2">
+                  {message.content.subcontent.content}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

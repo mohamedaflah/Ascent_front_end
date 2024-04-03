@@ -2,11 +2,11 @@ import { ChatIntro } from "@/components/Messages/ChatIntro";
 import { ChatTopbar } from "@/components/Messages/ChatTopBar";
 import { SearchBox } from "@/components/Messages/SearchBox";
 
-import { Paperclip, SendHorizontal, Smile } from "lucide-react";
+import {  SendHorizontal, Smile } from "lucide-react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import {
   getAllUsersforChat,
   getAllcompaniesforchat,
@@ -19,6 +19,10 @@ import { SocketContext } from "@/contexts/SocketContext";
 import { createMessage, getAllMessages } from "@/redux/actions/messageAction";
 import { MyChatCard } from "@/components/Messages/MyChatcad";
 import { SenderCard } from "@/components/Messages/SenderCard";
+import { SendMessage } from "@/types/types.message";
+import { Message } from "@/types/types.messagereducer";
+import { v4 as uuid } from "uuid";
+import { PapperClipPopover } from "@/components/Messages/ChatContentClipPoppover";
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   const { companies, users, selectedUser, chatId } = useSelector(
@@ -35,34 +39,83 @@ export function Messages() {
   }, [dispatch, role]);
   const socket = useContext(SocketContext);
 
+  const { typingUsers } = useSelector((state: RootState) => state.chats);
   const handleSendMessage = () => {
-    socket?.emit("send-message", {
-      content: messageContent,
-      recievedId: selectedUser?._id,
-    });
+    if (!messageContent) {
+      return;
+    }
     const username =
       role === "company" ? user.name : `${user.firstname} ${user.lastname}`;
-    dispatch(
-      createMessage({
-        chatId: String(chatId),
-        content: {
-          type: "text",
-          content: messageContent,
-        },
-        senderId: user?._id,
-        senderName: username,
-        senderProfile: user?.icon ? user?.icon : "",
-      })
-    );
+
+    const sendBody: SendMessage = {
+      chatId: String(chatId),
+      content: {
+        type: "text",
+        content: messageContent,
+      },
+      senderId: user?._id,
+      senderName: username,
+      senderProfile: user?.icon ? user?.icon : "",
+    };
+    const socketSendBody: Message = {
+      senderId: user?._id,
+      senderName: username,
+      senderProfile: user?.icon ? user?.icon : "",
+      status: "unread",
+      _id: uuid(),
+      content: {
+        type: "text",
+        content: messageContent,
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ChatId: chatId,
+    };
+    socket?.emit("send-message", {
+      data: socketSendBody,
+      reciverId: selectedUser?._id,
+    });
+    dispatch(createMessage(sendBody));
     setMessageContent("");
   };
 
+  const handleTyping = (e: ChangeEvent<HTMLInputElement>) => {
+    setMessageContent(e.target.value);
+    const username =
+      role === "company" ? user.name : `${user.firstname} ${user.lastname}`;
+    socket?.emit("typing", {
+      chatId: chatId,
+      senderName: username,
+      message: "typing",
+      senderId: user?._id,
+      recievedId: selectedUser?._id,
+    });
 
+    setTimeout(() => {
+      socket?.emit("stopTyping", {
+        chatId: chatId,
+        message: "stop typing",
+        recieverdId: selectedUser?._id,
+        senderId: user?._id,
+      });
+    }, 2300);
+  };
 
   const [messageContent, setMessageContent] = useState<string>("");
   useEffect(() => {
-    dispatch(getAllMessages(String(chatId)));
-  }, [dispatch, chatId]);
+    if (chatId) {
+      dispatch(getAllMessages(String(chatId)));
+    }
+  }, [dispatch, chatId, selectedUser]);
+  useEffect(() => {
+    scrollChatArea();
+  }, [messages]);
+  function scrollChatArea() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }
+  const scrollRef = useRef<HTMLDivElement>(null);
   return (
     <main className="w-full  ">
       <main className="w-[95%] md:w-[95%] mx-auto h-screen grid grid-cols-10">
@@ -107,7 +160,10 @@ export function Messages() {
               <div className="w-full row-span-1 border-b ">
                 <ChatTopbar />
               </div>
-              <div className="w-full row-span-8 overflow-y-auto">
+              <div
+                className="w-full row-span-8 overflow-y-auto"
+                ref={scrollRef}
+              >
                 <div className="w-[95%] mx-auto">
                   <div className="w-full pt-4 flex flex-col">
                     <ChatIntro />
@@ -119,16 +175,25 @@ export function Messages() {
                     </div>
                     <div className="w-full h-[2px] border"></div>
                   </div>
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-3 space-y-2 overflow-hidden">
                     {messages?.map((message) => (
                       <>
                         {message.senderId === user._id ? (
-                          <MyChatCard message={message}/>
+                          <MyChatCard message={message} />
                         ) : (
                           <SenderCard message={message} />
                         )}
                       </>
                     ))}
+                    {typingUsers?.includes(String(selectedUser?._id)) && (
+                      <div className="w-full flex justify-start h-10 gap-1 ">
+                        <div className="flex h-full gap-1 border items-center p-3 rounded-3xl dark:border-none">
+                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-pulse"></span>
+                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                        </div>
+                      </div>
+                    )}
                     {/* <MyChatCard /> */}
                   </div>
                 </div>
@@ -137,7 +202,8 @@ export function Messages() {
                 <div className=" h-[70%] w-[95%]  grid grid-cols-12 mx-auto border">
                   <div className="col-span-10 grid grid-cols-12 grid-rows-1">
                     <div className="col-span-1 flex items-center text-textPrimary justify-center  ">
-                      <Paperclip className="w-5" />
+                      <PapperClipPopover/>
+                      
                     </div>
                     <div className="col-span-11">
                       <input
@@ -145,7 +211,7 @@ export function Messages() {
                         className="w-full h-full bg-transparent outline-none"
                         placeholder="Send message"
                         value={messageContent}
-                        onChange={(e) => setMessageContent(e.target.value)}
+                        onChange={handleTyping}
                       />
                     </div>
                   </div>
@@ -154,7 +220,7 @@ export function Messages() {
                   </div>
                   <div className="col-span-1 p-2">
                     <button
-                      className="w-14 h-full bg-primary flex items-center justify-center text-white"
+                      className={`w-14 h-full bg-primary flex items-center justify-center text-white`}
                       onClick={handleSendMessage}
                     >
                       <SendHorizontal className="w-5" />

@@ -18,7 +18,7 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  
+  const {typingUsers}=useSelector((state:RootState)=>state.chats)
   const handleCreateChat = async (id: string) => {
     await dispatch(
       createOneTwoOneChat({
@@ -54,8 +54,13 @@ export function CompanyCard({ className, companyData }: ChildProp) {
           </div>
           <div className="maintxt w-full line-clamp-1 text-textPrimary/100">
             <span>
-              We want to invite you for a quick interview
-              kkkkkkkkkkkkkkkkkkkkkkk
+            {typingUsers?.includes(String(companyData?._id)) ? (
+                <>
+                <span className="text-green-400">typing...</span>
+                </>
+              ) : (
+                <>We want to invite you for a quick interview</>
+              )}
             </span>
           </div>
         </div>

@@ -11,6 +11,7 @@ interface ChildProp {
 }
 export function UserCard({ className, userData }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
+  const { typingUsers } = useSelector((state: RootState) => state.chats);
   const {
     user,
     role,
@@ -22,7 +23,7 @@ export function UserCard({ className, userData }: ChildProp) {
       createOneTwoOneChat({
         firstId: String(user?._id),
         secondId: id,
-        role:String(role)
+        role: String(role),
       })
     );
   };
@@ -51,8 +52,13 @@ export function UserCard({ className, userData }: ChildProp) {
           </div>
           <div className="maintxt w-full line-clamp-1 text-textPrimary/100">
             <span>
-              We want to invite you for a quick interview
-              kkkkkkkkkkkkkkkkkkkkkkk
+              {typingUsers?.includes(String(userData?._id)) ? (
+                <>
+                <span className="text-green-400">typing...</span>
+                </>
+              ) : (
+                <>We want to invite you for a quick interview</>
+              )}
             </span>
           </div>
         </div>

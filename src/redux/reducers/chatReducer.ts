@@ -15,11 +15,23 @@ const initialState: ChatInitial = {
   selectedUser: null,
   users: null,
   chatId: "",
+  typingUsers: [],
 };
 const chatReducer = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    setTypingUser: (state, { payload }) => {
+      const typingUsers = state.typingUsers;
+      typingUsers?.push(payload);
+      state.typingUsers = typingUsers;
+    },
+    removeTypingUsers: (state, { payload }) => {
+      state.typingUsers = state.typingUsers?.filter(
+        (value) => value !== payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllcompaniesforchat.pending, (state) => {
@@ -44,7 +56,7 @@ const chatReducer = createSlice({
         state.loading = false;
         state.selectedUser = payload.selectedUser;
         state.err = false;
-        state.chatId=payload.chat._id
+        state.chatId = payload.chat._id;
       })
       .addCase(createOneTwoOneChat.rejected, (state, { payload }) => {
         state.loading = false;
@@ -67,4 +79,5 @@ const chatReducer = createSlice({
       });
   },
 });
+export const {setTypingUser,removeTypingUsers}=chatReducer.actions
 export default chatReducer.reducer;
