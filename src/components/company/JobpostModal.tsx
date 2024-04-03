@@ -125,7 +125,7 @@ export function JobPost() {
           <Plus /> Post job
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[37%] max-h-[640px] overflow-y-auto ">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[46%] max-h-[600px] overflow-y-auto ">
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
             <AlertDialogTitle>post a job</AlertDialogTitle>
@@ -270,7 +270,7 @@ export function JobPost() {
                         name="experience"
                         render={() => (
                           <FormItem>
-                            <LabelField>years of experience</LabelField>
+                            <LabelField>experience</LabelField>
                             <FormControl>
                               <Input
                                 type="text"

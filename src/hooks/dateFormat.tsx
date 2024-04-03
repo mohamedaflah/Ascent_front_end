@@ -15,7 +15,7 @@ export function useTimeAgo(timestamp: string | number | Date): string {
       if (diffInSeconds < 60) {
         setTimeAgo('now');
       } else if (minutes < 60) {
-        setTimeAgo(`${minutes} minute${minutes > 1 ? 's' : ''} ago`);
+        setTimeAgo(`${minutes} min${minutes > 1 ? 's' : ''} ago`);
       } else if (hours < 24) {
         setTimeAgo(`${hours} hour${hours > 1 ? 's' : ''} ago`);
       } else {

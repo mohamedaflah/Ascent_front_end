@@ -14,6 +14,7 @@ const initialState: ChatInitial = {
   err: false,
   selectedUser: null,
   users: null,
+  chatId: "",
 };
 const chatReducer = createSlice({
   name: "chat",
@@ -43,6 +44,7 @@ const chatReducer = createSlice({
         state.loading = false;
         state.selectedUser = payload.selectedUser;
         state.err = false;
+        state.chatId=payload.chat._id
       })
       .addCase(createOneTwoOneChat.rejected, (state, { payload }) => {
         state.loading = false;

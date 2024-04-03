@@ -1,5 +1,6 @@
 import defaultProfile from "@/assets/IMG 3.png";
 import { createOneTwoOneChat } from "@/redux/actions/chatActions";
+
 import { AppDispatch, RootState } from "@/redux/store";
 import { Company } from "@/types/oneCompanyType";
 import { User } from "@/types/types.user";
@@ -17,8 +18,9 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const handleCreateChat = (id: string) => {
-    dispatch(
+  
+  const handleCreateChat = async (id: string) => {
+    await dispatch(
       createOneTwoOneChat({
         firstId: String(user?._id),
         secondId: id,

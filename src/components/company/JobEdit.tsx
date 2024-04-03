@@ -188,7 +188,7 @@ export function JobEdit({ jobData }: ChildProp) {
         <Edit className="w-5"/>
         
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[38%] max-h-[790px] overflow-y-auto">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[42%] max-h-[790px] overflow-y-auto">
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
             <AlertDialogTitle>update job</AlertDialogTitle>

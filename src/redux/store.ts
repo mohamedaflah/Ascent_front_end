@@ -4,6 +4,7 @@ import adminReducer from "./reducers/adminReducer";
 import categoryReducer from "./reducers/categoryReducer";
 import jobReducer from "./reducers/jobReducer";
 import chatReducer from "./reducers/chatReducer";
+import messageReducer from "./reducers/messageReducer";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     category: categoryReducer,
     job: jobReducer,
     chats: chatReducer,
+    message: messageReducer,
   },
 });
 

@@ -6,5 +6,6 @@ export interface ChatInitial {
   err: boolean | string;
   companies?: Company[] | null;
   users?: User[] | null;
-  selectedUser?:Company|User|null
+  selectedUser?: Company | User | null;
+  chatId?: string;
 }
