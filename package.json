@@ -30,6 +30,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@tanstack/react-table": "^8.13.2",
     "@types/jsonwebtoken": "^9.0.6",
+    "@zegocloud/zego-uikit-prebuilt": "^2.0.1",
     "apexcharts": "^3.48.0",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",

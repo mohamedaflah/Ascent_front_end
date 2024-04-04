@@ -3,16 +3,30 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 // import { Delete, Trash } from "lucide-react";
 import { FaEllipsisV } from "react-icons/fa";
 import ConfirmModal from "../custom/confirmModal";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteMessage } from "@/redux/actions/messageAction";
+import { useContext } from "react";
+import { SocketContext } from "@/contexts/SocketContext";
 
 interface ChildProp {
   id?: string;
 }
 export function MessageControllerPopover({ id }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
+  const { chatId, selectedUser } = useSelector(
+    (state: RootState) => state.chats
+  );
+  const { user } = useSelector((state: RootState) => state.userData);
+  const socket = useContext(SocketContext);
   const handleDeleteMessage = () => {
+    socket?.emit("delete-message", {
+      chatId: chatId,
+      senderId: user._id,
+      recieverId: String(selectedUser?._id),
+      message: "delete message",
+      messageId: id,
+    });
     if (id) {
       dispatch(deleteMessage(id));
     }

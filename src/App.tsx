@@ -31,6 +31,7 @@ import { ApplicantResume } from "./pages/company/ApplicantResume";
 import { ApplicantHiringStage } from "./pages/company/ApplicanHiringStage";
 import { DocumentReupload } from "./pages/company/DocumentReupload";
 import { Messages } from "./pages/Messages";
+import { Room } from "./pages/Room";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -39,7 +40,7 @@ function App() {
       await dispatch(getUser());
     }
     checkAuth();
-  }, []);
+  }, [dispatch]);
   const { role, user } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full">
@@ -58,7 +59,10 @@ function App() {
             )
           }
         />
-
+        <Route
+          path="/room/:roomId"
+          element={user ? <Room /> : <Navigate to={"/"} />}
+        />
         <Route
           path="verify-forgot-mail/:token/:role"
           element={
@@ -91,6 +95,7 @@ function App() {
             path="adm/login"
             element={user ? <Navigate to={"/"} /> : <AdminLogin />}
           />
+
           <Route
             path="recruiter/signup"
             element={user ? <Navigate to={"/"} /> : <CompanySignup />}

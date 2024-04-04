@@ -20,7 +20,7 @@ export function PapperClipPopover() {
       <PopoverContent className="w-14 border-none bg-transparent p-4 rounded-full shadow-none">
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="cursor-pointer w-12 h-12 rounded-full bg-backgroundAccent flex items-center justify-center">
-            <label htmlFor="Image" className="cursor-pointer">
+            <label htmlFor="Image" className="cursor-Mpointer">
               <div className="hidden">
                 {image && (
                   <FileModalChat image={image as File | null} ref={openRef} />

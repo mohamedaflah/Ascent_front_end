@@ -36,9 +36,11 @@ function CompanyLayout() {
   const location = useLocation();
   useEffect(() => {
     setTheme(context?.theme);
-    dispatch(getUser()).then();
-  }, [context?.theme, dispatch]);
+  }, [context?.theme]);
 
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
   return (
     <main className=" flex  ">
       <aside

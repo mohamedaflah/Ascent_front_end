@@ -6,6 +6,7 @@ import AdminLayout from "@/components/Layouts/admin/AdminLayout";
 import CompanyLayout from "@/components/Layouts/company/CompanyLayout";
 
 
+
 const Layout = ({ role }: { role?: "user" | "admin" | "company" | null }) => {
 
   if (role === "user") {

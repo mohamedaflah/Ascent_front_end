@@ -44,7 +44,7 @@ export function MyChatCard({ message }: ChildProp) {
               {message.content.type === "text" ? (
                 <div className="flex flex-col w-full">
                   {message.content.type === "text" && (
-                    <div className="divClass w-full p-2 border ">
+                    <div className="divClass w-full p-2 rounded-sm bg-backgroundAccent ">
                       {message.content.content}
                     </div>
                   )}
@@ -60,8 +60,8 @@ export function MyChatCard({ message }: ChildProp) {
                 <div className="relative">
                   <div
                     className={` ${
-                      message.content.subcontent && "border p-2"
-                    }  rounded-md`}
+                      message.content.subcontent && " p-2"
+                    }  rounded-md bg-backgroundAccent`}
                   >
                     <div className="flex flex-col w-full h-48 ">
                       <img
@@ -90,8 +90,17 @@ export function MyChatCard({ message }: ChildProp) {
             </>
           ) : (
             <>
-              <div className="flex text-textPrimary black  gap-2 items-center border px-2 py-1 rounded-sm">
-                <Ban className="w-5" /> You deleted this message
+              <div className="space-y-1">
+                <div className="flex text-textPrimary black  gap-2 items-center border px-2 py-1 rounded-sm bg-backgroundAccent">
+                  <Ban className="w-5" /> You deleted this message
+                </div>
+                <div>
+                  <span>
+                    <TimeAgo
+                      timestamp={message?.createdAt as string | number | Date}
+                    />
+                  </span>
+                </div>
               </div>
             </>
           )}

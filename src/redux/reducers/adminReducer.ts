@@ -42,7 +42,7 @@ const adminReducer = createSlice({
       .addCase(changeApprovleStatus.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.company = state.company?.filter(
-          (value) => value._id !== payload.company._id
+          (value) => value._id !== payload.user._id
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ) as any;
         state.err = false;

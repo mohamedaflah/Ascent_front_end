@@ -1,5 +1,8 @@
 import { removeTypingUsers, setTypingUser } from "@/redux/reducers/chatReducer";
-import { setMessage } from "@/redux/reducers/messageReducer";
+import {
+  deleteMessageLocaly,
+  setMessage,
+} from "@/redux/reducers/messageReducer";
 import { AppDispatch, RootState } from "@/redux/store";
 
 import { Message } from "@/types/types.messagereducer";
@@ -24,7 +27,9 @@ export function SocketProvider({ children }: ChildProp) {
   }: { user: User; role: "user" | "admin" | "company" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const { chatId } = useSelector((state: RootState) => state.chats);
+  const { chatId, selectedUser } = useSelector(
+    (state: RootState) => state.chats
+  );
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     const socketInstance = io(SOCKET_SERVER_URL);
@@ -59,10 +64,28 @@ export function SocketProvider({ children }: ChildProp) {
         dispatch(removeTypingUsers(data.senderId));
       }
     );
+
+    socketInstance.on(
+      "delete-message",
+      (data: {
+        chatId: string;
+        senderId: string;
+        recieverId: string;
+        message: string;
+        messageId: string;
+      }) => {
+        if (chatId == data.chatId || selectedUser?._id == data.recieverId) {
+          
+          
+          
+          dispatch(deleteMessageLocaly(data));
+        }
+      }
+    );
     return () => {
       socketInstance.disconnect();
     };
-  }, [user, role, dispatch, chatId]);
+  }, [user, role, dispatch, chatId, selectedUser?._id]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

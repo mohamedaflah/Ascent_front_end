@@ -178,7 +178,7 @@ export function Messages() {
                   <div className="mt-3 space-y-2 overflow-hidden">
                     {messages?.map((message) => (
                       <>
-                        {message.senderId === user._id ? (
+                        {message.senderId === user?._id ? (
                           <MyChatCard message={message} />
                         ) : (
                           <SenderCard message={message} />

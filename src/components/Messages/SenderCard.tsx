@@ -5,6 +5,7 @@ import { User } from "@/types/types.user";
 import { useSelector } from "react-redux";
 import profileImage from "@/assets/IMG 3.png";
 import TimeAgo from "../custom/LiveTime";
+import { Ban } from "lucide-react";
 interface ChildProp {
   message: Message;
 }
@@ -33,52 +34,70 @@ export function SenderCard({ message }: ChildProp) {
             </span>
           </div>
 
-          {message.content.type === "text" ? (
-            <div className="flex flex-col w-full">
-              {message.content.type === "text" && (
-                <div className="divClass w-full p-2 border ">
-                  {message.content.content}
-                </div>
-              )}
-              <div className="maintxt text-textPrimary w-full pt-1 ">
-                <span>
-                  <TimeAgo
-                    timestamp={message?.createdAt as string | number | Date}
-                  />
-                </span>
-              </div>
-            </div>
-          ) : message.content.type === "image" ? (
-            <div className="relative">
-              
-              <div
-                className={` ${
-                  message.content.subcontent && "border p-2"
-                }  rounded-md`}
-              >
-                <div className="flex flex-col w-full h-48  ">
-                  <img
-                    src={message.content.content}
-                    className="w-full h-full object-cover rounded-sm"
-                    alt=""
-                  />
-                </div>
-                {message.content.subcontent && (
-                  <div className="divClass mt-2">
-                    {message.content.subcontent.content}
+          {!message.deleteStatus ? (
+            <>
+              {message.content.type === "text" ? (
+                <div className="flex flex-col w-full">
+                  {message.content.type === "text" && (
+                    <div className="divClass w-full p-2 border ">
+                      {message.content.content}
+                    </div>
+                  )}
+                  <div className="maintxt text-textPrimary w-full pt-1 ">
+                    <span>
+                      <TimeAgo
+                        timestamp={message?.createdAt as string | number | Date}
+                      />
+                    </span>
                   </div>
-                )}
-              </div>
-              <div className="maintxt text-textPrimary w-full pt-1 ">
-                <span>
-                  <TimeAgo
-                    timestamp={message?.createdAt as string | number | Date}
-                  />
-                </span>
-              </div>
-            </div>
+                </div>
+              ) : message.content.type === "image" ? (
+                <div className="relative">
+                  <div
+                    className={` ${
+                      message.content.subcontent && "border p-2"
+                    }  rounded-md`}
+                  >
+                    <div className="flex flex-col w-full h-48 ">
+                      <img
+                        src={message.content.content}
+                        className="w-full h-full object-cover rounded-sm"
+                        alt=""
+                      />
+                    </div>
+                    {message.content.subcontent && (
+                      <div className="divClass mt-2">
+                        {message.content.subcontent.content}
+                      </div>
+                    )}
+                  </div>
+                  <div className="maintxt text-textPrimary w-full pt-1 ">
+                    <span>
+                      <TimeAgo
+                        timestamp={message?.createdAt as string | number | Date}
+                      />
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </>
           ) : (
-            <div></div>
+            <>
+              <div className="space-y-1">
+                <div className="flex text-textPrimary black  gap-2 items-center border px-2 py-1 rounded-sm ">
+                  <Ban className="w-5" /> This message has been deleted
+                </div>
+                <div>
+                  <span>
+                    <TimeAgo
+                      timestamp={message?.createdAt as string | number | Date}
+                    />
+                  </span>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </div>
