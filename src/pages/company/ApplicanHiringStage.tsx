@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/shadcn/ui/select";
 import { Applicant, Job } from "@/types/types.jobReducer";
-import { Pen } from "lucide-react";
+import { Pen, Video } from "lucide-react";
 import { useSelector } from "react-redux";
 import { ShortListModal } from "./Applications/ShortlistModal";
 
@@ -20,6 +20,7 @@ import { format } from "date-fns";
 import { InterviewShedule } from "@/components/company/InteviewSchedule";
 import { convertTimeToAMPM } from "@/util/convertTimeAMPM";
 import { CustomSelectItem } from "@/components/custom/customeSelectItem";
+import { v4 } from "uuid";
 
 export function ApplicantHiringStage() {
   const { job }: { job: Applicant } = useSelector(
@@ -55,7 +56,7 @@ export function ApplicantHiringStage() {
       <div className="maintxt w-full min-h-56 p-1 space-y-2 ">
         <div className="flex justify-between ">
           <h1 className="text-2xl font-semibold">Current stage</h1>
-          <Select >
+          <Select>
             <SelectTrigger className="w-[170px] px-4 rounded-md ">
               <SelectValue placeholder="Selecte Hiring stage" />
             </SelectTrigger>
@@ -65,16 +66,16 @@ export function ApplicantHiringStage() {
                   Stages
                 </SelectLabel>
                 <CustomSelectItem className="cursor-pointer flex justify-center">
-                  <ShortListModal  />
+                  <ShortListModal />
                 </CustomSelectItem>
                 <CustomSelectItem className="cursor-pointer">
-                  <InterviewModal/>
+                  <InterviewModal />
                 </CustomSelectItem>
                 <CustomSelectItem className="cursor-pointer">
-                  <RejectModal/>
+                  <RejectModal />
                 </CustomSelectItem>
                 <CustomSelectItem className="cursor-pointer">
-                  <SelectingModal/>
+                  <SelectingModal />
                 </CustomSelectItem>
               </SelectGroup>
             </SelectContent>
@@ -120,7 +121,16 @@ export function ApplicantHiringStage() {
       >
         <div className="w-full h-12 flex justify-between">
           <h2 className="text-lg font-semibold">Interview List</h2>
-          <InterviewShedule />
+          <div className="flex gap-2">
+            <a
+              href={`http://localhost:5173/company/${v4()}`}
+              className="min-w-36 h-12 flex items-center justify-center gap-2 text-primary bg-primary/5 px-3 "
+            >
+              Start interview
+              <Video className="w-5" />
+            </a>
+            <InterviewShedule />
+          </div>
         </div>
         <div className="w-full">
           {job?.applicants?.interviewSchedules?.map((value) => (

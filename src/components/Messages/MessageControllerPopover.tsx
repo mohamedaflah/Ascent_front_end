@@ -11,8 +11,9 @@ import { SocketContext } from "@/contexts/SocketContext";
 
 interface ChildProp {
   id?: string;
+  Idx?: number;
 }
-export function MessageControllerPopover({ id }: ChildProp) {
+export function MessageControllerPopover({ id,Idx }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
   const { chatId, selectedUser } = useSelector(
     (state: RootState) => state.chats
@@ -25,7 +26,7 @@ export function MessageControllerPopover({ id }: ChildProp) {
       senderId: user._id,
       recieverId: String(selectedUser?._id),
       message: "delete message",
-      messageId: id,
+      messageId: Idx,
     });
     if (id) {
       dispatch(deleteMessage(id));

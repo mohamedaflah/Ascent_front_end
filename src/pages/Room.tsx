@@ -39,7 +39,6 @@ export function Room() {
   }
   return (
     <main className="h-screen">
-      <h1>Room</h1>
       <div ref={meetingUI}></div>
     </main>
   );

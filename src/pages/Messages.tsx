@@ -2,7 +2,7 @@ import { ChatIntro } from "@/components/Messages/ChatIntro";
 import { ChatTopbar } from "@/components/Messages/ChatTopBar";
 import { SearchBox } from "@/components/Messages/SearchBox";
 
-import {  SendHorizontal, Smile } from "lucide-react";
+import { SendHorizontal, Smile } from "lucide-react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -23,6 +23,7 @@ import { SendMessage } from "@/types/types.message";
 import { Message } from "@/types/types.messagereducer";
 import { v4 as uuid } from "uuid";
 import { PapperClipPopover } from "@/components/Messages/ChatContentClipPoppover";
+import { groupMessagesByDate } from "@/util/groupMessages";
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   const { companies, users, selectedUser, chatId } = useSelector(
@@ -168,42 +169,53 @@ export function Messages() {
                   <div className="w-full pt-4 flex flex-col">
                     <ChatIntro />
                   </div>
-                  <div className="w-full h-10 flex items-center mt-3 ">
-                    <div className="w-full h-[2px] border"></div>
-                    <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
-                      Today
-                    </div>
-                    <div className="w-full h-[2px] border"></div>
-                  </div>
-                  <div className="mt-3 space-y-2 overflow-hidden">
-                    {messages?.map((message) => (
+                  {/* start */}
+                  {Object.entries(groupMessagesByDate(messages)).map(
+                    ([date, messages]) => (
                       <>
-                        {message.senderId === user?._id ? (
-                          <MyChatCard message={message} />
-                        ) : (
-                          <SenderCard message={message} />
-                        )}
-                      </>
-                    ))}
-                    {typingUsers?.includes(String(selectedUser?._id)) && (
-                      <div className="w-full flex justify-start h-10 gap-1 ">
-                        <div className="flex h-full gap-1 border items-center p-3 rounded-3xl dark:border-none">
-                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-pulse"></span>
-                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
-                          <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                        <div className="w-full h-10 flex items-center mt-3 ">
+                          <div className="w-full h-[2px] border"></div>
+                          <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
+                            {date}
+                          </div>
+                          <div className="w-full h-[2px] border"></div>
                         </div>
-                      </div>
-                    )}
-                    {/* <MyChatCard /> */}
-                  </div>
+                        <div className="mt-3 space-y-2 overflow-hidden">
+                          {messages?.map((message, index) => (
+                            <>
+                              {message.senderId === user?._id ? (
+                                <MyChatCard
+                                  message={message}
+                                  key={message?._id}
+                                  Idx={index}
+                                />
+                              ) : (
+                                <SenderCard message={message} />
+                              )}
+                            </>
+                          ))}
+                          {typingUsers?.includes(String(selectedUser?._id)) && (
+                            <div className="w-full flex justify-start h-10 gap-1 ">
+                              <div className="flex h-full gap-1 border items-center p-3 rounded-3xl dark:border-none">
+                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-pulse"></span>
+                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                              </div>
+                            </div>
+                          )}
+                          {/* <MyChatCard /> */}
+                        </div>
+                      </>
+                    )
+                  )}
+                  {/* end */}
                 </div>
               </div>
               <div className="w-full row-span-1  flex items-center ">
                 <div className=" h-[70%] w-[95%]  grid grid-cols-12 mx-auto border">
                   <div className="col-span-10 grid grid-cols-12 grid-rows-1">
                     <div className="col-span-1 flex items-center text-textPrimary justify-center  ">
-                      <PapperClipPopover/>
-                      
+                      <PapperClipPopover />
                     </div>
                     <div className="col-span-11">
                       <input

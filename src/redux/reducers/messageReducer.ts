@@ -28,14 +28,21 @@ const messageReducer = createSlice({
       state.messages = messages;
     },
     deleteMessageLocaly: (state, { payload }) => {
-      const messages = state.messages;
-      state.messages = messages?.map((value) => {
-        if (value._id === payload.messageId) {
-          return { ...value, deleteStatus: true };
-        } else {
-          return value;
+      // const messages = state.messages;
+      // state.messages = messages?.map((value) => {
+      //   if (value._id === payload.messageId) {
+      //     return { ...value, deleteStatus: true };
+      //   } else {
+      //     return value;
+      //   }
+      // }) as Message[] | null;
+      // state.messages?.splice(payload.messageId,1)
+      if (state.messages) {
+        const index = payload.messageId;
+        if (index >= 0 && index < state.messages.length) {
+          state.messages[index].deleteStatus = true;
         }
-      }) as Message[] | null;
+      }
     },
   },
   extraReducers: (builder) => {

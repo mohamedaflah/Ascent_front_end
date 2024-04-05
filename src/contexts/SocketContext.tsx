@@ -34,7 +34,9 @@ export function SocketProvider({ children }: ChildProp) {
   useEffect(() => {
     const socketInstance = io(SOCKET_SERVER_URL);
     setSocket(socketInstance);
-    socketInstance.emit("join-user", { id: user?._id, role: role });
+    if (user) {
+      socketInstance.emit("join-user", { id: user?._id, role: role });
+    }
     socketInstance.on("get-message", (msg: Message) => {
       if (chatId == msg.ChatId) {
         dispatch(setMessage(msg));
@@ -75,9 +77,6 @@ export function SocketProvider({ children }: ChildProp) {
         messageId: string;
       }) => {
         if (chatId == data.chatId || selectedUser?._id == data.recieverId) {
-          
-          
-          
           dispatch(deleteMessageLocaly(data));
         }
       }
