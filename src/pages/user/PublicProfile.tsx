@@ -126,7 +126,7 @@ export function PublicProfile() {
                 </div>
               </div>
               <div className="w-full flex min-h-32 gap-2 md:gap-0 ">
-                <div className="w-28 lg:w-[14%] h-full">
+                <div className="w-28 lg:w-[15%] h-full">
                   <div className="w-28 h-28 rounded-full ">
                     <img
                       src={HeaderPic}
@@ -168,7 +168,7 @@ export function PublicProfile() {
                 </div>
               </div>
               <div className="w-full flex min-h-32 gap-2 lg:gap-0 ">
-                <div className="w-28 lg:w-[14%] h-full">
+                <div className="w-28 lg:w-[15%] h-full">
                   <div className="w-28 h-28 rounded-full ">
                     <img
                       src={HeaderPic}

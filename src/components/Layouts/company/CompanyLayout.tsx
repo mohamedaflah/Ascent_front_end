@@ -42,7 +42,7 @@ function CompanyLayout() {
     dispatch(getUser());
   }, [dispatch]);
   return (
-    <main className=" flex  ">
+    <main className=" flex min-h-screen "> {/* new h-screen property added */}
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5  sticky top-0 left-0 hidden lg:flex ${
           sideExpand ? "w-64" : "w-28"
