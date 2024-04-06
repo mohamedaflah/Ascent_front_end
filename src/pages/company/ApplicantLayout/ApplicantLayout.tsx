@@ -25,7 +25,7 @@ export function ApplicantLayout() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as unknown as Job | Applicant | any;
   return (
-    <main className="w-full min-h-screen ">
+    <main className="w-full min-h-screen pb-5 ">
       <section className="mx-auto w-[95%] h-full  ">
         <div className="w-full h-20 flex items-center ">
           <div className="maintxt flex gap-3 text-2xl items-center ">

@@ -1,6 +1,7 @@
 import {
   Blinds,
   BookText,
+  Contact,
   Landmark,
   LayoutDashboard,
   MessagesSquare,
@@ -31,18 +32,23 @@ export const companySidBarLabels: Labels[] = [
     id: uuidv4(),
     label: "Jobs",
     icon: Blinds,
-    link:"jobs"
+    link: "jobs",
   },
   {
     id: uuidv4(),
     label: "Company Profile",
     icon: Landmark,
-    link:"companyprofile"
+    link: "companyprofile",
   },
   {
     id: uuidv4(),
     label: "Applicants",
-    icon: BookText ,
-    link:"applicants"
+    icon: BookText,
+    link: "applicants",
+  },
+  {
+    id: uuidv4(),
+    label: "Candidates",
+    icon: Contact,
   },
 ];

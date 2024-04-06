@@ -21,13 +21,17 @@ import { InterviewShedule } from "@/components/company/InteviewSchedule";
 import { convertTimeToAMPM } from "@/util/convertTimeAMPM";
 import { CustomSelectItem } from "@/components/custom/customeSelectItem";
 import { v4 } from "uuid";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import { SocketContext } from "@/contexts/SocketContext";
 
 export function ApplicantHiringStage() {
   const { job }: { job: Applicant } = useSelector(
     (state: RootState) => state.job
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as unknown as Job | Applicant | any;
-
+  const { user } = useSelector((state: RootState) => state.userData);
+  const { applicantId } = useParams();
   // const shortListBtnRef = useRef<HTMLButtonElement>(null);
   // const selectButtonRef = useRef<HTMLButtonElement>(null);
   // const interviewButton = useRef<HTMLButtonElement>(null);
@@ -45,6 +49,21 @@ export function ApplicantHiringStage() {
   //     rejectedwButton.current?.click();
   //   }
   // };
+  const navigate = useNavigate();
+  const socket = useContext(SocketContext);
+  function handleVideoCallButtonClick() {
+    // to={`/company/${v4()}/`}
+    const callerId = v4();
+    navigate(`/company/${callerId}/`);
+    socket?.emit("video-call", {
+      callId: callerId,
+      recieverId: applicantId,
+      senderId: user?._id,
+      message: "Interview Call",
+      senderName: user?.name,
+      senderProfile: user?.icon,
+    });
+  }
   return (
     <main className="w-full h-full">
       {/* <div className="hidden">
@@ -122,13 +141,13 @@ export function ApplicantHiringStage() {
         <div className="w-full h-12 flex justify-between">
           <h2 className="text-lg font-semibold">Interview List</h2>
           <div className="flex gap-2">
-            <a
-              href={`http://localhost:5173/company/${v4()}`}
-              className="min-w-36 h-12 flex items-center justify-center gap-2 text-primary bg-primary/5 px-3 "
+            <div
+              onClick={handleVideoCallButtonClick}
+              className="min-w-36 h-12 flex items-center justify-center gap-2 text-primary bg-primary/5 px-3 cursor-pointer"
             >
               Start interview
               <Video className="w-5" />
-            </a>
+            </div>
             <InterviewShedule />
           </div>
         </div>

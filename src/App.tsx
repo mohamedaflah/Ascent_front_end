@@ -178,7 +178,7 @@ function App() {
 
         {/* <Route path="admin/*" element={<Navigate to="/" />} /> */}
         {/* <Route path="company/*" element={<Navigate to="/" />} /> */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </main>
   );

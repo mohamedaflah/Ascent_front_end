@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store.ts";
 import { Toaster } from "react-hot-toast";
 import { PrimeReactProvider } from "primereact/api";
+import { NextUIProvider } from "@nextui-org/react";
 import { SocketProvider } from "./contexts/SocketContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Toaster position="top-center" />
         <PrimeReactProvider>
           <SocketProvider>
-            <App />
+            <NextUIProvider>
+              <App />
+            </NextUIProvider>
           </SocketProvider>
         </PrimeReactProvider>
       </Provider>

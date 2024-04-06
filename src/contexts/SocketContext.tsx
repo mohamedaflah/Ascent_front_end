@@ -1,3 +1,5 @@
+import { VideoCallDecline } from "@/components/users/VideoCallDecline";
+import { VideoCallModal } from "@/components/users/VideoCallModal";
 import { removeTypingUsers, setTypingUser } from "@/redux/reducers/chatReducer";
 import {
   deleteMessageLocaly,
@@ -7,7 +9,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 
 import { Message } from "@/types/types.messagereducer";
 import { User } from "@/types/types.user";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import io, { Socket } from "socket.io-client";
@@ -20,6 +22,9 @@ const SocketContext = React.createContext<Socket | undefined>(undefined);
 
 const SOCKET_SERVER_URL = import.meta.env.VITE_COMMUNICATION_SERVICE;
 export function SocketProvider({ children }: ChildProp) {
+  const modalRef = useRef<HTMLButtonElement>(null);
+  const declineRef = useRef<HTMLButtonElement>(null);
+
   const dispatch: AppDispatch = useDispatch();
   const {
     user,
@@ -27,6 +32,22 @@ export function SocketProvider({ children }: ChildProp) {
   }: { user: User; role: "user" | "admin" | "company" | null } = useSelector(
     (state: RootState) => state.userData
   );
+  const [videoCallState, setVideoCallState] = useState<{
+    callId: string;
+    recieverId: string;
+    senderId: string;
+    message: string;
+    senderName: string;
+    senderProfile: string;
+  }>();
+  const [declineCall, setDeclineCall] = useState<{
+    callId: string;
+    senderId: string;
+    senderProfile: string;
+    message: string;
+    senderName: string;
+    reciverId: string;
+  }>();
   const { chatId, selectedUser } = useSelector(
     (state: RootState) => state.chats
   );
@@ -81,13 +102,60 @@ export function SocketProvider({ children }: ChildProp) {
         }
       }
     );
+
+    socketInstance?.on(
+      "video-call",
+      (data: {
+        callId: string;
+        recieverId: string;
+        senderId: string;
+        message: string;
+        senderName: string;
+        senderProfile: string;
+      }) => {
+        data;
+        setVideoCallState({ ...data });
+        modalRef.current?.click();
+      }
+    );
+    // socket?.emit("decline-call", {
+    // callId: videoCallData?.callId,
+    // senderId: user?._id,
+    // senderProfile: user?.icon,
+    // message: "Decline Call",
+    // senderName: user?.firstname,
+    // reciverId: videoCallData?.senderId,
+    // });
+    socketInstance.on(
+      "decline-call",
+      (data: {
+        callId: string;
+        senderId: string;
+        senderProfile: string;
+        message: string;
+        senderName: string;
+        reciverId: string;
+      }) => {
+        data;
+        setDeclineCall(data);
+        declineRef.current?.click();
+      }
+    );
     return () => {
       socketInstance.disconnect();
     };
   }, [user, role, dispatch, chatId, selectedUser?._id]);
 
   return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={socket}>
+      <>
+        <div className="hidden">
+          <VideoCallModal videoCallData={videoCallState} ref={modalRef} />
+          <VideoCallDecline data={declineCall} ref={declineRef} />
+        </div>
+        {children}
+      </>
+    </SocketContext.Provider>
   );
 }
 

@@ -1,8 +1,13 @@
-export function formatDateAndTime(dateInput: string | number | Date): { date: string; time: string } {
-  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput)
+import { format } from "date-fns";
+
+export function formatDateAndTime(dateInput: string | number | Date): {
+  date: string;
+  time: string;
+} {
+  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput);
   const now = new Date();
   const date = new Date(dateInput);
-  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput)
+  console.log("🚀 ~ formatDateAndTime ~ dateInput:", dateInput);
   const timeDiffInSeconds = (now.getTime() - date.getTime()) / 1000;
   const minutesAgo = Math.floor(timeDiffInSeconds / 60);
   const hoursAgo = Math.floor(timeDiffInSeconds / 3600);
@@ -10,36 +15,37 @@ export function formatDateAndTime(dateInput: string | number | Date): { date: st
   // Handling the date part
   let formattedDate: string;
   if (date.toDateString() === now.toDateString()) {
-      formattedDate = "Today";
-  } else if (new Date(now.getTime() - 86400000).toDateString() === date.toDateString()) {
-      formattedDate = "Yesterday";
+    formattedDate = "Today";
+  } else if (
+    new Date(now.getTime() - 86400000).toDateString() === date.toDateString()
+  ) {
+    formattedDate = "Yesterday";
   } else {
-      formattedDate = new Intl.DateTimeFormat('en-IN', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-      }).format(date);
+    //   formattedDate = new Intl.DateTimeFormat('en-IN', {
+    //       day: '2-digit',
+    //       month: '2-digit',
+    //       year: 'numeric',
+    //   }).format(date);
+    formattedDate = format(date, "PPP");
   }
 
   // Handling the time part
   let formattedTime: string;
   if (minutesAgo < 1) {
-      formattedTime = "now";
+    formattedTime = "now";
   } else if (minutesAgo < 60) {
-      formattedTime = `${minutesAgo} minute${minutesAgo > 1 ? "s" : ""} ago`;
+    formattedTime = `${minutesAgo} minute${minutesAgo > 1 ? "s" : ""} ago`;
   } else if (hoursAgo < 24) {
-      formattedTime = `${hoursAgo} hour${hoursAgo > 1 ? "s" : ""} ago`;
+    formattedTime = `${hoursAgo} hour${hoursAgo > 1 ? "s" : ""} ago`;
   } else {
-      // For time beyond yesterday, show the exact time
-      formattedTime = new Intl.DateTimeFormat('en-IN', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true,
-          timeZone: 'Asia/Kolkata',
-      }).format(date);
+    // For time beyond yesterday, show the exact time
+    formattedTime = new Intl.DateTimeFormat("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+    }).format(date);
   }
 
   return { date: formattedDate, time: formattedTime };
 }
-
-

@@ -12,7 +12,7 @@ export function JobListing() {
     dispatch(getJobWithCompany(user._id));
   }, [dispatch, user]);
   return (
-    <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
+    <div className=" flex-1 flex-col space-y-8 p-8 md:flex"> {/*h-full removed*/}
       {jobs && (
         <DataTable data={jobs} columns={jobListColumns} from="Applicants" />
       )}

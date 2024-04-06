@@ -12,7 +12,7 @@ export function CompanyProfile() {
     (state: RootState) => state.userData
   );
   return (
-    <main className="w-full h-screen ">
+    <main className="w-full  "> {/*h-screen removed*/}
       <section className="  mx-auto w-[95%] space-y-4">
         <div className="h-56 w-full  flex relative ">
           <div className="absolute -left-2 top-5 bg-background rounded-md">
