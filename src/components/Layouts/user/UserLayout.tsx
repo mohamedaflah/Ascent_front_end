@@ -27,7 +27,9 @@ function UserLayout() {
     setTheme(context?.theme);
   }, [context]);
   useEffect(() => {
-    dispatch(getUser()).then();
+ 
+      dispatch(getUser()).then();
+    
   }, [dispatch]);
   return (
     <main className=" flex ">

@@ -30,7 +30,7 @@ import { DataTableToolbar } from "../components/data-table-toolbar"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  from?:"Applicants"|"Categories"|"Joblisting"
+  from?:"Applicants"|"Categories"|"Joblisting"|"Candidate"
 }
 
 export function DataTable<TData, TValue>({

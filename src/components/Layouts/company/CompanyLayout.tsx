@@ -39,10 +39,14 @@ function CompanyLayout() {
   }, [context?.theme]);
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    if (!user) {
+      dispatch(getUser());
+    }
+  }, [dispatch, user]);
   return (
-    <main className=" flex min-h-screen "> {/* new h-screen property added */}
+    <main className=" flex min-h-screen ">
+      {" "}
+      {/* new h-screen property added */}
       <aside
         className={`h-screen border-r  flex-col pt-4 px-4 gap-5  sticky top-0 left-0 hidden lg:flex ${
           sideExpand ? "w-64" : "w-28"
@@ -138,7 +142,6 @@ function CompanyLayout() {
           </div>
         </div>
       </aside>
-
       <main className="w-full relative">
         <CompanyHeader />
 

@@ -4,6 +4,7 @@ import {
   addJob,
   applyJob,
   deleteJob,
+  fetchSelectedAndRejectedCandidates,
   getAllJobs,
   getApplicants,
   getJobWithCompany,
@@ -11,6 +12,7 @@ import {
   getSpecificJob,
   scheduleInterview,
   shortListApplication,
+  updateInterviewFeedback,
   updateJob,
 } from "../actions/jobActions";
 import { ErrorPayload } from "@/types/AllTypes";
@@ -23,6 +25,7 @@ const initialState: JobReduerInitial = {
   jobs: null,
   applicants: null,
   pages: 0,
+  candidate: null,
 };
 const jobReducer = createSlice({
   name: "jobs",
@@ -116,7 +119,7 @@ const jobReducer = createSlice({
         state.loading = false;
         state.jobs = payload.jobs;
         state.err = false;
-        state.pages=payload.totalPages
+        state.pages = payload.totalPages;
       })
       .addCase(getAllJobs.rejected, (state, { payload }) => {
         state.loading = false;
@@ -218,6 +221,39 @@ const jobReducer = createSlice({
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         toast.error(state.err);
+      })
+      .addCase(fetchSelectedAndRejectedCandidates.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchSelectedAndRejectedCandidates.fulfilled,
+        (state, { payload }) => {
+          state.loading = false;
+          state.candidate = payload.canidates;
+          state.err = false;
+        }
+      )
+      .addCase(
+        fetchSelectedAndRejectedCandidates.rejected,
+        (state, { payload }) => {
+          state.loading = false;
+          state.err = (payload as ErrorPayload).message;
+          toast.error(state.err);
+        }
+      )
+      .addCase(updateInterviewFeedback.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateInterviewFeedback.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.job = payload.applicant;
+        state.err = false;
+      })
+      .addCase(updateInterviewFeedback.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.job = null;
+        state.err = (payload as ErrorPayload).message;
+        toast.error(state.err)
       });
   },
 });

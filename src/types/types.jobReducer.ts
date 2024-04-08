@@ -7,7 +7,8 @@ export type JobReduerInitial = {
   job: Job | null;
   jobs: Job[] | null;
   applicants: Applicant[] | null;
-  pages?:number
+  pages?: number;
+  candidate: Applicant[] | null;
 };
 export interface ApplicantType {
   applicantId: string;
@@ -146,6 +147,8 @@ export interface Applicant {
       title: string;
       time: string;
       status: "Pending" | "Completed";
+      feedback: string;
+      feedbackDescription: string;
     }[];
   };
   applicantDetails: User;

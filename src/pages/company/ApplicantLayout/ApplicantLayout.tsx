@@ -159,23 +159,23 @@ export function ApplicantLayout() {
               </div>
             </div>
           </div>
-          <div className="w-full h-full border ">
+          <div className="w-full h-full border transition-all duration-400">
             <div className="w-full h-16 border-b flex py-3 px-5 items-center gap-5">
               <NavLink
                 to={"profile"}
-                className={`applicant text-textPrimary font-semibold`}
+                className={`applicant text-textPrimary font-semibold transition-all duration-700`}
               >
                 Applicant profile
               </NavLink>
               <NavLink
                 to={"resume"}
-                className={`applicant text-textPrimary font-semibold`}
+                className={`applicant text-textPrimary font-semibold transition-all duration-700`}
               >
                 Resume
               </NavLink>
               <NavLink
                 to={"hiringstage"}
-                className={`applicant text-textPrimary font-semibold`}
+                className={`applicant text-textPrimary font-semibold transition-all duration-700`}
               >
                 Hiring stage
               </NavLink>

@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/shadcn/ui/select";
 import { Applicant, Job } from "@/types/types.jobReducer";
-import { Pen, Video } from "lucide-react";
+import { Video } from "lucide-react";
 import { useSelector } from "react-redux";
 import { ShortListModal } from "./Applications/ShortlistModal";
 
@@ -24,6 +24,7 @@ import { v4 } from "uuid";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { SocketContext } from "@/contexts/SocketContext";
+import { UpdateFeedback } from "@/components/company/AddFeedbackModa";
 
 export function ApplicantHiringStage() {
   const { job }: { job: Applicant } = useSelector(
@@ -173,9 +174,11 @@ export function ApplicantHiringStage() {
                     <h4 className="font-semibold">Type of review</h4>
                     <span>{value.title}</span>
                   </div>
-                  <div className=" flex items-center justify-center h-12 min-w-28 gap-2 px-3 bg-primary/5 text-primary">
-                    <Pen className="w-5" /> Add feedback
+                  <div className=" flex flex-col gap-2">
+                    <h4 className="font-semibold">Feedback title</h4>
+                    <span>{value.feedback?value.feedback:""}</span>
                   </div>
+                  <UpdateFeedback interviewId={value._id} />
                 </div>
               </div>
             </div>

@@ -32,6 +32,7 @@ import { ApplicantHiringStage } from "./pages/company/ApplicanHiringStage";
 import { DocumentReupload } from "./pages/company/DocumentReupload";
 import { Messages } from "./pages/Messages";
 import { Room } from "./pages/Room";
+import { Canidates } from "./pages/company/Candidates";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -152,6 +153,7 @@ function App() {
               path=":roomId"
               element={user ? <Room /> : <Navigate to={"/"} />}
             />
+            <Route path="candidates" element={<Canidates/>} />
           </Route>
         )}
         {/* <Route

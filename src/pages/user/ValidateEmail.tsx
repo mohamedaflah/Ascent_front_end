@@ -23,7 +23,7 @@ const ValidateEmail = React.memo(() => {
       try {
         const res = await dispatch(verifyinguser(token as string));
         dispatch(getUser()).then(() => {
-          if (res.payload.response.data.message) {
+          if (res.payload.response?.data?.message) {
             toast.success(res.payload.response.data.message);
           } else {
             // Assuming your action updates the role in the state

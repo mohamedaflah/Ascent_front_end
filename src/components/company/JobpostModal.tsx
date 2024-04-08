@@ -114,7 +114,7 @@ export function JobPost() {
       <AlertDialogTrigger asChild>
         <Button
           ref={buttonRef}
-          className="rounded-sm "
+          className="rounded-sm  flex items-center px-3 "
           disabled={
             status === "Pending" ||
             status == "Rejected" ||
@@ -122,10 +122,10 @@ export function JobPost() {
             user?.approvelStatus?.status == "Pending"
           }
         >
-          <Plus /> Post job
+          <Plus className="w-5"/> Post job
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[46%] max-h-[600px] overflow-y-auto ">
+      <AlertDialogContent className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] lg:min-w-[46%] max-h-[640px] overflow-y-auto scrollbar-hide ">
         <AlertDialogHeader>
           <div className="w-full h-10 flex justify-between">
             <AlertDialogTitle>post a job</AlertDialogTitle>
@@ -245,7 +245,7 @@ export function JobPost() {
                         )}
                       />
                     </div>
-                    <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 min-h-16 ">
+                    <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-2 min-h-16 items-center ">
                       <FormField
                         control={form.control}
                         name="joblocation"
