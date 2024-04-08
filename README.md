@@ -1,6 +1,6 @@
-# React + TypeScript + Vite
+# ASCENT Job Seeking platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A best platform for searching and applying job
 
 Currently, two official plugins are available:
 
