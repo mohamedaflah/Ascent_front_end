@@ -156,31 +156,6 @@ function App() {
             <Route path="candidates" element={<Canidates/>} />
           </Route>
         )}
-        {/* <Route
-          path="adm/login"
-          element={user ? <Navigate to={"/"} /> : <AdminLogin />}
-        />
-
-        <Route
-          path="recruiter/signup"
-          element={user ? <Navigate to={"/"} /> : <CompanySignup />}
-        />
-        <Route
-          path="recruiter/login"
-          element={user ? <Navigate to={"/"} /> : <CompanyLogin />}
-        />
-        <Route
-          path="user/forgotpassword"
-          element={user ? <Navigate to={"/"} /> : <ForgotPassword />}
-        />
-        <Route
-          path="user/setpassword"
-          element={user ? <Navigate to={"/"} /> : <SetPassword />}
-        /> */}
-
-        {/* <Route path="admin/*" element={<Navigate to="/" />} /> */}
-        {/* <Route path="company/*" element={<Navigate to="/" />} /> */}
-        {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </main>
   );

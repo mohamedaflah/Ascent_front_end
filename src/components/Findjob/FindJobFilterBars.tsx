@@ -1,6 +1,6 @@
 import { getAllCategories } from "@/redux/actions/categoryAction";
 import { AppDispatch, RootState } from "@/redux/store";
-import { ChevronUp, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -11,6 +11,7 @@ export function FindJobFilterBar() {
   const { categories } = useSelector((state: RootState) => state.category);
   const dispatch: AppDispatch = useDispatch();
   const [expand, setIsExpand] = useState<boolean>(false);
+  const [categoryFilter, setCategoryFilter] = useState<boolean>(true);
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
@@ -20,7 +21,7 @@ export function FindJobFilterBar() {
     type: "employment" | "category"
   ) => {
     const params = new URLSearchParams(searchParam);
-    params.set('page',"1")
+    params.set("page", "1");
     if (type == "category") {
       let categories = params.get("category")
         ? params.get("category")!.split(",")
@@ -51,8 +52,8 @@ export function FindJobFilterBar() {
       }
       if (employment.length > 0) {
         params.set("employment", String(employment?.join(",")));
-      }else{
-        params.delete("employment")
+      } else {
+        params.delete("employment");
       }
       setSearchParam(params);
     }
@@ -95,26 +96,43 @@ export function FindJobFilterBar() {
           <div className="w-full py-2  flex flex-col gap-5">
             <div className="flex justify-between">
               <h2 className="font-bold ">Categories </h2>
-              <ChevronUp className="w-5" />
+              {categoryFilter ? (
+                <ChevronUp
+                  className="w-5"
+                  onClick={() => setCategoryFilter(!categoryFilter)}
+                />
+              ) : (
+                <>
+                
+                  <ChevronDown
+                    className="w-5"
+                    onClick={() => setCategoryFilter(!categoryFilter)}
+                  />
+                </>
+              )}
             </div>
-            <div className="flex flex-col gap-2">
-              {categories?.filter(value=>value.status).map((value) => {
-                return (
-                  <form className="flex gap-3 items-center" key={value._id}>
-                    <CustomCheck
-                      value={value._id}
-                      onChange={(e) => handleChange(e, "category")}
-                      checked={searchParam
-                        .get("category")
-                        ?.split(",")
-                        .includes(String(value._id))}
-                    />
-                    <label className="text-textPrimary">
-                      {value.categoryname}
-                    </label>
-                  </form>
-                );
-              })}
+            <div
+              className={`flex flex-col gap-2`}
+            >
+              {categories
+                ?.filter((value) => value.status)
+                .map((value) => {
+                  return (
+                    <form className="flex gap-3 items-center" key={value._id}>
+                      <CustomCheck
+                        value={value._id}
+                        onChange={(e) => handleChange(e, "category")}
+                        checked={searchParam
+                          .get("category")
+                          ?.split(",")
+                          .includes(String(value._id))}
+                      />
+                      <label className="text-textPrimary">
+                        {value.categoryname}
+                      </label>
+                    </form>
+                  );
+                })}
             </div>
           </div>
           {/* <div className="w-full py-2  flex flex-col gap-5">

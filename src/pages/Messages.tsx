@@ -118,8 +118,8 @@ export function Messages() {
   }
   const scrollRef = useRef<HTMLDivElement>(null);
   return (
-    <main className="w-full  ">
-      <main className="w-[95%] md:w-[95%] mx-auto h-screen  grid grid-cols-10">{/*h-screen*/}
+    <main className="w-full ">
+      <main className="w-[95%] md:w-[95%] mx-auto h-screen  grid grid-cols-10 ">{/*h-screen*/}
         <div className="col-span-10 sm:col-span-4  lg:col-span-3 border-r  h-screen "> {/*h-screen*/}
           <div className="mx-auto md:m-0 flex flex-col h-full w-[90%] ">
             <div className="w-full h-28  flex items-end">
@@ -127,7 +127,7 @@ export function Messages() {
                 <SearchBox />
               </div>
             </div>
-            <div className="w-full h-full lg:h-[600px]   overflow-y-auto">
+            <div className="w-full h-full lg:h-[600px] scrollbar-hide   overflow-y-auto">
               {role == "user" ? (
                 <>
                   {companies?.map((value) => (
@@ -162,7 +162,7 @@ export function Messages() {
                 <ChatTopbar />
               </div>
               <div
-                className="w-full row-span-8 overflow-y-auto"
+                className="w-full row-span-8 overflow-y-auto scrollbar-hide"
                 ref={scrollRef}
               >
                 <div className="w-[95%] mx-auto">
@@ -172,15 +172,15 @@ export function Messages() {
                   {/* start */}
                   {Object.entries(groupMessagesByDate(messages)).map(
                     ([date, messages]) => (
-                      <>
+                      <div className="">
                         <div className="w-full h-10 flex items-center mt-3 ">
-                          <div className="w-full h-[2px] border"></div>
+                          <div className="w-full h-[1px] border"></div>
                           <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
                             {date}
                           </div>
-                          <div className="w-full h-[2px] border"></div>
+                          <div className="w-full h-[1px] border"></div>
                         </div>
-                        <div className="mt-3 space-y-2 overflow-hidden">
+                        <div className="mt-3 space-y-2 overflow-hidden ">
                           {messages?.map((message, index) => (
                             <>
                               {message.senderId === user?._id ? (
@@ -205,7 +205,7 @@ export function Messages() {
                           )}
                           {/* <MyChatCard /> */}
                         </div>
-                      </>
+                      </div>
                     )
                   )}
                   {/* end */}

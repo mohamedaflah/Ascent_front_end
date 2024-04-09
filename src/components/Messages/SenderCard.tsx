@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import profileImage from "@/assets/IMG 3.png";
 import TimeAgo from "../custom/LiveTime";
 import { Ban } from "lucide-react";
+import { VideoPlay } from "./VideoPlay";
+import pdfImage from "@/assets/pdf.png"
 interface ChildProp {
   message: Message;
 }
@@ -51,19 +53,37 @@ export function SenderCard({ message }: ChildProp) {
                     </span>
                   </div>
                 </div>
-              ) : message.content.type === "image" ? (
+              ) : message.content.type === "image" ||
+                message.content.type === "video" ||
+                message.content.type == "doc" ? (
                 <div className="relative">
                   <div
                     className={` ${
-                      message.content.subcontent && "border p-2"
+                      message.content.subcontent && "border p-2 "
                     }  rounded-md`}
                   >
-                    <div className="flex flex-col w-full h-48 ">
-                      <img
-                        src={message.content.content}
-                        className="w-full h-full object-cover rounded-sm"
-                        alt=""
-                      />
+                    <div className="flex flex-col w-full h-48 relative rounded-sm overflow-hidden">
+                    {message.content.type === "image" ? (
+                        <img
+                          src={message.content.content}
+                          className="w-full h-full object-cover rounded-sm"
+                          alt=""
+                        />
+                      ) : message.content.type == "video" ? (
+                        <VideoPlay
+                          src={message.content.content}
+                          className="min-w-56 h-full object-cover"
+                          // controls
+                        />
+                      ) : (
+                        <>
+                        <embed src={message.content.content.split("[^(I)^]")[0]} className="min-w-full h-full" type="" />
+                        <div className="w-full absolute bottom-0 h-10 bg-backgroundAccent flex items-center px-2 py-2 gap-2 line-clamp-1">
+                          <img src={pdfImage} className="h-5" alt="" />
+                          <p className="line-clamp-1">{message.content.content.split("[^(I)^]")[1]}</p>
+                        </div>
+                        </>
+                      )}
                     </div>
                     {message.content.subcontent && (
                       <div className="divClass mt-2">

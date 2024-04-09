@@ -13,18 +13,28 @@ import { uploadImageToCloudinary } from "@/util/uploadImage";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { Send, X } from "lucide-react";
 
-import { forwardRef, useContext, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { v4 as uuid } from "uuid";
 
 import { useDispatch, useSelector } from "react-redux";
 import { SocketContext } from "@/contexts/SocketContext";
 import { Message } from "@/types/types.messagereducer";
+import { VideoPlay } from "./VideoPlay";
+
 interface FileModalChatProps {
-  image: File | null; // Define the prop image of type File or null
+  image: File | null; // Define the prop image of type File or null,
+  type: "image" | "video" | "doc" | "audio";
 }
 
 export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
-  ({ image }, ref) => {
+  ({ image, type }, ref) => {
     const closeRef = useRef<HTMLButtonElement>(null);
     const dispatch: AppDispatch = useDispatch();
     const { chatId, selectedUser } = useSelector(
@@ -34,12 +44,20 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
     const { loading } = useSelector((state: RootState) => state.message);
     const [localLoad, setLocalLoad] = useState<boolean>(false);
     const [text, setText] = useState("");
+
     const socket = useContext(SocketContext);
     const handleClick = async () => {
       setLocalLoad(true);
       const username =
         role === "company" ? user.name : `${user.firstname} ${user.lastname}`;
-      const imageLink = await uploadImageToCloudinary(image);
+      let fileLink = await uploadImageToCloudinary(
+        image,
+        type as "image" | "video"
+      );
+      if (type === "doc") {
+        fileLink = fileLink + `[^(I)^]${image?.name}`;
+      }
+
       const socketSendBody: Message = {
         senderId: user?._id,
         senderName: username,
@@ -47,8 +65,8 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
         status: "unread",
         _id: uuid(),
         content: {
-          type: "image",
-          content: imageLink,
+          type: type,
+          content: fileLink,
           subcontent: {
             type: "text",
             content: text,
@@ -66,8 +84,8 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
         createMessage({
           chatId: String(chatId),
           content: {
-            content: imageLink,
-            type: "image",
+            content: fileLink,
+            type: type,
             subcontent: {
               content: text,
               type: "text",
@@ -83,6 +101,12 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
         closeRef.current?.click();
       }
     };
+    const handleTextChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+      setText(e.target.value);
+    }, []);
+
+    // const videoSrc =
+    //   type === "video" && image ? URL.createObjectURL(image) : "";
     return (
       <>
         <AlertDialog>
@@ -113,15 +137,33 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
                     >
                       <X className="w-5" />
                     </AlertDialogCancel>
-                    <img
-                      src={URL.createObjectURL(image as Blob | MediaSource)}
-                      className="h-full w-full object-cover rounded-sm"
-                      alt=""
-                    />
+                    {type === "image" ? (
+                      <img
+                        src={URL.createObjectURL(image as Blob | MediaSource)}
+                        className="h-full w-full object-cover rounded-sm"
+                        alt=""
+                      />
+                    ) : type === "video" ? (
+                      <>
+                        <VideoPlay
+                          src={URL.createObjectURL(image as Blob | MediaSource)}
+                          className="w-full h-full object-cover"
+                        />
+                      </>
+                    ) : type === "doc" ? (
+                      <embed
+                        className="w-full h-full object-cover rounded-sm"
+                        src={URL.createObjectURL(image as Blob | MediaSource)}
+                      />
+                    ) : (
+                      <>
+                        <div></div>
+                      </>
+                    )}
                   </div>
                   <Textarea
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={handleTextChange as never}
                     className="w-full border-none p-0 ring:none "
                     placeholder="Add texts or description"
                   ></Textarea>

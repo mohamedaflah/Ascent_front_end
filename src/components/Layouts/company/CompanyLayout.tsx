@@ -44,7 +44,7 @@ function CompanyLayout() {
     }
   }, [dispatch, user]);
   return (
-    <main className=" flex min-h-screen ">
+    <main className=" flex min-h-screen w-full overflow-x-hidden ">
       {" "}
       {/* new h-screen property added */}
       <aside
@@ -142,7 +142,7 @@ function CompanyLayout() {
           </div>
         </div>
       </aside>
-      <main className="w-full relative">
+      <main className="w-full relative h-screen"> {/*h-screen property added*/}
         <CompanyHeader />
 
         {!user?.profileCompleted && <CompanyProfileCompletion />}

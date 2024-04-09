@@ -8,7 +8,10 @@ import {
   Settings,
   LogOut,
   HelpCircle,
+  AppWindow,
+
 } from "lucide-react";
+
 import { ElementType } from "react";
 import { v4 as uuidv4 } from "uuid";
 type Labels = {
@@ -23,34 +26,35 @@ export const userSidebarLayout: Labels[] = [
     id: uuidv4(),
     label: "Home",
     icon: Home,
-    link:"/"
+    link: "/",
   },
   {
     id: uuidv4(),
     label: "Messages",
     icon: MessageCircleCode,
-    link:"messages"
-
+    link: "messages",
   },
   {
     id: uuidv4(),
     label: "Find jobs",
     icon: Search,
-    link:"findjobs?page=1&pageSize=5",
-
+    link: "findjobs?page=1&pageSize=5",
   },
   {
     id: uuidv4(),
     label: "Brows companies",
     icon: BarChart,
-    link:"bro"
-
+    link: "bro",
   },
   {
     id: uuidv4(),
     label: "My profile",
     icon: User,
-
+  },
+  {
+    id: uuidv4(),
+    label: "My applications",
+    icon: AppWindow ,
   },
 ];
 
