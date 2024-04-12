@@ -93,7 +93,7 @@ const chatReducer = createSlice({
         state.companies = state.companies.map((user) => {
           if (user._id == payload.userId) {
             let messageCount;
-            if (user && user.messageCount) {
+            if (user && user.messageCount==0) {
               messageCount = user?.messageCount + 1;
             } else {
               messageCount = 0;

@@ -72,7 +72,6 @@ export function SocketProvider({ children }: ChildProp) {
         dispatch(updateMessageStatus(String(msg?._id)));
         
       }else{
-
         dispatch(updateunreadMessageCountAndLastMessage({userId:msg.senderId,message:msg}))
       }
       // if(selectedUser?._id)

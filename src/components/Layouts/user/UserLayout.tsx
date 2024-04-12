@@ -27,10 +27,10 @@ function UserLayout() {
     setTheme(context?.theme);
   }, [context]);
   useEffect(() => {
- 
+    if (!user) {
       dispatch(getUser()).then();
-    
-  }, [dispatch]);
+    }
+  }, [dispatch,user]);
   return (
     <main className=" flex ">
       <aside

@@ -16,7 +16,7 @@ import { CustomNavLink } from "../custom/CustomNav";
 import { Menu } from "lucide-react";
 
 interface ChildProp {
-  setSideBarState: React.Dispatch<React.SetStateAction<boolean>>;
+  setSideBarState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Header = ({ setSideBarState }: ChildProp) => {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
@@ -81,7 +81,9 @@ const Header = ({ setSideBarState }: ChildProp) => {
             <div className="flex">
               <Menu
                 className="w-5 lg:hidden flex "
-                onClick={() => setSideBarState((prev) => !prev )}
+                onClick={() =>
+                  setSideBarState && setSideBarState((prev) => !prev)
+                }
               />
             </div>
             <div className="h-full flex gap-3 items-center">
