@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MessageCount } from "./MessageCountShow";
 import { FileText, Headphones, Image, Video } from "lucide-react";
 
+
 interface ChildProp {
   className?: string;
   companyData?: Company;
@@ -20,7 +21,9 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const { typingUsers } = useSelector((state: RootState) => state.chats);
+  const { typingUsers } = useSelector(
+    (state: RootState) => state.chats
+  );
   const handleCreateChat = async (id: string) => {
     await dispatch(
       createOneTwoOneChat({
@@ -30,6 +33,7 @@ export function CompanyCard({ className, companyData }: ChildProp) {
       })
     );
   };
+
   return (
     <div
       className={`w-full h-20  p-3 ${className} hover:bg-backgroundAccent cursor-pointer `}

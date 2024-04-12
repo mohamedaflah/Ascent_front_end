@@ -39,20 +39,77 @@ const chatReducer = createSlice({
     setLastMessage: (state, { payload }) => {
       console.log(state.users);
       console.log(state.companies);
-      
+
       if (state.users) {
         state.users = state.users.map((user) =>
-          user._id === payload.reciverId ? { ...user, lastMessage: payload.message } : user
+          user._id === payload.reciverId
+            ? { ...user, lastMessage: payload.message }
+            : user
         );
       }
-    
+
       if (state.companies) {
         state.companies = state.companies.map((company) =>
-          company._id === payload.reciverId ? { ...company, lastMessage: payload.message } : company
+          company._id === payload.reciverId
+            ? { ...company, lastMessage: payload.message }
+            : company
         );
       }
     },
-    
+    setMessageCount: (state, { payload }) => {
+      if (state.users) {
+        state.users = state.users.map((user) =>
+          user._id === payload ? { ...user, messageCount: 0 } : user
+        );
+      }
+
+      if (state.companies) {
+        state.companies = state.companies.map((company) =>
+          company._id === payload ? { ...company, messageCount: 0 } : company
+        );
+      }
+    },
+    updateunreadMessageCountAndLastMessage: (state, { payload }) => {
+      if (state.users) {
+        state.users = state.users.map((user) => {
+          if (user._id == payload.userId) {
+            let messageCount;
+            if (user && user.messageCount) {
+              messageCount = user?.messageCount + 1;
+            } else {
+              messageCount = 0;
+            }
+            return {
+              ...user,
+              lastMessage: payload.message,
+              messageCount: Number(messageCount),
+            };
+          } else {
+            return user;
+          }
+        });
+      }
+      if (state.companies) {
+        state.companies = state.companies.map((user) => {
+          if (user._id == payload.userId) {
+            let messageCount;
+            if (user && user.messageCount) {
+              messageCount = user?.messageCount + 1;
+            } else {
+              messageCount = 0;
+            }
+            return {
+              ...user,
+              lastMessage: payload.message,
+              messageCount: Number(messageCount),
+            };
+          } else {
+            return user;
+          }
+        });
+      }
+
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -152,5 +209,11 @@ const chatReducer = createSlice({
       });
   },
 });
-export const { setTypingUser, removeTypingUsers,setLastMessage } = chatReducer.actions;
+export const {
+  setTypingUser,
+  removeTypingUsers,
+  setLastMessage,
+  setMessageCount,
+  updateunreadMessageCountAndLastMessage,
+} = chatReducer.actions;
 export default chatReducer.reducer;

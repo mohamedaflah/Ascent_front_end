@@ -62,3 +62,18 @@ export const deleteMessage = createAsyncThunk(
     }
   }
 );
+
+export const updateMessageStatus = createAsyncThunk(
+  "message/update-message-status",
+  async (messageId: string, { rejectWithValue }) => {
+    try {
+      const { data } = await CommunicationAxios.patch(
+        `/api/v2/messages/${messageId}`,
+        { status: "read" }
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

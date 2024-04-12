@@ -8,13 +8,17 @@ import { MessageCount } from "./MessageCountShow";
 import { useEffect } from "react";
 
 import { FileText, Headphones, Image, Video } from "lucide-react";
+
+
 interface ChildProp {
   className?: string;
   userData?: User;
 }
 export function UserCard({ className, userData }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
-  const { typingUsers } = useSelector((state: RootState) => state.chats);
+  const { typingUsers } = useSelector(
+    (state: RootState) => state.chats
+  );
   const {
     user,
     role,
@@ -28,7 +32,7 @@ export function UserCard({ className, userData }: ChildProp) {
         secondId: id,
         role: String(role),
       })
-    );
+    ).then();
   };
 
   useEffect(() => {

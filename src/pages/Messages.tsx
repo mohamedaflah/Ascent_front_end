@@ -25,9 +25,12 @@ import { Message } from "@/types/types.messagereducer";
 import { v4 as uuid } from "uuid";
 import { PapperClipPopover } from "@/components/Messages/ChatContentClipPoppover";
 import { groupMessagesByDate } from "@/util/groupMessages";
-import { setMessage } from "@/redux/reducers/messageReducer";
+import {
+  setMessage,
+  updateMessageStatusLocaly,
+} from "@/redux/reducers/messageReducer";
 import { EmojiPickerPopover } from "@/components/Messages/PickerPopover";
-import { setLastMessage } from "@/redux/reducers/chatReducer";
+import { setLastMessage, setMessageCount } from "@/redux/reducers/chatReducer";
 
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
@@ -36,28 +39,32 @@ export function Messages() {
   );
   const { messages } = useSelector((state: RootState) => state.message);
   const dispatch: AppDispatch = useDispatch();
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
   useEffect(() => {
-    if (role == "user") {
-      dispatch(getAllcompaniesforchat());
-      if (companies) {
-        dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
-      }
-    } else if (role == "company") {
-      dispatch(getAllUsersforChat());
-      if (users) {
-        dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
+    // This effect is designed to handle initial fetching of companies or users
+    // based on the user's role, and then fetching unread messages if conditions are met.
+
+    // Dispatch actions based on role to fetch companies or users.
+    if (initialLoad) {
+      if (role === "user") {
+        dispatch(getAllcompaniesforchat());
+      } else if (role === "company") {
+        dispatch(getAllUsersforChat());
       }
     }
-  }, [dispatch, role]);
-  // useEffect(() => {
-  //   if (role === "user") {
-  //     if (!companies) {
-  //       dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
-  //     } else if (!users) {
-  //       dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
-  //     }
-  //   }
-  // }, [users, companies, dispatch, user?._id, role]);
+
+    if (
+      initialLoad &&
+      ((role === "user" && companies) || (role === "company" && users))
+    ) {
+      dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
+        console.log("🚀 ~ dispatch ~ res:", res);
+
+        setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
+      });
+    }
+  }, [dispatch, role, user?._id, companies, users]);
+
   const socket = useContext(SocketContext);
 
   const { typingUsers } = useSelector((state: RootState) => state.chats);
@@ -124,13 +131,22 @@ export function Messages() {
         recieverdId: selectedUser?._id,
         senderId: user?._id,
       });
-    }, 2300);
+    }, 2000);
   };
 
   const [messageContent, setMessageContent] = useState<string>("");
   useEffect(() => {
     if (chatId) {
-      dispatch(getAllMessages(String(chatId)));
+      dispatch(getAllMessages(String(chatId))).then((res) => {
+        console.log("🚀 ~ dispatch ~ res):", res);
+        dispatch(
+          updateMessageStatusLocaly({
+            chatId: String(chatId),
+            userId: String(selectedUser?._id),
+          })
+        );
+        dispatch(setMessageCount(selectedUser?._id));
+      });
     }
   }, [dispatch, chatId, selectedUser]);
   useEffect(() => {
@@ -149,7 +165,7 @@ export function Messages() {
         <div className="col-span-10 sm:col-span-4  lg:col-span-3 md:border-r md:w-[550px] w-full  h-screen ">
           {" "}
           {/*h-screen*/}
-          <div className="mx-auto md:m-0 flex flex-col h-full w-[90%] ">
+          <div className="mx-auto md:m-0 flex flex-col h-full w-[90%] transition-all duration-500 ">
             <div className="w-full h-28  flex items-end">
               <div className="h-[70%] w-full flex items-start">
                 <SearchBox />

@@ -8,6 +8,7 @@ import {
   createMessage,
   deleteMessage,
   getAllMessages,
+  updateMessageStatus,
 } from "../actions/messageAction";
 import { ErrorPayload } from "@/types/AllTypes";
 import toast from "react-hot-toast";
@@ -45,6 +46,23 @@ const messageReducer = createSlice({
         }
       }
     },
+    updateMessageStatusLocaly: (
+      status,
+      action: PayloadAction<{ chatId: string; userId: string }>
+    ) => {
+      const { payload } = action;
+      status.messages = status.messages?.map((message) => {
+        if (
+          message.chatId === payload.chatId &&
+          message.senderId == payload.userId
+        ) {
+          return { ...message, status: "read" };
+        } else {
+          return message;
+        }
+      }) as Message[];
+    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -103,9 +121,29 @@ const messageReducer = createSlice({
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         toast.error(state.err);
+      })
+      .addCase(updateMessageStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateMessageStatus.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.messages = state.messages?.map((message) => {
+          if (message._id === payload.message._id) {
+            return { ...message, status: "read" };
+          } else {
+            return message;
+          }
+        }) as Message[];
+        state.err = false;
+      })
+      .addCase(updateMessageStatus.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = (payload as ErrorPayload).message;
+        toast.error(state.err);
       });
   },
 });
 
-export const { setMessage, deleteMessageLocaly } = messageReducer.actions;
+export const { setMessage, deleteMessageLocaly, updateMessageStatusLocaly } =
+  messageReducer.actions;
 export default messageReducer.reducer;

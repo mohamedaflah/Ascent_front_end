@@ -1,6 +1,12 @@
 import { VideoCallDecline } from "@/components/users/VideoCallDecline";
 import { VideoCallModal } from "@/components/users/VideoCallModal";
-import { removeTypingUsers, setLastMessage, setTypingUser } from "@/redux/reducers/chatReducer";
+import { updateMessageStatus } from "@/redux/actions/messageAction";
+import {
+  removeTypingUsers,
+  setLastMessage,
+  setTypingUser,
+  updateunreadMessageCountAndLastMessage,
+} from "@/redux/reducers/chatReducer";
 import {
   deleteMessageLocaly,
   setMessage,
@@ -51,7 +57,7 @@ export function SocketProvider({ children }: ChildProp) {
   const { chatId, selectedUser } = useSelector(
     (state: RootState) => state.chats
   );
-  
+
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     const socketInstance = io(SOCKET_SERVER_URL);
@@ -60,11 +66,16 @@ export function SocketProvider({ children }: ChildProp) {
       socketInstance.emit("join-user", { id: user?._id, role: role });
     }
     socketInstance.on("get-message", (msg: Message) => {
-      
       if (chatId == msg.chatId) {
         dispatch(setMessage(msg));
-        dispatch(setLastMessage({reciverId:msg.senderId,message:msg}))
+        dispatch(setLastMessage({ reciverId: msg.senderId, message: msg }));
+        dispatch(updateMessageStatus(String(msg?._id)));
+        
+      }else{
+
+        dispatch(updateunreadMessageCountAndLastMessage({userId:msg.senderId,message:msg}))
       }
+      // if(selectedUser?._id)
     });
     socketInstance.on(
       "typing",
