@@ -1,6 +1,6 @@
 import { VideoCallDecline } from "@/components/users/VideoCallDecline";
 import { VideoCallModal } from "@/components/users/VideoCallModal";
-import { removeTypingUsers, setTypingUser } from "@/redux/reducers/chatReducer";
+import { removeTypingUsers, setLastMessage, setTypingUser } from "@/redux/reducers/chatReducer";
 import {
   deleteMessageLocaly,
   setMessage,
@@ -51,6 +51,7 @@ export function SocketProvider({ children }: ChildProp) {
   const { chatId, selectedUser } = useSelector(
     (state: RootState) => state.chats
   );
+  
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     const socketInstance = io(SOCKET_SERVER_URL);
@@ -59,8 +60,10 @@ export function SocketProvider({ children }: ChildProp) {
       socketInstance.emit("join-user", { id: user?._id, role: role });
     }
     socketInstance.on("get-message", (msg: Message) => {
-      if (chatId == msg.ChatId) {
+      
+      if (chatId == msg.chatId) {
         dispatch(setMessage(msg));
+        dispatch(setLastMessage({reciverId:msg.senderId,message:msg}))
       }
     });
     socketInstance.on(

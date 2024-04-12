@@ -36,7 +36,7 @@ export function FindJobList() {
           </div>
         </div>
         <div className="w-full mt-3   h-full flex gap-2">
-          <div className=" w-full lg:w-[500px] xl:min-w-[410px] h-full space-y-3  ">
+          <div className=" w-full  lg:w-[680px]  h-full space-y-3  "> {/*xl:w-[410px] removed lg:w-[500px] removed */}
             {/* {jobs?.map((value) => (
               <JobCompanyCard2 key={value?._id} jobData={value} />
             ))} */}

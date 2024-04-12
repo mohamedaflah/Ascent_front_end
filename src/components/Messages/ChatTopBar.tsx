@@ -38,7 +38,9 @@ export function ChatTopbar() {
             <span className="maintxt font-semibold text-lg">
               {role === "company" ? regularUser?.firstname : companyUser?.name}
             </span>
-            <span>Recruiter at Nomad</span>
+            <span>
+            {role=="user"?`Recruiter at ${companyUser?.name}`:"user"}
+            </span>
           </div>
         </div>
         <div className="h-full flex items-center gap-5 text-textPrimary ">

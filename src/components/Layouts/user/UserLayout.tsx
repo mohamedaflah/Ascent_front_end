@@ -34,8 +34,8 @@ function UserLayout() {
   return (
     <main className=" flex ">
       <aside
-        className={`h-screen border-r  flex-col pt-4 px-4 gap-5 sticky top-0 left-0 hidden lg:flex ${
-          sideExpand ? "w-60" : "w-24"
+        className={`h-screen border-r fixed flex-col pt-4 px-4 gap-5 lg:sticky top-0 left-0  lg:flex z-10 bg-background  ${
+          sideExpand ? "w-60" : "w-24 hidden "
         } transition-all duration-500 ease-in-out`}
       >
         <div
@@ -130,7 +130,7 @@ function UserLayout() {
       </aside>
 
       <main className="w-full">
-        <Header />
+        <Header setSideBarState={setIsSideExpand} />
         <Outlet />
       </main>
     </main>

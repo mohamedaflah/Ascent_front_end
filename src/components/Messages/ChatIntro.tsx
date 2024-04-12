@@ -9,6 +9,7 @@ export function ChatIntro() {
   const { role } = useSelector((state: RootState) => state.userData);
   type CompanyUser = Company & { role: "company" };
   type RegularUser = User & { role: "user" | "admin" };
+  
 
   // Type assertion to assert the type of selectedUser
   const companyUser = selectedUser as CompanyUser;
@@ -32,7 +33,9 @@ export function ChatIntro() {
         <span className="maintxt text-lg font-semibold">{role==="company"?regularUser.firstname:companyUser.name}</span>
       </div>
       <div className="flex justify-center text-textPrimary">
-        <span className="maintxt ">Recruiter at Nomad</span>
+        <span className="maintxt ">
+          {role==="user"?`Recruiter at ${companyUser?.name}`:"Recruiter at Nomad"}
+          </span>
       </div>
       <div className="flex justify-center text-textPrimary">
         <span className="maintxt ">

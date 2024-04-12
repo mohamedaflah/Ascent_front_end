@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@faker-js/faker": "^8.4.1",
     "@hookform/resolvers": "^3.3.4",
     "@nextui-org/react": "^2.2.10",
@@ -39,6 +41,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.4.0",
     "devicon-react-svg": "^0.2.4",
+    "emoji-mart": "^5.5.2",
     "faker-js": "^1.0.0",
     "framer-motion": "^11.0.7",
     "jsonwebtoken": "^9.0.2",

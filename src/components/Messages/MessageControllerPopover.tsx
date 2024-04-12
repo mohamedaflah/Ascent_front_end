@@ -13,7 +13,7 @@ interface ChildProp {
   id?: string;
   Idx?: number;
 }
-export function MessageControllerPopover({ id,Idx }: ChildProp) {
+export function MessageControllerPopover({ id }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
   const { chatId, selectedUser } = useSelector(
     (state: RootState) => state.chats
@@ -26,7 +26,7 @@ export function MessageControllerPopover({ id,Idx }: ChildProp) {
       senderId: user._id,
       recieverId: String(selectedUser?._id),
       message: "delete message",
-      messageId: Idx,
+      messageId: id,
     });
     if (id) {
       dispatch(deleteMessage(id));

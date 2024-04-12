@@ -21,7 +21,7 @@ export function SenderCard({ message }: ChildProp) {
   const regularUser = selectedUser as RegularUser;
   return (
     <div className={`w-full flex justify-start`} key={message?._id}>
-      <div className="min-h-20  w-96 flex ">
+      <div className="min-h-20  w-96 flex  ">
         <div className="h-full min-w-14 flex justify-start ">
           <img
             src={message.senderProfile ? message.senderProfile : profileImage}
@@ -78,7 +78,7 @@ export function SenderCard({ message }: ChildProp) {
                       ) : (
                         <>
                         <embed src={message.content.content.split("[^(I)^]")[0]} className="min-w-full h-full" type="" />
-                        <div className="w-full absolute bottom-0 h-10 bg-backgroundAccent flex items-center px-2 py-2 gap-2 line-clamp-1">
+                        <div className="w-full absolute bottom-0 h-10 bg-backgroundAccent/95 flex items-center px-2 py-2 gap-2 line-clamp-1">
                           <img src={pdfImage} className="h-5" alt="" />
                           <p className="line-clamp-1">{message.content.content.split("[^(I)^]")[1]}</p>
                         </div>

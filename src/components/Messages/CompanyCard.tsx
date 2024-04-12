@@ -5,6 +5,8 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { Company } from "@/types/oneCompanyType";
 import { User } from "@/types/types.user";
 import { useDispatch, useSelector } from "react-redux";
+import { MessageCount } from "./MessageCountShow";
+import { FileText, Headphones, Image, Video } from "lucide-react";
 
 interface ChildProp {
   className?: string;
@@ -18,7 +20,7 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const {typingUsers}=useSelector((state:RootState)=>state.chats)
+  const { typingUsers } = useSelector((state: RootState) => state.chats);
   const handleCreateChat = async (id: string) => {
     await dispatch(
       createOneTwoOneChat({
@@ -30,10 +32,10 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   };
   return (
     <div
-      className={`w-full h-20  p-3 ${className} hover:bg-backgroundAccent cursor-pointer`}
+      className={`w-full h-20  p-3 ${className} hover:bg-backgroundAccent cursor-pointer `}
       onClick={() => handleCreateChat(String(companyData?._id))}
     >
-      <div className="w-full h-full  grid grid-cols-10 items-center">
+      <div className="w-full h-full  grid grid-cols-10 items-center relative">
         <div className="col-span-2 sm:col-span-3 md:col-span-2 h-full ">
           <div className="h-full w-14  overflow-hidden flex items-center justify-center">
             <img
@@ -54,16 +56,47 @@ export function CompanyCard({ className, companyData }: ChildProp) {
           </div>
           <div className="maintxt w-full line-clamp-1 text-textPrimary/100">
             <span>
-            {typingUsers?.includes(String(companyData?._id)) ? (
+              {typingUsers?.includes(String(companyData?._id)) ? (
                 <>
-                <span className="text-green-400">typing...</span>
+                  <span className="text-green-400">typing...</span>
                 </>
               ) : (
-                <>We want to invite you for a quick interview</>
+                <span>
+                  {companyData?.lastMessage?.content.content ? (
+                    companyData.lastMessage.content.type === "text" ? (
+                      companyData.lastMessage?.content.content
+                    ) : companyData.lastMessage.content.type === "image" ? (
+                      <span className="flex gap-1 items-center">
+                        <Image className="text-sm w-4" /> Image{" "}
+                      </span>
+                    ) : companyData.lastMessage.content.type === "audio" ? (
+                      <span className="flex gap-1 items-center">
+                        <Headphones className="text-sm w-4" /> Audio{" "}
+                      </span>
+                    ) : companyData.lastMessage.content.type === "video" ? (
+                      <span className="flex gap-1 items-center">
+                        <Video className="text-sm w-4" /> Video{" "}
+                      </span>
+                    ) : companyData.lastMessage.content.type === "doc" ? (
+                      <span className="flex gap-1 items-center">
+                        <FileText className="text-sm w-4" /> Document{" "}
+                      </span>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
+                </span>
               )}
             </span>
           </div>
         </div>
+        <MessageCount>
+          {companyData?.messageCount && companyData?.messageCount > 0
+            ? companyData?.messageCount
+            : null}
+        </MessageCount>
       </div>
     </div>
   );

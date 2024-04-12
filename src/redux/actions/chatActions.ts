@@ -5,7 +5,7 @@ import {
 } from "@/constants/axiosInstance";
 import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
+import { v4 } from "uuid";
 export const getAllcompaniesforchat = createAsyncThunk(
   "chat/get-allcomapnies",
   async (_, { rejectWithValue }) => {
@@ -41,7 +41,24 @@ export const getAllUsersforChat = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await UserAxios.get("/user/get-allusers");
-      console.log("🚀🧧🎑🎑🧧 ~ data: ^^^^", data)
+      console.log("🚀🧧🎑🎑🧧 ~ data: ^^^^", data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const fetchUnreadAndLastMessage = createAsyncThunk(
+  "chat/fetch-last-unread-message",
+  async (sendPayload: { userId: string }, { rejectWithValue }) => {
+    console.log("🚀 ~ sendPayload:", sendPayload);
+    try {
+      const { data } = await CommunicationAxios.post(
+        `/api/v2/chats/${v4()}`,
+        sendPayload
+      );
+      console.log("🚀 ~ data:", data)
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

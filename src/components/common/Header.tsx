@@ -13,9 +13,12 @@ import LoginModal from "../LoginModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CustomNavLink } from "../custom/CustomNav";
+import { Menu } from "lucide-react";
 
-
-const Header = () => {
+interface ChildProp {
+  setSideBarState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Header = ({ setSideBarState }: ChildProp) => {
   const [theme, setTheme] = useState<"dark" | "light" | "system">();
   const [landing, setisLanding] = useState<boolean>();
   const location = useLocation();
@@ -31,7 +34,9 @@ const Header = () => {
 
   return (
     <header
-      className={`w-full mx-auto sticky top-0 left-0 z-10 ${user&&"border-b"}   ${
+      className={`w-full mx-auto sticky top-0 left-0 z-10 ${
+        user && "border-b"
+      }   ${
         landing && !user
           ? `dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative ${
               location.pathname !== "/" ? "bg-background" : "bg-accenting "
@@ -69,13 +74,17 @@ const Header = () => {
 
               <ModeToggle />
               <RiMenu3Fill className="md:hidden" />
-
             </div>
           </div>
         ) : (
           <div className="h-[80%] bg-transparent w-full flex justify-between items-center ">
-            <div></div>
-            <div className="h-full flex gap-3">
+            <div className="flex">
+              <Menu
+                className="w-5 lg:hidden flex "
+                onClick={() => setSideBarState((prev) => !prev )}
+              />
+            </div>
+            <div className="h-full flex gap-3 items-center">
               <NavLink
                 to={"/"}
                 className={

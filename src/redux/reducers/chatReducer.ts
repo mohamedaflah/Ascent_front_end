@@ -2,11 +2,16 @@ import { ChatInitial } from "@/types/types.chat.reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createOneTwoOneChat,
+  fetchUnreadAndLastMessage,
   getAllUsersforChat,
   getAllcompaniesforchat,
 } from "../actions/chatActions";
 import { ErrorPayload } from "@/types/AllTypes";
 import toast from "react-hot-toast";
+
+import { User } from "@/types/types.user";
+import { Message } from "@/types/types.messagereducer";
+import { Company } from "@/types/oneCompanyType";
 
 const initialState: ChatInitial = {
   loading: false,
@@ -31,6 +36,23 @@ const chatReducer = createSlice({
         (value) => value !== payload
       );
     },
+    setLastMessage: (state, { payload }) => {
+      console.log(state.users);
+      console.log(state.companies);
+      
+      if (state.users) {
+        state.users = state.users.map((user) =>
+          user._id === payload.reciverId ? { ...user, lastMessage: payload.message } : user
+        );
+      }
+    
+      if (state.companies) {
+        state.companies = state.companies.map((company) =>
+          company._id === payload.reciverId ? { ...company, lastMessage: payload.message } : company
+        );
+      }
+    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -76,8 +98,59 @@ const chatReducer = createSlice({
         state.err = errorPayload.message;
         state.users = null;
         toast.error(state.err);
+      })
+      .addCase(fetchUnreadAndLastMessage.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchUnreadAndLastMessage.fulfilled,
+        (
+          state,
+          {
+            payload,
+          }: { payload: { result: { message: Message; count: number }[] } }
+        ) => {
+          state.loading = false;
+          const { result } = payload;
+
+          state.users = state.users?.map((user) => {
+            const userResult = result.find(
+              (data) => data?.message?.reciverId == user._id
+            );
+
+            if (userResult) {
+              return {
+                ...user,
+                messageCount: userResult.count,
+                lastMessage: userResult.message,
+              };
+            } else {
+              return user;
+            }
+          }) as User[];
+
+          state.companies = state.companies?.map((user) => {
+            const userResult = result.find(
+              (data) => data?.message?.reciverId == user._id
+            );
+            if (userResult) {
+              return {
+                ...user,
+                messageCount: userResult.count,
+                lastMessage: userResult.message,
+              };
+            } else {
+              return user;
+            }
+          }) as Company[];
+        }
+      )
+      .addCase(fetchUnreadAndLastMessage.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = (payload as ErrorPayload).message;
+        toast.error(state.err);
       });
   },
 });
-export const {setTypingUser,removeTypingUsers}=chatReducer.actions
+export const { setTypingUser, removeTypingUsers,setLastMessage } = chatReducer.actions;
 export default chatReducer.reducer;

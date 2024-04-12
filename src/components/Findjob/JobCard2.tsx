@@ -22,8 +22,8 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
   const [saved, setSaved] = useState<boolean>(false);
   return (
     <div
-      className={`w-full min-h-36 border  flex justify-center items-center hover:bg-backgroundAccent transition-all duration-500 cursor-pointer rounded-[5px] ${
-        jobDetail?._id == job?._id && "bg-backgroundAccent"
+      className={`w-full min-h-36 border  flex justify-center items-center  transition-all duration-500 cursor-pointer rounded-[5px] ${
+        jobDetail?._id == job?._id ?"bg-backgroundAccent":"hover:bg-backgroundAccent/55"
       }`}
       onClick={() => hadleClick(job?._id ?? "")}
     >

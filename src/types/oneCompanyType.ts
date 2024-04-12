@@ -1,3 +1,5 @@
+import { Message } from "./types.messagereducer";
+
 export interface Company {
   createdAt: Date;
   email?: string;
@@ -28,4 +30,6 @@ export interface Company {
   _id?: string;
   certificate?: string;
   registrationId?: string;
+  lastMessage?: Message;
+  messageCount?: number;
 }

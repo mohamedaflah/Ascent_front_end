@@ -28,15 +28,16 @@ const messageReducer = createSlice({
       state.messages = messages;
     },
     deleteMessageLocaly: (state, { payload }) => {
-      // const messages = state.messages;
-      // state.messages = messages?.map((value) => {
-      //   if (value._id === payload.messageId) {
-      //     return { ...value, deleteStatus: true };
-      //   } else {
-      //     return value;
-      //   }
-      // }) as Message[] | null;
+      const messages = state.messages;
+      state.messages = messages?.map((value) => {
+        if (value._id === payload.messageId) {
+          return { ...value, deleteStatus: true };
+        } else {
+          return value;
+        }
+      }) as Message[] | null;
       // state.messages?.splice(payload.messageId,1)
+
       if (state.messages) {
         const index = payload.messageId;
         if (index >= 0 && index < state.messages.length) {
@@ -55,16 +56,16 @@ const messageReducer = createSlice({
         (state, action: PayloadAction<CreateMessagePayload>) => {
           state.loading = false;
           const { payload } = action;
-          const messages = state.messages;
-          messages?.push(payload.message);
-          state.messages = messages as Message[] | null;
+          payload;
+          // const messages = state.messages;
+          // messages?.push(payload.message);
+          // // state.messages = messages as Message[] | null;
         }
       )
       .addCase(createMessage.rejected, (state, { payload }) => {
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
-        state.messages = null;
         toast.error(state.err);
       })
       .addCase(getAllMessages.pending, (state) => {

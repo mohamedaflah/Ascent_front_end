@@ -27,6 +27,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { SocketContext } from "@/contexts/SocketContext";
 import { Message } from "@/types/types.messagereducer";
 import { VideoPlay } from "./VideoPlay";
+import { setMessage } from "@/redux/reducers/messageReducer";
+import { setLastMessage } from "@/redux/reducers/chatReducer";
 
 interface FileModalChatProps {
   image: File | null; // Define the prop image of type File or null,
@@ -74,27 +76,18 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
         },
         createdAt: new Date(),
         updatedAt: new Date(),
-        ChatId: chatId,
+        chatId: chatId,
       };
       socket?.emit("send-message", {
         data: socketSendBody,
         reciverId: selectedUser?._id,
       });
+      dispatch(setMessage(socketSendBody))
+      dispatch(
+        setLastMessage({ reciverId: selectedUser?._id, message: socketSendBody })
+      );
       const res = await dispatch(
-        createMessage({
-          chatId: String(chatId),
-          content: {
-            content: fileLink,
-            type: type,
-            subcontent: {
-              content: text,
-              type: "text",
-            },
-          },
-          senderId: user?._id,
-          senderName: user?.name,
-          senderProfile: user?.icon,
-        })
+        createMessage(socketSendBody)
       );
       setLocalLoad(false);
       if (res.type.endsWith("fulfilled")) {

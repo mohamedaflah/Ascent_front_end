@@ -1,24 +1,26 @@
 import { CommunicationAxios } from "@/constants/axiosInstance";
+import { Message } from "@/types/types.messagereducer";
 import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const createMessage = createAsyncThunk(
   "message/create-message",
   async (
-    sendData: {
-      senderId: string;
-      chatId: string;
-      senderName: string;
-      senderProfile: string;
-      content: {
-        type: "audio" | "video" | "text" | "image" | "doc";
-        content: string;
-        subcontent?: {
-          type: "audio" | "video" | "text" | "image" | "doc";
-          content: string;
-        };
-      };
-    },
+    sendData: // {
+    //   senderId: string;
+    //   chatId: string;
+    //   senderName: string;
+    //   senderProfile: string;
+    //   content: {
+    //     type: "audio" | "video" | "text" | "image" | "doc";
+    //     content: string;
+    //     subcontent?: {
+    //       type: "audio" | "video" | "text" | "image" | "doc";
+    //       content: string;
+    //     };
+    //   };
+    // },
+    Message,
     { rejectWithValue }
   ) => {
     try {

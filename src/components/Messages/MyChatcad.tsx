@@ -96,7 +96,7 @@ export function MyChatCard({ message, Idx }: ChildProp) {
                             className="min-w-full h-full"
                             type=""
                           />
-                          <div className="w-full absolute bottom-0 h-8 bg-backgroundAccent flex items-center px-2 py-2 gap-2 line-clamp-1">
+                          <div className="w-full absolute bottom-0 h-8 bg-backgroundAccent/65 flex items-center px-2 py-2 gap-2 line-clamp-1">
                             <img src={pdfImage} className="h-5" alt="" />
                             <p className="line-clamp-1">
                               {message.content.content.split("[^(I)^]")[1]}

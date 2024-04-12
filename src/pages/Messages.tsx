@@ -2,12 +2,13 @@ import { ChatIntro } from "@/components/Messages/ChatIntro";
 import { ChatTopbar } from "@/components/Messages/ChatTopBar";
 import { SearchBox } from "@/components/Messages/SearchBox";
 
-import { SendHorizontal, Smile } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import {
+  fetchUnreadAndLastMessage,
   getAllUsersforChat,
   getAllcompaniesforchat,
 } from "@/redux/actions/chatActions";
@@ -24,6 +25,10 @@ import { Message } from "@/types/types.messagereducer";
 import { v4 as uuid } from "uuid";
 import { PapperClipPopover } from "@/components/Messages/ChatContentClipPoppover";
 import { groupMessagesByDate } from "@/util/groupMessages";
+import { setMessage } from "@/redux/reducers/messageReducer";
+import { EmojiPickerPopover } from "@/components/Messages/PickerPopover";
+import { setLastMessage } from "@/redux/reducers/chatReducer";
+
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   const { companies, users, selectedUser, chatId } = useSelector(
@@ -34,10 +39,25 @@ export function Messages() {
   useEffect(() => {
     if (role == "user") {
       dispatch(getAllcompaniesforchat());
+      if (companies) {
+        dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
+      }
     } else if (role == "company") {
       dispatch(getAllUsersforChat());
+      if (users) {
+        dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
+      }
     }
   }, [dispatch, role]);
+  // useEffect(() => {
+  //   if (role === "user") {
+  //     if (!companies) {
+  //       dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
+  //     } else if (!users) {
+  //       dispatch(fetchUnreadAndLastMessage({ userId: user?._id }));
+  //     }
+  //   }
+  // }, [users, companies, dispatch, user?._id, role]);
   const socket = useContext(SocketContext);
 
   const { typingUsers } = useSelector((state: RootState) => state.chats);
@@ -58,6 +78,7 @@ export function Messages() {
       senderName: username,
       senderProfile: user?.icon ? user?.icon : "",
     };
+    sendBody;
     const socketSendBody: Message = {
       senderId: user?._id,
       senderName: username,
@@ -70,13 +91,17 @@ export function Messages() {
       },
       createdAt: new Date(),
       updatedAt: new Date(),
-      ChatId: chatId,
+      chatId: chatId,
     };
     socket?.emit("send-message", {
       data: socketSendBody,
       reciverId: selectedUser?._id,
     });
-    dispatch(createMessage(sendBody));
+    dispatch(setMessage(socketSendBody));
+    dispatch(
+      setLastMessage({ reciverId: selectedUser?._id, message: socketSendBody })
+    );
+    dispatch(createMessage(socketSendBody));
     setMessageContent("");
   };
 
@@ -119,8 +144,11 @@ export function Messages() {
   const scrollRef = useRef<HTMLDivElement>(null);
   return (
     <main className="w-full ">
-      <main className="w-[95%] md:w-[95%] mx-auto h-screen  grid grid-cols-10 ">{/*h-screen*/}
-        <div className="col-span-10 sm:col-span-4  lg:col-span-3 border-r  h-screen "> {/*h-screen*/}
+      <main className="w-[95%] md:w-[95%] mx-auto h-screen   flex">
+        {/*h-screen*/}
+        <div className="col-span-10 sm:col-span-4  lg:col-span-3 md:border-r md:w-[550px] w-full  h-screen ">
+          {" "}
+          {/*h-screen*/}
           <div className="mx-auto md:m-0 flex flex-col h-full w-[90%] ">
             <div className="w-full h-28  flex items-end">
               <div className="h-[70%] w-full flex items-start">
@@ -130,24 +158,37 @@ export function Messages() {
             <div className="w-full h-full lg:h-[600px] scrollbar-hide   overflow-y-auto">
               {role == "user" ? (
                 <>
-                  {companies?.map((value) => (
-                    <CompanyCard
-                      className="border-b"
-                      companyData={value}
-                      key={value?._id}
-                    />
-                  ))}
+                  {companies &&
+                    [...companies]
+                      .sort((a, b) => {
+                        const dateA = new Date(a?.lastMessage?.createdAt ?? 0);
+                        const dateB = new Date(b?.lastMessage?.createdAt ?? 0);
+                        return dateB.getTime() - dateA.getTime();
+                      })
+                      .map((value) => (
+                        <CompanyCard
+                          className="border-b"
+                          companyData={value}
+                          key={value?._id}
+                        />
+                      ))}
                 </>
               ) : (
                 <>
                   {users &&
-                    users?.map((value) => (
-                      <UserCard
-                        className="border-b"
-                        key={value?._id}
-                        userData={value}
-                      />
-                    ))}
+                    [...users]
+                      .sort((a, b) => {
+                        const dateA = new Date(a.lastMessage?.createdAt ?? 0);
+                        const dateB = new Date(b.lastMessage?.createdAt ?? 0);
+                        return dateB.getTime() - dateA.getTime();
+                      })
+                      .map((value) => (
+                        <UserCard
+                          className="border-b"
+                          key={value?._id}
+                          userData={value}
+                        />
+                      ))}
                   {/* <UserCard className="border-b" />
                   <UserCard className="border-b" /> */}
                 </>
@@ -155,7 +196,7 @@ export function Messages() {
             </div>
           </div>
         </div>
-        <div className="col-span-6 lg:col-span-7 hidden sm:flex  items-center justify-center h-screen  ">
+        <div className="col-span-6 lg:col-span-7 hidden sm:flex w-full  items-center justify-center h-screen  ">
           {selectedUser ? (
             <div className="grid grid-rows-10 grid-cols-1 h-[91%]  w-full justify-center">
               <div className="w-full row-span-1 border-b ">
@@ -171,7 +212,7 @@ export function Messages() {
                   </div>
                   {/* start */}
                   {Object.entries(groupMessagesByDate(messages)).map(
-                    ([date, messages]) => (
+                    ([date, messages], index) => (
                       <div className="">
                         <div className="w-full h-10 flex items-center mt-3 ">
                           <div className="w-full h-[1px] border"></div>
@@ -180,7 +221,10 @@ export function Messages() {
                           </div>
                           <div className="w-full h-[1px] border"></div>
                         </div>
-                        <div className="mt-3 space-y-2 overflow-hidden ">
+                        <div
+                          className="mt-3 space-y-2 overflow-hidden "
+                          key={index}
+                        >
                           {messages?.map((message, index) => (
                             <>
                               {message.senderId === user?._id ? (
@@ -228,7 +272,10 @@ export function Messages() {
                     </div>
                   </div>
                   <div className="col-span-1 flex items-center justify-end pr-2 text-textPrimary">
-                    <Smile className="w-5" />
+                    <EmojiPickerPopover
+                      key={uuid()}
+                      setText={setMessageContent}
+                    />
                   </div>
                   <div className="col-span-1 p-2">
                     <button
