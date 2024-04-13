@@ -46,29 +46,51 @@ export function Messages() {
   const dispatch: AppDispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   useEffect(() => {
-    // This effect is designed to handle initial fetching of companies or users
-    // based on the user's role, and then fetching unread messages if conditions are met.
-
-    // Dispatch actions based on role to fetch companies or users.
     if (initialLoad) {
       if (role === "user") {
-        dispatch(getAllcompaniesforchat());
+        dispatch(getAllcompaniesforchat()).then((res) => {
+          console.log("🚀 ~ dispatch ~ res:", res);
+          dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then(
+            (res) => {
+              console.log("🚀 ~ dispatch ~ res:", res);
+            }
+          );
+          setInitialLoad(false)
+          
+        });
       } else if (role === "company") {
-        dispatch(getAllUsersforChat());
+        dispatch(getAllUsersforChat()).then((res) => {
+          console.log("🚀 ~ dispatch ~ res: user", res);
+          dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then(
+            (res) => {
+              console.log("🚀 ~ dispatch ~ res:", res);
+            }
+          );
+          setInitialLoad(false)
+        });
       }
     }
+  }, [dispatch, role, user]);
 
-    if (
-      initialLoad &&
-      ((role === "user" && companies) || (role === "company" && users))
-    ) {
-      dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
-        console.log("🚀 ~ dispatch ~ res:", res);
+  // Effect to fetch unread messages for companies
+  // useEffect(() => {
+  //   if (initialLoad && role === "company" && users) {
+  //     dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
+  //       console.log("🚀 ~ dispatch ~ res:", res);
+  //     });
+  //     setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
+  //   }
+  // }, [dispatch, role, user?._id, users, initialLoad]);
 
-        setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
-      });
-    }
-  }, [dispatch, role, user?._id, companies, users]);
+  // // Effect to fetch unread messages for users
+  // useEffect(() => {
+  //   if (initialLoad && role === "user" && companies) {
+  //     dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
+  //       console.log("🚀 ~ dispatch ~ res:", res);
+  //     });
+  //     setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
+  //   }
+  // }, [dispatch, role, user?._id, companies, initialLoad]);
 
   const socket = useContext(SocketContext);
 
@@ -110,6 +132,7 @@ export function Messages() {
       data: socketSendBody,
       reciverId: selectedUser?._id,
     });
+    alert(`${socketSendBody.senderId} <--> ${selectedUser?._id}`)
     dispatch(setMessage(socketSendBody));
     dispatch(
       setLastMessage({ reciverId: selectedUser?._id, message: socketSendBody })

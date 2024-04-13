@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteMessage } from "@/redux/actions/messageAction";
 import { useContext } from "react";
 import { SocketContext } from "@/contexts/SocketContext";
+import { deleteMessageLocaly } from "@/redux/reducers/messageReducer";
 
 interface ChildProp {
   id?: string;
@@ -29,6 +30,15 @@ export function MessageControllerPopover({ id }: ChildProp) {
       messageId: id,
     });
     if (id) {
+      dispatch(
+        deleteMessageLocaly({
+          chatId: chatId,
+          senderId: user._id,
+          recieverId: String(selectedUser?._id),
+          message: "delete message",
+          messageId: id,
+        })
+      );
       dispatch(deleteMessage(id));
     }
   };

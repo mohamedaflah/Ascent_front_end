@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { MessageCount } from "./MessageCountShow";
 import { useEffect } from "react";
 
-import { FileText, Headphones, Image, Video } from "lucide-react";
-
+import { Ban, FileText, Headphones, Image, Video } from "lucide-react";
+import TimeAgo from "../custom/LiveTime";
 
 interface ChildProp {
   className?: string;
@@ -16,9 +16,7 @@ interface ChildProp {
 }
 export function UserCard({ className, userData }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
-  const { typingUsers } = useSelector(
-    (state: RootState) => state.chats
-  );
+  const { typingUsers } = useSelector((state: RootState) => state.chats);
   const {
     user,
     role,
@@ -59,7 +57,15 @@ export function UserCard({ className, userData }: ChildProp) {
               {userData?.firstname}
               <div className="w-[4px] h-[4px] rounded-full  bg-primary"></div>
             </span>
-            <span className="maintxt text-textPrimary">12 mins ago</span>
+            <span className="maintxt text-textPrimary">
+              {userData?.lastMessage && userData.lastMessage.createdAt ? (
+                <>
+                  <TimeAgo timestamp={userData.lastMessage.createdAt} />
+                </>
+              ) : (
+                "few mins ago"
+              )}
+            </span>
           </div>
           <div className="maintxt w-full line-clamp-1 text-textPrimary/60 ">
             <span>
@@ -69,30 +75,38 @@ export function UserCard({ className, userData }: ChildProp) {
                 </>
               ) : (
                 <span>
-                  {userData?.lastMessage?.content.content ? (
-                    userData.lastMessage.content.type === "text" ? (
-                      userData.lastMessage?.content.content
-                    ) : userData.lastMessage.content.type === "image" ? (
-                      <span className="flex gap-1 items-center">
-                        <Image className="text-sm w-4" /> Image{" "}
-                      </span>
-                    ) : userData.lastMessage.content.type === "audio" ? (
-                      <span className="flex gap-1 items-center">
-                        <Headphones className="text-sm w-4" /> Audio{" "}
-                      </span>
-                    ) : userData.lastMessage.content.type === "video" ? (
-                      <span className="flex gap-1 items-center">
-                        <Video className="text-sm w-4" /> Video{" "}
-                      </span>
-                    ) : userData.lastMessage.content.type === "doc" ? (
-                      <span className="flex gap-1 items-center">
-                        <FileText className="text-sm w-4" /> Document{" "}
-                      </span>
-                    ) : (
-                      ""
-                    )
+                  {userData && userData.lastMessage&&!userData.lastMessage.deleteStatus ? (
+                    <>
+                      {userData?.lastMessage?.content.content ? (
+                        userData.lastMessage.content.type === "text" ? (
+                          userData.lastMessage?.content.content
+                        ) : userData.lastMessage.content.type === "image" ? (
+                          <span className="flex gap-1 items-center">
+                            <Image className="text-sm w-4" /> Image{" "}
+                          </span>
+                        ) : userData.lastMessage.content.type === "audio" ? (
+                          <span className="flex gap-1 items-center">
+                            <Headphones className="text-sm w-4" /> Audio{" "}
+                          </span>
+                        ) : userData.lastMessage.content.type === "video" ? (
+                          <span className="flex gap-1 items-center">
+                            <Video className="text-sm w-4" /> Video{" "}
+                          </span>
+                        ) : userData.lastMessage.content.type === "doc" ? (
+                          <span className="flex gap-1 items-center">
+                            <FileText className="text-sm w-4" /> Document{" "}
+                          </span>
+                        ) : (
+                          ""
+                        )
+                      ) : (
+                        <span>
+                          <Ban className="text-sm w-4"/> This message has been deleted
+                        </span>
+                      )}
+                    </>
                   ) : (
-                    ""
+                    <></>
                   )}
                 </span>
               )}

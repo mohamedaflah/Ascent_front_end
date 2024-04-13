@@ -156,7 +156,7 @@ const chatReducer = createSlice({
         toast.error(state.err);
       })
       .addCase(fetchUnreadAndLastMessage.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(
         fetchUnreadAndLastMessage.fulfilled,
@@ -168,15 +168,16 @@ const chatReducer = createSlice({
         ) => {
           state.loading = false;
           const { result } = payload;
-          
+
           if (state.users) {
             state.users = state.users?.map((user) => {
               const userResult = result.find(
-                (data) => data?.message?.senderId == user._id
+                (data) =>
+                  (data.message && data?.message?.senderId == user._id) ||
+                  (data.message && data.message.reciverId == user._id)
               );
 
               if (userResult) {
-                
                 return {
                   ...user,
                   messageCount: userResult.count,

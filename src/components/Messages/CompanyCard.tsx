@@ -7,7 +7,7 @@ import { User } from "@/types/types.user";
 import { useDispatch, useSelector } from "react-redux";
 import { MessageCount } from "./MessageCountShow";
 import { FileText, Headphones, Image, Video } from "lucide-react";
-
+import TimeAgo from "../custom/LiveTime";
 
 interface ChildProp {
   className?: string;
@@ -21,9 +21,7 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const { typingUsers } = useSelector(
-    (state: RootState) => state.chats
-  );
+  const { typingUsers } = useSelector((state: RootState) => state.chats);
   const handleCreateChat = async (id: string) => {
     await dispatch(
       createOneTwoOneChat({
@@ -56,7 +54,15 @@ export function CompanyCard({ className, companyData }: ChildProp) {
               {companyData?.name}
               <div className="w-[4px] h-[4px] rounded-full  bg-primary"></div>
             </span>
-            <span className="maintxt text-textPrimary">12 mins ago</span>
+            <span className="maintxt text-textPrimary">
+              {companyData?.lastMessage && companyData.lastMessage.createdAt ? (
+                <>
+                  <TimeAgo timestamp={companyData.lastMessage.createdAt} />
+                </>
+              ) : (
+                "few mins ago"
+              )}
+            </span>
           </div>
           <div className="maintxt w-full line-clamp-1 text-textPrimary/100">
             <span>
