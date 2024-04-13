@@ -33,4 +33,4 @@ jobs:
         with:
           context: ./
           push: true
-          tags: aflu/ecome-cart-service:latest
+          tags: aflu/ascent-frontend:latest
