@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-// import Header from "./components/common/Header";
+
 import LandingPage from "./pages/Landingpage";
 import ValidateEmail from "./pages/user/ValidateEmail";
 import Layout from "./pages/Layout";

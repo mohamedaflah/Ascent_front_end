@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '/**'
+      - '/*'
   pull_request:
     branches:
       - main
     paths:
-      - '/**'
+      - '/*'
 
 jobs:
   build:
