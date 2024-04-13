@@ -8,7 +8,7 @@ export const MessageCount = ({ children }: ChildProp) => {
     return null;
   }
   return (
-    <div className="absolute flex items-center justify-center  h-5 w-5 p-1 rounded-full bg-green-600 right-0 top-8 font-semibold">
+    <div className="absolute flex items-center justify-center  h-5 w-5 p-1 rounded-full bg-green-600 right-0 top-8 font-semibold text-white transition-all duration-400">
       {children}
     </div>
   );

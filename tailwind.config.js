@@ -5,7 +5,7 @@ import "tailwindcss/defaultTheme";
 import svgToDataUri from "mini-svg-data-uri";
 import "tailwindcss/colors";
 
-import {nextui } from '@nextui-org/react'
+import { nextui } from "@nextui-org/react";
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const {
   default: flattenColorPalette,
@@ -20,7 +20,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -88,10 +88,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "-40rem 0" },
+          "100%": { backgroundPosition: "40rem 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "shimmer": 'shimmer 2s infinite linear'
       },
     },
   },
@@ -121,7 +126,7 @@ module.exports = {
         { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
       );
     },
-    nextui()
+    nextui(),
   ],
 };
 

@@ -55,6 +55,7 @@ export const userSidebarLayout: Labels[] = [
     id: uuidv4(),
     label: "My applications",
     icon: AppWindow ,
+    link:"Myapplication"
   },
 ];
 

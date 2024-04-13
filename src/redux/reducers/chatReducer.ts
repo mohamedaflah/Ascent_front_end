@@ -74,7 +74,7 @@ const chatReducer = createSlice({
         state.users = state.users.map((user) => {
           if (user._id == payload.userId) {
             let messageCount;
-            if (user && user.messageCount) {
+            if (user && user.messageCount?.toString()) {
               messageCount = user?.messageCount + 1;
             } else {
               messageCount = 0;
@@ -93,7 +93,7 @@ const chatReducer = createSlice({
         state.companies = state.companies.map((user) => {
           if (user._id == payload.userId) {
             let messageCount;
-            if (user && user.messageCount==0) {
+            if (user && user.messageCount?.toString()) {
               messageCount = user?.messageCount + 1;
             } else {
               messageCount = 0;
@@ -108,7 +108,6 @@ const chatReducer = createSlice({
           }
         });
       }
-
     },
   },
   extraReducers: (builder) => {
@@ -169,37 +168,41 @@ const chatReducer = createSlice({
         ) => {
           state.loading = false;
           const { result } = payload;
+          
+          if (state.users) {
+            state.users = state.users?.map((user) => {
+              const userResult = result.find(
+                (data) => data?.message?.senderId == user._id
+              );
 
-          state.users = state.users?.map((user) => {
-            const userResult = result.find(
-              (data) => data?.message?.reciverId == user._id
-            );
-
-            if (userResult) {
-              return {
-                ...user,
-                messageCount: userResult.count,
-                lastMessage: userResult.message,
-              };
-            } else {
-              return user;
-            }
-          }) as User[];
-
-          state.companies = state.companies?.map((user) => {
-            const userResult = result.find(
-              (data) => data?.message?.reciverId == user._id
-            );
-            if (userResult) {
-              return {
-                ...user,
-                messageCount: userResult.count,
-                lastMessage: userResult.message,
-              };
-            } else {
-              return user;
-            }
-          }) as Company[];
+              if (userResult) {
+                
+                return {
+                  ...user,
+                  messageCount: userResult.count,
+                  lastMessage: userResult.message,
+                };
+              } else {
+                return user;
+              }
+            }) as User[];
+          }
+          if (state.companies) {
+            state.companies = state.companies?.map((user) => {
+              const userResult = result.find(
+                (data) => data?.message?.reciverId == user._id
+              );
+              if (userResult) {
+                return {
+                  ...user,
+                  messageCount: userResult.count,
+                  lastMessage: userResult.message,
+                };
+              } else {
+                return user;
+              }
+            }) as Company[];
+          }
         }
       )
       .addCase(fetchUnreadAndLastMessage.rejected, (state, { payload }) => {

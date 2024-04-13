@@ -78,12 +78,13 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
       <Toast ref={toast} />
       <Form {...form}>
         <form
-          className="flex w-full flex-col  mt-5 gap-5"
+          className=" w-full   mt-5 space-y-5 h-[420px] relative overflow-y-auto scrollbar-hide px-1 "
           onSubmit={form.handleSubmit(signupSubmit)}
         >
           <FormField
             control={form.control}
             name="firstname"
+            
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold">Firstname</FormLabel>
@@ -159,7 +160,7 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
               </FormItem>
             )}
           />
-          <div className="w-full">
+          <div className="w-full sticky bottom-0 left-0 shadow-2xl">
             <Button
               className={`w-full font-semibold ${
                 loading && "pointer-events-none bg-blue-400"

@@ -31,12 +31,17 @@ import {
 } from "@/redux/reducers/messageReducer";
 import { EmojiPickerPopover } from "@/components/Messages/PickerPopover";
 import { setLastMessage, setMessageCount } from "@/redux/reducers/chatReducer";
+import { UserCardSkelton } from "@/components/Messages/UsersCardSkelton";
 
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
-  const { companies, users, selectedUser, chatId } = useSelector(
-    (state: RootState) => state.chats
-  );
+  const {
+    companies,
+    users,
+    selectedUser,
+    chatId,
+    loading: chatLoading,
+  } = useSelector((state: RootState) => state.chats);
   const { messages } = useSelector((state: RootState) => state.message);
   const dispatch: AppDispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
@@ -86,6 +91,7 @@ export function Messages() {
       senderProfile: user?.icon ? user?.icon : "",
     };
     sendBody;
+    console.log(user?._id);
     const socketSendBody: Message = {
       senderId: user?._id,
       senderName: username,
@@ -172,41 +178,59 @@ export function Messages() {
               </div>
             </div>
             <div className="w-full h-full lg:h-[600px] scrollbar-hide   overflow-y-auto">
-              {role == "user" ? (
+              {chatLoading ? (
                 <>
-                  {companies &&
-                    [...companies]
-                      .sort((a, b) => {
-                        const dateA = new Date(a?.lastMessage?.createdAt ?? 0);
-                        const dateB = new Date(b?.lastMessage?.createdAt ?? 0);
-                        return dateB.getTime() - dateA.getTime();
-                      })
-                      .map((value) => (
-                        <CompanyCard
-                          className="border-b"
-                          companyData={value}
-                          key={value?._id}
-                        />
-                      ))}
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <UserCardSkelton key={index} />
+                  ))}
                 </>
               ) : (
                 <>
-                  {users &&
-                    [...users]
-                      .sort((a, b) => {
-                        const dateA = new Date(a.lastMessage?.createdAt ?? 0);
-                        const dateB = new Date(b.lastMessage?.createdAt ?? 0);
-                        return dateB.getTime() - dateA.getTime();
-                      })
-                      .map((value) => (
-                        <UserCard
-                          className="border-b"
-                          key={value?._id}
-                          userData={value}
-                        />
-                      ))}
-                  {/* <UserCard className="border-b" />
+                  {role == "user" ? (
+                    <>
+                      {companies &&
+                        [...companies]
+                          .sort((a, b) => {
+                            const dateA = new Date(
+                              a?.lastMessage?.createdAt ?? 0
+                            );
+                            const dateB = new Date(
+                              b?.lastMessage?.createdAt ?? 0
+                            );
+                            return dateB.getTime() - dateA.getTime();
+                          })
+                          .map((value) => (
+                            <CompanyCard
+                              className="border-b"
+                              companyData={value}
+                              key={value?._id}
+                            />
+                          ))}
+                    </>
+                  ) : (
+                    <>
+                      {users &&
+                        [...users]
+                          .sort((a, b) => {
+                            const dateA = new Date(
+                              a.lastMessage?.createdAt ?? 0
+                            );
+                            const dateB = new Date(
+                              b.lastMessage?.createdAt ?? 0
+                            );
+                            return dateB.getTime() - dateA.getTime();
+                          })
+                          .map((value) => (
+                            <UserCard
+                              className="border-b"
+                              key={value?._id}
+                              userData={value}
+                            />
+                          ))}
+                      {/* <UserCard className="border-b" />
                   <UserCard className="border-b" /> */}
+                    </>
+                  )}
                 </>
               )}
             </div>
