@@ -273,7 +273,7 @@ export function Messages() {
                   <div className="w-full pt-4 flex flex-col">
                     <ChatIntro />
                   </div>
-                  {/* start */}
+                  
                   {Object.entries(groupMessagesByDate(messages)).map(
                     ([date, messages], index) => (
                       <div className="">
@@ -310,7 +310,7 @@ export function Messages() {
                               </div>
                             </div>
                           )}
-                          {/* <MyChatCard /> */}
+                         
                         </div>
                       </div>
                     )

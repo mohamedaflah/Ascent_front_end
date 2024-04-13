@@ -1,4 +1,4 @@
-name: ascent_frontend
+name: Ascent Frontend
 
 on:
   push:
