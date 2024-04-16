@@ -95,14 +95,14 @@ export function CompleteProfile() {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 ${
+          className={`rounded-[4px]  min-w-16 text-sm h-9 flex gap-2 ${
             jobApplicant?.find(
               (value: { applicantId: string }) =>
                 value?.applicantId === user?._id
             ) && "pointer-events-none bg-blue-400"
           }`}
         >
-          <Sparkles />
+          <Sparkles className="w-4" />
           {jobApplicant?.find((value:{ applicantId: string }) => value?.applicantId === user?._id)
             ? "Applied"
             : "Apply"}

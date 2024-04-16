@@ -77,6 +77,7 @@ export const FileModalChat = forwardRef<HTMLButtonElement, FileModalChatProps>(
         createdAt: new Date(),
         updatedAt: new Date(),
         chatId: chatId,
+        reciverId: selectedUser?._id,
       };
       socket?.emit("send-message", {
         data: socketSendBody,

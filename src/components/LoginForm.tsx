@@ -65,12 +65,12 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Email</FormLabel>
+            <FormItem >
+              <FormLabel className="font-semibold  w-full flex justify-start">Email</FormLabel>
               <FormControl>
                 <Input placeholder="email @.." {...field} />
               </FormControl>
-              <FormDescription>
+              <FormDescription className="w-full flex justify-start">
                 This is your public display email.
               </FormDescription>
               <FormMessage />
@@ -82,11 +82,11 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold">Password</FormLabel>
+              <FormLabel className="font-semibold w-full flex justify-start">Password</FormLabel>
               <FormControl>
                 <Input placeholder="* * *" type="password" {...field} />
               </FormControl>
-              <FormDescription className="flex justify-end text-primary"><Link to='/user/forgotpassword?role=user' onClick={()=>cancelRef?.current?.click()}>forgot password</Link></FormDescription>
+              <FormDescription className="flex justify-end "><Link to='/user/forgotpassword?role=user' onClick={()=>cancelRef?.current?.click()}>forgot password</Link></FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -80,7 +80,7 @@ export function ApplyJob() {
       <AlertDialogTrigger asChild>
         <Button
           ref={openRef}
-          className={`rounded-[4px]  min-w-24  h-10 flex gap-2 relative ${
+          className={`rounded-[4px]  min-w-16 text-sm h-9 flex gap-2 relative ${
             (jobApplicant?.find(
               (value: { applicantId: string }) =>
                 value?.applicantId === user?._id
@@ -89,7 +89,7 @@ export function ApplyJob() {
             "pointer-events-none bg-blue-400"
           }`}
         >
-          <Sparkles className="w-5" />
+          <Sparkles className="w-4" />
 
           {jobApplicant?.find(
             (value: { applicantId: string }) => value?.applicantId === user?._id

@@ -160,7 +160,7 @@ function CompanyLayout() {
               </div>
               <div className="w-full ">
                 <p className="text-lg text-center font-semibold">
-                  Your Request is currently {status}{" "}
+                  Your Request is currently {user?.approvelStatus?.status}{" "}
                   {status === "Pending" ||
                   user?.approvelStatus?.status == "Pending"
                     ? "Admin not Responded you Request Waiting for Getting Response from adming "
@@ -198,7 +198,7 @@ function CompanyLayout() {
                       : "bg-red-400"
                   }`}
                 >
-                  {status ? status : user?.approvelStatus?.status}
+                  {user?.approvelStatus?.status}
                 </div>
                 <Button className="px-3 rounded-xl font-thin" title="Logout">
                   <LogoutModal />

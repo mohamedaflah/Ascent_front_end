@@ -2,8 +2,10 @@ import { VideoCallDecline } from "@/components/users/VideoCallDecline";
 import { VideoCallModal } from "@/components/users/VideoCallModal";
 import { updateMessageStatus } from "@/redux/actions/messageAction";
 import {
+  removeOnlineUser,
   removeTypingUsers,
   setLastMessage,
+  setOnlineUsers,
   setTypingUser,
   updateunreadMessageCountAndLastMessage,
 } from "@/redux/reducers/chatReducer";
@@ -65,16 +67,31 @@ export function SocketProvider({ children }: ChildProp) {
     if (user) {
       socketInstance.emit("join-user", { id: user?._id, role: role });
     }
+    socketInstance.on(
+      "get-online-users",
+      (users: { socketId: string; id: string }[]) => {
+        dispatch(setOnlineUsers(users));
+      }
+    );
+    socketInstance.on(
+      "remove-online-user",
+      (data: { id: string; socketId: string }) => {
+        dispatch(removeOnlineUser(data));
+      }
+    );
     socketInstance.on("get-message", (msg: Message) => {
       if (chatId == msg.chatId) {
         dispatch(setMessage(msg));
         dispatch(setLastMessage({ reciverId: msg.senderId, message: msg }));
         dispatch(updateMessageStatus(String(msg?._id)));
-        
-      }else{
-        dispatch(updateunreadMessageCountAndLastMessage({userId:msg.senderId,message:msg}))
+      } else {
+        dispatch(
+          updateunreadMessageCountAndLastMessage({
+            userId: msg.senderId,
+            message: msg,
+          })
+        );
       }
-      // if(selectedUser?._id)
     });
     socketInstance.on(
       "typing",
@@ -131,14 +148,7 @@ export function SocketProvider({ children }: ChildProp) {
         modalRef.current?.click();
       }
     );
-    // socket?.emit("decline-call", {
-    // callId: videoCallData?.callId,
-    // senderId: user?._id,
-    // senderProfile: user?.icon,
-    // message: "Decline Call",
-    // senderName: user?.firstname,
-    // reciverId: videoCallData?.senderId,
-    // });
+
     socketInstance.on(
       "decline-call",
       (data: {

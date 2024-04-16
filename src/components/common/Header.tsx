@@ -1,6 +1,6 @@
 import AscentIcon from "../../assets/lightico.svg";
 import AscentDarkIcon from "../../assets/darkIco.svg";
-import { RiMenu3Fill } from "react-icons/ri";
+
 import { ModeToggle } from "../them-modal-toggle";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CustomNavLink } from "../custom/CustomNav";
 import { Menu } from "lucide-react";
+import { NavbarSheet } from "../HeaderSheet";
 
 interface ChildProp {
   setSideBarState?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,7 +74,9 @@ const Header = ({ setSideBarState }: ChildProp) => {
               </div>
 
               <ModeToggle />
-              <RiMenu3Fill className="md:hidden" />
+              <div className="grid justify-center">
+                <NavbarSheet />
+              </div>
             </div>
           </div>
         ) : (

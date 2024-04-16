@@ -9,4 +9,5 @@ export interface ChatInitial {
   selectedUser?: Company | User | null;
   chatId?: string;
   typingUsers?: string[];
+  onlineUsers?: { socketId: string; id: string }[];
 }

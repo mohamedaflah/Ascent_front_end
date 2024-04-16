@@ -21,6 +21,7 @@ const initialState: ChatInitial = {
   users: null,
   chatId: "",
   typingUsers: [],
+  onlineUsers: [],
 };
 const chatReducer = createSlice({
   name: "chat",
@@ -109,6 +110,24 @@ const chatReducer = createSlice({
         });
       }
     },
+    selecteOneUserforChat: (state, { payload }) => {
+      state.selectedUser = state[payload.role as "users" | "companies"]?.find(
+        (user) => user._id === payload.userId
+      );
+    },
+    setOnlineUsers: (state, { payload }) => {
+      const userExist = state?.onlineUsers?.some(
+        (user) => user.id === payload.id
+      );
+      if (!userExist) {
+        state.onlineUsers?.push(payload);
+      }
+    },
+    removeOnlineUser: (state, { payload }) => {
+      state.onlineUsers = state.onlineUsers?.filter(
+        (user) => payload.id !== user.id
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,7 +147,7 @@ const chatReducer = createSlice({
         toast.error(state.err);
       })
       .addCase(createOneTwoOneChat.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(createOneTwoOneChat.fulfilled, (state, { payload }) => {
         state.loading = false;
@@ -191,7 +210,9 @@ const chatReducer = createSlice({
           if (state.companies) {
             state.companies = state.companies?.map((user) => {
               const userResult = result.find(
-                (data) => data?.message?.reciverId == user._id
+                (data) =>
+                  (data.message && data?.message?.senderId == user._id) ||
+                  (data.message && data.message.reciverId == user._id)
               );
               if (userResult) {
                 return {
@@ -219,5 +240,8 @@ export const {
   setLastMessage,
   setMessageCount,
   updateunreadMessageCountAndLastMessage,
+  selecteOneUserforChat,
+  setOnlineUsers,
+  removeOnlineUser
 } = chatReducer.actions;
 export default chatReducer.reducer;

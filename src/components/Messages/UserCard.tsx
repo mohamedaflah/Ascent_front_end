@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 import { Ban, FileText, Headphones, Image, Video } from "lucide-react";
 import TimeAgo from "../custom/LiveTime";
+import { selecteOneUserforChat } from "@/redux/reducers/chatReducer";
 
 interface ChildProp {
   className?: string;
@@ -16,14 +17,22 @@ interface ChildProp {
 }
 export function UserCard({ className, userData }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
-  const { typingUsers } = useSelector((state: RootState) => state.chats);
+  const { typingUsers, onlineUsers } = useSelector(
+    (state: RootState) => state.chats
+  );
   const {
     user,
     role,
   }: { user: User; role: "company" | "user" | "admin" | null } = useSelector(
     (state: RootState) => state.userData
   );
-  const handleCreateChat = (id: string) => {
+  const handleCreateChat = (
+    id: string,
+    selectedUserRole: "users" | "companies"
+  ) => {
+    // role
+    //   userId
+    dispatch(selecteOneUserforChat({ role: selectedUserRole, userId: id }));
     dispatch(
       createOneTwoOneChat({
         firstId: String(user?._id),
@@ -38,8 +47,8 @@ export function UserCard({ className, userData }: ChildProp) {
   }, [userData]);
   return (
     <div
-      className={`w-full h-20  p-3 ${className} cursor-pointer`}
-      onClick={() => handleCreateChat(String(userData?._id))}
+      className={`w-full h-20  p-3 ${className} cursor-pointer  hover:bg-backgroundAccent `}
+      onClick={() => handleCreateChat(String(userData?._id), "users")}
     >
       <div className="w-full h-full  grid grid-cols-10 items-center relative">
         <div className="col-span-2 sm:col-span-3 md:col-span-2 h-full ">
@@ -55,7 +64,9 @@ export function UserCard({ className, userData }: ChildProp) {
           <div className="flex justify-between">
             <span className="company_text text-[15px] flex gap-3 line-clamp-1 font-semibold items-center">
               {userData?.firstname}
-              <div className="w-[4px] h-[4px] rounded-full  bg-primary"></div>
+              {onlineUsers?.find((user) => user.id == userData?._id) && (
+                <div className="w-[4px] h-[4px] rounded-full  bg-primary"></div>
+              )}
             </span>
             <span className="maintxt text-textPrimary">
               {userData?.lastMessage && userData.lastMessage.createdAt ? (
@@ -74,8 +85,10 @@ export function UserCard({ className, userData }: ChildProp) {
                   <span className="text-green-400">typing...</span>
                 </>
               ) : (
-                <span>
-                  {userData && userData.lastMessage&&!userData.lastMessage.deleteStatus ? (
+                <span className="overflow-hidden w-[90%] block line-clamp-1">
+                  {userData &&
+                  userData.lastMessage &&
+                  !userData.lastMessage.deleteStatus ? (
                     <>
                       {userData?.lastMessage?.content.content ? (
                         userData.lastMessage.content.type === "text" ? (
@@ -101,7 +114,8 @@ export function UserCard({ className, userData }: ChildProp) {
                         )
                       ) : (
                         <span>
-                          <Ban className="text-sm w-4"/> This message has been deleted
+                          <Ban className="text-sm w-4" /> This message has been
+                          deleted
                         </span>
                       )}
                     </>

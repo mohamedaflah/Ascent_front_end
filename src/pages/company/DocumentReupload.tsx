@@ -140,7 +140,7 @@ export function DocumentReupload() {
     setValues();
   }, [user, form]);
   return (
-    <main className="w-full h-screen z-20 overflow-y-auto ">
+    <main className="w-full h-screen z-20 overflow-y-auto scrollbar-hide ">
       <section className="w-[95%] mx-auto h-full py-2">
         <div className="w-full h-full">
           <Form {...form}>

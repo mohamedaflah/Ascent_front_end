@@ -20,7 +20,6 @@ import { SocketContext } from "@/contexts/SocketContext";
 import { createMessage, getAllMessages } from "@/redux/actions/messageAction";
 import { MyChatCard } from "@/components/Messages/MyChatcad";
 import { SenderCard } from "@/components/Messages/SenderCard";
-import { SendMessage } from "@/types/types.message";
 import { Message } from "@/types/types.messagereducer";
 import { v4 as uuid } from "uuid";
 import { PapperClipPopover } from "@/components/Messages/ChatContentClipPoppover";
@@ -32,7 +31,7 @@ import {
 import { EmojiPickerPopover } from "@/components/Messages/PickerPopover";
 import { setLastMessage, setMessageCount } from "@/redux/reducers/chatReducer";
 import { UserCardSkelton } from "@/components/Messages/UsersCardSkelton";
-
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 export function Messages() {
   const { role, user } = useSelector((state: RootState) => state.userData);
   const {
@@ -42,7 +41,9 @@ export function Messages() {
     chatId,
     loading: chatLoading,
   } = useSelector((state: RootState) => state.chats);
-  const { messages } = useSelector((state: RootState) => state.message);
+  const { messages, loading: messegLoading } = useSelector(
+    (state: RootState) => state.message
+  );
   const dispatch: AppDispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   useEffect(() => {
@@ -55,8 +56,7 @@ export function Messages() {
               console.log("🚀 ~ dispatch ~ res:", res);
             }
           );
-          setInitialLoad(false)
-          
+          setInitialLoad(false);
         });
       } else if (role === "company") {
         dispatch(getAllUsersforChat()).then((res) => {
@@ -66,7 +66,7 @@ export function Messages() {
               console.log("🚀 ~ dispatch ~ res:", res);
             }
           );
-          setInitialLoad(false)
+          setInitialLoad(false);
         });
       }
     }
@@ -102,18 +102,6 @@ export function Messages() {
     const username =
       role === "company" ? user.name : `${user.firstname} ${user.lastname}`;
 
-    const sendBody: SendMessage = {
-      chatId: String(chatId),
-      content: {
-        type: "text",
-        content: messageContent,
-      },
-      senderId: user?._id,
-      senderName: username,
-      senderProfile: user?.icon ? user?.icon : "",
-    };
-    sendBody;
-    console.log(user?._id);
     const socketSendBody: Message = {
       senderId: user?._id,
       senderName: username,
@@ -127,12 +115,14 @@ export function Messages() {
       createdAt: new Date(),
       updatedAt: new Date(),
       chatId: chatId,
+      reciverId: selectedUser?._id,
     };
+    // alert(`${user._id} >--(---)--< ${selectedUser?._id}`)
     socket?.emit("send-message", {
       data: socketSendBody,
       reciverId: selectedUser?._id,
     });
-    alert(`${socketSendBody.senderId} <--> ${selectedUser?._id}`)
+
     dispatch(setMessage(socketSendBody));
     dispatch(
       setLastMessage({ reciverId: selectedUser?._id, message: socketSendBody })
@@ -200,7 +190,7 @@ export function Messages() {
                 <SearchBox />
               </div>
             </div>
-            <div className="w-full h-full lg:h-[600px] scrollbar-hide   overflow-y-auto">
+            <div className="w-full h-full lg:h-[600px] scrollbar-hide   overflow-y-auto transition-all duration-400">
               {chatLoading ? (
                 <>
                   {Array.from({ length: 10 }, (_, index) => (
@@ -208,7 +198,7 @@ export function Messages() {
                   ))}
                 </>
               ) : (
-                <>
+                <TransitionGroup>
                   {role == "user" ? (
                     <>
                       {companies &&
@@ -223,11 +213,17 @@ export function Messages() {
                             return dateB.getTime() - dateA.getTime();
                           })
                           .map((value) => (
-                            <CompanyCard
-                              className="border-b"
-                              companyData={value}
-                              key={value?._id}
-                            />
+                            <CSSTransition
+                              key={value._id}
+                              timeout={500}
+                              classNames={"item"}
+                            >
+                              <CompanyCard
+                                className="border-b"
+                                companyData={value}
+                                key={value?._id}
+                              />
+                            </CSSTransition>
                           ))}
                     </>
                   ) : (
@@ -254,7 +250,7 @@ export function Messages() {
                   <UserCard className="border-b" /> */}
                     </>
                   )}
-                </>
+                </TransitionGroup>
               )}
             </div>
           </div>
@@ -273,47 +269,53 @@ export function Messages() {
                   <div className="w-full pt-4 flex flex-col">
                     <ChatIntro />
                   </div>
-                  
-                  {Object.entries(groupMessagesByDate(messages)).map(
-                    ([date, messages], index) => (
-                      <div className="">
-                        <div className="w-full h-10 flex items-center mt-3 ">
-                          <div className="w-full h-[1px] border"></div>
-                          <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
-                            {date}
-                          </div>
-                          <div className="w-full h-[1px] border"></div>
-                        </div>
-                        <div
-                          className="mt-3 space-y-2 overflow-hidden "
-                          key={index}
-                        >
-                          {messages?.map((message, index) => (
-                            <>
-                              {message.senderId === user?._id ? (
-                                <MyChatCard
-                                  message={message}
-                                  key={message?._id}
-                                  Idx={index}
-                                />
-                              ) : (
-                                <SenderCard message={message} />
-                              )}
-                            </>
-                          ))}
-                          {typingUsers?.includes(String(selectedUser?._id)) && (
-                            <div className="w-full flex justify-start h-10 gap-1 ">
-                              <div className="flex h-full gap-1 border items-center p-3 rounded-3xl dark:border-none">
-                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-pulse"></span>
-                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
-                                <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                  {!messegLoading ? (
+                    <>
+                      {Object.entries(groupMessagesByDate(messages)).map(
+                        ([date, messages], index) => (
+                          <div className="">
+                            <div className="w-full h-10 flex items-center mt-3 ">
+                              <div className="w-full h-[1px] border"></div>
+                              <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
+                                {date}
                               </div>
+                              <div className="w-full h-[1px] border"></div>
                             </div>
-                          )}
-                         
-                        </div>
-                      </div>
-                    )
+                            <div
+                              className="mt-3 space-y-2 overflow-hidden "
+                              key={index}
+                            >
+                              {messages?.map((message, index) => (
+                                <>
+                                  {message.senderId === user?._id ? (
+                                    <MyChatCard
+                                      message={message}
+                                      key={message?._id}
+                                      Idx={index}
+                                    />
+                                  ) : (
+                                    <SenderCard message={message} />
+                                  )}
+                                </>
+                              ))}
+                              {typingUsers?.includes(
+                                String(selectedUser?._id)
+                              ) && (
+                                <div className="w-full flex justify-start h-10 gap-1 ">
+                                  <div className="flex h-full gap-1 border items-center p-3 rounded-3xl dark:border-none">
+                                    <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-pulse"></span>
+                                    <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                                    <span className="w-5 h-5 block bg-backgroundAccent rounded-full animate-bounce"></span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </>
+                  ) : (
+                    <>loading</>
                   )}
                   {/* end */}
                 </div>

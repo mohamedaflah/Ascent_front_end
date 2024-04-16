@@ -21,11 +21,11 @@ const LoginModal = () => {
   }
   const cancelref=useRef<HTMLButtonElement>(null)
   return (
-    <AlertDialog>
-      <AlertDialogTrigger className="px-5 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold hidden md:block">
+    <AlertDialog >
+      <AlertDialogTrigger className="sm:px-5 sm:py-2 px-3 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold block">
         Login
       </AlertDialogTrigger>
-      <AlertDialogContent className="bg-accenting">
+      <AlertDialogContent className="bg-accenting min-w-[50px] rounded-md  md:w-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex justify-between text-2xl">
             <h1>

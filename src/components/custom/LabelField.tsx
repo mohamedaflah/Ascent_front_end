@@ -6,7 +6,7 @@ interface LabelFieldProps {
 }
 
 export const LabelField = ({ children }: LabelFieldProps) => (
-  <FormLabel className="font-semibold flex justify-start">
+  <FormLabel className="font-semibold flex justify-start ">
     {children}
   </FormLabel>
 );

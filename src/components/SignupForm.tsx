@@ -4,7 +4,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/shadcn/ui/form";
 import { Input } from "@/shadcn/ui/input";
@@ -18,6 +17,7 @@ import React, { useRef } from "react";
 import { signupUser } from "@/redux/actions/userActions";
 import { z } from "zod";
 import { Toast } from "primereact/toast";
+import { LabelField } from "./custom/LabelField";
 
 const signupFormSchema = z
   .object({
@@ -81,20 +81,21 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
           className=" w-full   mt-5 space-y-5 h-[420px] relative overflow-y-auto scrollbar-hide px-1 "
           onSubmit={form.handleSubmit(signupSubmit)}
         >
+          
           <FormField
             control={form.control}
             name="firstname"
             
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Firstname</FormLabel>
+                <LabelField>Firstname</LabelField>
                 <FormControl>
                   <Input placeholder="firstname.." {...field} />
                 </FormControl>
-                <FormDescription>
+                <FormDescription className="flex justify-start ">
                   This is your public display firstname.
                 </FormDescription>
-                <FormMessage className="font-semibold" />
+                <FormMessage className="font-semibold flex justify-start " />
               </FormItem>
             )}
           />
@@ -103,14 +104,14 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
             name="lastname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Lastname</FormLabel>
+                <LabelField>Lastname</LabelField>
                 <FormControl>
                   <Input placeholder="lastname.." {...field} />
                 </FormControl>
-                <FormDescription>
+                <FormDescription className="flex justify-start ">
                   This is your public display lastname.
                 </FormDescription>
-                <FormMessage />
+                <FormMessage className="flex justify-start " />
               </FormItem>
             )}
           />
@@ -119,14 +120,14 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Email</FormLabel>
+                <LabelField>Email</LabelField>
                 <FormControl>
                   <Input placeholder="email @.." {...field} />
                 </FormControl>
-                <FormDescription>
+                <FormDescription className="flex justify-start ">
                   This is your public display email.
                 </FormDescription>
-                <FormMessage />
+                <FormMessage className="flex justify-start " />
               </FormItem>
             )}
           />
@@ -135,12 +136,12 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">Password</FormLabel>
+                <LabelField>Password</LabelField>
                 <FormControl>
                   <Input placeholder="* * *" type="password" {...field} />
                 </FormControl>
                 <FormDescription></FormDescription>
-                <FormMessage />
+                <FormMessage className="flex justify-start text-start" />
               </FormItem>
             )}
           />
@@ -149,9 +150,9 @@ const SignupForm: React.FC<ChildProps> = ({ setSignup }) => {
             name="confirmpass"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold">
+                <LabelField>
                   Confirm password
-                </FormLabel>
+                </LabelField>
                 <FormControl>
                   <Input placeholder="* * *" type="password" {...field} />
                 </FormControl>

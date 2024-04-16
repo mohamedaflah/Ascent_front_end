@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MessageCount } from "./MessageCountShow";
 import { FileText, Headphones, Image, Video } from "lucide-react";
 import TimeAgo from "../custom/LiveTime";
+import { selecteOneUserforChat } from "@/redux/reducers/chatReducer";
 
 interface ChildProp {
   className?: string;
@@ -22,7 +23,8 @@ export function CompanyCard({ className, companyData }: ChildProp) {
     (state: RootState) => state.userData
   );
   const { typingUsers } = useSelector((state: RootState) => state.chats);
-  const handleCreateChat = async (id: string) => {
+  const handleCreateChat = async (id: string,selectedUserRole:"users"|"companies") => {
+    dispatch(selecteOneUserforChat({role:selectedUserRole,userId:id}))
     await dispatch(
       createOneTwoOneChat({
         firstId: String(user?._id),
@@ -35,7 +37,7 @@ export function CompanyCard({ className, companyData }: ChildProp) {
   return (
     <div
       className={`w-full h-20  p-3 ${className} hover:bg-backgroundAccent cursor-pointer `}
-      onClick={() => handleCreateChat(String(companyData?._id))}
+      onClick={() => handleCreateChat(String(companyData?._id),"companies")}
     >
       <div className="w-full h-full  grid grid-cols-10 items-center relative">
         <div className="col-span-2 sm:col-span-3 md:col-span-2 h-full ">
