@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ascentfrontend-deployment
+  labels:
+    app: ascentfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ascentfrontend
+  template:
+    metadata:
+      labels:
+        app: ascentfrontend
+    spec:
+      containers:
+        - name: ascentfrontend
+          image: aflu/ascent-frontend:latest
+          ports:
+            - containerPort: 5173
