@@ -25,7 +25,7 @@ const LoginModal = () => {
       <AlertDialogTrigger className="sm:px-5 sm:py-2 px-3 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold block">
         Login
       </AlertDialogTrigger>
-      <AlertDialogContent className="bg-accenting min-w-[50px] rounded-md  md:w-auto">
+      <AlertDialogContent className="bg-accenting  rounded-md   ">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex justify-between text-2xl">
             <h1>
