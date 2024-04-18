@@ -28,6 +28,7 @@ export function DataTableToolbar<TData>({
   from,
 }: DataTableToolbarProps<TData>) {
   const { user } = useSelector((state: RootState) => state.userData);
+  const { candidate } = useSelector((state: RootState) => state.job);
   const [loadingDownload, setLoading] = useState<boolean>(false);
   const handleDownload = async () => {
     try {
@@ -110,15 +111,19 @@ export function DataTableToolbar<TData>({
             <div>
               <button
                 className={`px-3 rounded-md bg-primary text-white   h-full items-center  text-sm ${
-                  loadingDownload && "pointer-events-none bg-primary-800"
-                }`}
+                  candidate && candidate?.length <= 0 && "pointer-events-none bg-primary-800"
+                } ${loadingDownload && "pointer-events-none bg-primary-800"}`}
                 onClick={handleDownload}
               >
-                {loadingDownload ? <>
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-5 animate-spin"/> Loading
-                </span>
-                </> : <>Download report</>}
+                {loadingDownload ? (
+                  <>
+                    <span className="flex items-center gap-2">
+                      <Loader2 className="w-5 animate-spin" /> Loading
+                    </span>
+                  </>
+                ) : (
+                  <>Download report</>
+                )}
               </button>
             </div>
           </>
