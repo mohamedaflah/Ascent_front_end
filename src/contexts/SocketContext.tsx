@@ -62,10 +62,8 @@ export function SocketProvider({ children }: ChildProp) {
 
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const socketInstance = io(SOCKET_SERVER_URL, {
-      path: "/socket.io",
-      transports: ["websocket"],
-      upgrade: false,
+    const socketInstance = io(SOCKET_SERVER_URL,{
+      path:"/ws"
     });
     setSocket(socketInstance);
     if (user) {
