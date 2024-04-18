@@ -19,3 +19,6 @@ spec:
           image: aflu/ascent-frontend:latest
           ports:
             - containerPort: 5173
+          envFrom:
+            - configMapRef:
+                name: ascentfronend-config

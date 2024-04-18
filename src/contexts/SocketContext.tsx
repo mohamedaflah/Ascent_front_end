@@ -28,7 +28,7 @@ interface ChildProp {
 
 const SocketContext = React.createContext<Socket | undefined>(undefined);
 
-const SOCKET_SERVER_URL = import.meta.env.VITE_COMMUNICATION_SERVICE;
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL;
 export function SocketProvider({ children }: ChildProp) {
   const modalRef = useRef<HTMLButtonElement>(null);
   const declineRef = useRef<HTMLButtonElement>(null);

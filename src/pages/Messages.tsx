@@ -276,7 +276,7 @@ export function Messages() {
                           <div className="">
                             <div className="w-full h-10 flex items-center mt-3 ">
                               <div className="w-full h-[1px] border"></div>
-                              <div className="min-w-24 px-1  h-full flex items-center justify-center border shadow-sm">
+                              <div className="min-w-28 px-1  h-full flex items-center justify-center border shadow-sm">
                                 {date}
                               </div>
                               <div className="w-full h-[1px] border"></div>
