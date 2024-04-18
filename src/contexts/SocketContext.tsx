@@ -62,17 +62,7 @@ export function SocketProvider({ children }: ChildProp) {
 
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const socketInstance = io(SOCKET_SERVER_URL, {
-      transports: ["websocket"],
-      withCredentials: true,
-      extraHeaders: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",
-        "Access-Control-Expose-Headers": "Content-Length,Content-Range",
-      },
-    });
+    const socketInstance = io(SOCKET_SERVER_URL);
     setSocket(socketInstance);
     if (user) {
       socketInstance.emit("join-user", { id: user?._id, role: role });
