@@ -62,9 +62,7 @@ export function SocketProvider({ children }: ChildProp) {
 
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const socketInstance = io(SOCKET_SERVER_URL,{
-      path:"/ws"
-    });
+    const socketInstance = io(SOCKET_SERVER_URL);
     setSocket(socketInstance);
     if (user) {
       socketInstance.emit("join-user", { id: user?._id, role: role });
