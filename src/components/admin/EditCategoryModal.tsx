@@ -74,7 +74,7 @@ export function EditCategory({ CategoryData }: ChildProp) {
   const dispatch: AppDispatch = useDispatch();
   const closeRef = useRef<HTMLButtonElement>(null);
   const categoryFormSubmit = async (values: z.infer<typeof categorySchema>) => {
-    console.log(values);
+   
     if (!values.categoryImage) {
       toast.error("Please upload Icon of category");
       return;

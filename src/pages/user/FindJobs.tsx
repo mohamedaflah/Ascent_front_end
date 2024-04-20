@@ -16,7 +16,7 @@ import { useSearchParams } from "react-router-dom";
 export function FindJobs() {
   const { user } = useSelector((state: RootState) => state.userData);
   const { pages } = useSelector((state: RootState) => state.job);
-  console.log("🚀 ~ FindJobs ~ pages:", pages);
+
   const dispatch: AppDispatch = useDispatch();
   const [searchParam, setSearchParam] = useSearchParams();
   useEffect(() => {

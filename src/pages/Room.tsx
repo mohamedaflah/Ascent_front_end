@@ -17,7 +17,7 @@ export function Room() {
     setUsername(username);
   }, [role, user]);
   async function meetingUI(element: HTMLDivElement) {
-    console.log("🚀 ~ meetingUI ~ element:", element);
+
     const appId = import.meta.env.VITE_ZEGOCLOUD_APPID;
     const serverSecret = import.meta.env.VITE_ZEGOCLOUD_SERVER_SECRET;
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
@@ -27,7 +27,7 @@ export function Room() {
       user?._id,
       username
     );
-    console.log("🚀 ~ meetingUI ~ kitToken:", kitToken);
+
 
     const ui = ZegoUIKitPrebuilt.create(kitToken);
     ui?.joinRoom({

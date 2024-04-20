@@ -35,11 +35,11 @@ export const updateCategory = createAsyncThunk(
       const storageData: { id: string; file: File }[] = JSON.parse(
         localStorage.getItem("files") ?? "{}"
       ) as { id: string; file: File }[];
-      console.log("🚀 ~ storageData:", storageData)
+     
       const existData = storageData.find(
         (value) => value.id === sendPayload.id
       );
-      console.log("🚀 ~ existData:", existData)
+     
       if (
         JSON.stringify(existData?.file) !==
         JSON.stringify(sendPayload.categoryData.categoryImage)

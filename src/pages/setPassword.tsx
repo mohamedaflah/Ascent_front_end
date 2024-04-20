@@ -46,7 +46,7 @@ export function SetPassword() {
   };
   async function loginSubmit(values: z.infer<typeof loginFormSchema>) {
     const res = await dispatch(passwordUpdation({ newPass: values.password }));
-    console.log("🚀 ~ loginSubmit ~ res:", res)
+
     const result = res
     if (result.type.endsWith("fulfilled")) {
       if (

@@ -74,7 +74,7 @@ export const getAllJobs = createAsyncThunk(
       const { data } = await JobAxios.get(
         `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}`
       );
-      console.log("🚀 ~ data: JB", data);
+   
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -206,7 +206,7 @@ export const scheduleInterview = createAsyncThunk(
 export const fetchSelectedAndRejectedCandidates = createAsyncThunk(
   "job/selected-rejected-candidate",
   async (copmanyId: string, { rejectWithValue }) => {
-    console.log("🚀 ~ copmanyId:", copmanyId);
+
     try {
       const { data } = await JobAxios.post(`api/v1/candidates`, {
         companyId: copmanyId,

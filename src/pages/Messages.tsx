@@ -49,22 +49,16 @@ export function Messages() {
   useEffect(() => {
     if (initialLoad) {
       if (role === "user") {
-        dispatch(getAllcompaniesforchat()).then((res) => {
-          console.log("🚀 ~ dispatch ~ res:", res);
+        dispatch(getAllcompaniesforchat()).then(() => {
           dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then(
-            (res) => {
-              console.log("🚀 ~ dispatch ~ res:", res);
-            }
+            () => {}
           );
           setInitialLoad(false);
         });
       } else if (role === "company") {
-        dispatch(getAllUsersforChat()).then((res) => {
-          console.log("🚀 ~ dispatch ~ res: user", res);
+        dispatch(getAllUsersforChat()).then(() => {
           dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then(
-            (res) => {
-              console.log("🚀 ~ dispatch ~ res:", res);
-            }
+            () => {}
           );
           setInitialLoad(false);
         });
@@ -72,25 +66,7 @@ export function Messages() {
     }
   }, [dispatch, role, user]);
 
-  // Effect to fetch unread messages for companies
-  // useEffect(() => {
-  //   if (initialLoad && role === "company" && users) {
-  //     dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
-  //       console.log("🚀 ~ dispatch ~ res:", res);
-  //     });
-  //     setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
-  //   }
-  // }, [dispatch, role, user?._id, users, initialLoad]);
-
-  // // Effect to fetch unread messages for users
-  // useEffect(() => {
-  //   if (initialLoad && role === "user" && companies) {
-  //     dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then((res) => {
-  //       console.log("🚀 ~ dispatch ~ res:", res);
-  //     });
-  //     setInitialLoad(false); // Set flag to false to prevent re-running these initializations.
-  //   }
-  // }, [dispatch, role, user?._id, companies, initialLoad]);
+ 
 
   const socket = useContext(SocketContext);
 
@@ -156,8 +132,8 @@ export function Messages() {
   const [messageContent, setMessageContent] = useState<string>("");
   useEffect(() => {
     if (chatId) {
-      dispatch(getAllMessages(String(chatId))).then((res) => {
-        console.log("🚀 ~ dispatch ~ res):", res);
+      dispatch(getAllMessages(String(chatId))).then(() => {
+
         dispatch(
           updateMessageStatusLocaly({
             chatId: String(chatId),
@@ -246,8 +222,6 @@ export function Messages() {
                               userData={value}
                             />
                           ))}
-                      {/* <UserCard className="border-b" />
-                  <UserCard className="border-b" /> */}
                     </>
                   )}
                 </TransitionGroup>
@@ -317,7 +291,6 @@ export function Messages() {
                   ) : (
                     <>loading</>
                   )}
-                  {/* end */}
                 </div>
               </div>
               <div className="w-full row-span-1  flex items-center ">

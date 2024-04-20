@@ -151,7 +151,7 @@ export function JobEdit({ jobData }: ChildProp) {
   const { categories } = useSelector((state: RootState) => state.category);
   const { loading } = useSelector((state: RootState) => state.job);
   const submitFirstForm = async (values: z.infer<typeof jobformSchema>) => {
-    console.log(values);
+ 
     if (!values.category || values.category == "") {
       toast.error("Please Select category");
       return;
@@ -160,7 +160,7 @@ export function JobEdit({ jobData }: ChildProp) {
       toast.error("Please Select Employment type");
       return;
     }
-    console.log(values);
+
     const res = await dispatch(
       updateJob({
         id: job?._id as string,

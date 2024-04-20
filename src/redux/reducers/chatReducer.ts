@@ -38,8 +38,7 @@ const chatReducer = createSlice({
       );
     },
     setLastMessage: (state, { payload }) => {
-      console.log(state.users);
-      console.log(state.companies);
+
 
       if (state.users) {
         state.users = state.users.map((user) =>

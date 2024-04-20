@@ -54,7 +54,7 @@ export function ThreePercentageCompletion() {
   const dispatch:AppDispatch=useDispatch()
   async function submitForm(values: z.infer<typeof formSchema>) {
     if (!values.certificate) toast.error("Please Upload you certificate");
-    console.log(values);
+
     await dispatch(updateProfileThreePercent({ceritificate:values.certificate as File,id:String(user?._id)}))
     await dispatch(getUser())
   }

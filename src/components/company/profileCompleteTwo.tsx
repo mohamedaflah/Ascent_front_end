@@ -91,7 +91,7 @@ export function TwoPercentageCompletion() {
   }
   const dispatch: AppDispatch = useDispatch();
   async function submitForm(values: z.infer<typeof formSchema>) {
-    console.log(values);
+
     if(values.techStack.length<=0){
       return toast.error("Please add atleas one stack")
     }

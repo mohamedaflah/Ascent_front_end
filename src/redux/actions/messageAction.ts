@@ -38,12 +38,12 @@ export const createMessage = createAsyncThunk(
 export const getAllMessages = createAsyncThunk(
   "messages/get-allmessages",
   async (chatId: string, { rejectWithValue }) => {
-    console.log("🚀 ~ chatId:", chatId);
+
     try {
       const { data } = await CommunicationAxios.get(`/api/v2/chats/${chatId}`);
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error);
+
       return rejectWithValue(error);
     }
   }

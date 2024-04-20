@@ -76,7 +76,6 @@ export function JobpostModalTwo({ closeModal }: ChildProp) {
       return;
     }
 
-    console.log(values);
     if (!localStorage.getItem("jobpost")) {
       return toast.error("Something went wrong");
     }

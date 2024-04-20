@@ -54,7 +54,7 @@ const userReducer = createSlice({
         });
       })
       .addCase(signupUser.rejected, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload);
+
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
@@ -73,7 +73,7 @@ const userReducer = createSlice({
       })
       .addCase(verifyinguser.rejected, (state, { payload }) => {
         state.loading = false;
-        console.log(payload);
+
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
         toast.error(errorPayload.message);
@@ -125,11 +125,11 @@ const userReducer = createSlice({
         if (payload) {
           toast.success("Login Succesfull !!");
         }
-        console.log("🚀 ~ .addCase ~ payload:", payload);
+
         state.user = payload?.user;
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload);
+
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
@@ -141,7 +141,7 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(companySignupSubmit.fulfilled, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload);
+
         state.loading = false;
         state.err = false;
         state.role = payload.role;

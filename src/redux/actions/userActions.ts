@@ -60,7 +60,6 @@ export const companySignupSubmit = createAsyncThunk(
       }
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error);
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -71,11 +70,9 @@ export const verifyinguser = createAsyncThunk(
   async (token: string, { rejectWithValue }) => {
     try {
       const { data } = await AuthAxios.get(`/verify-email/${token}`);
-      console.log("🚀 ~ data:", data);
+
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error);
-
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -86,15 +83,15 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await AuthAxios.get(`/check-role/`);
-      console.log("🚀 ~ data:", data);
+
       const { role }: { role: "admin" | "user" | "company" } = data;
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,
       });
-      console.log("🚀 ~ async ~ user:", user);
+
       return user;
     } catch (error) {
-      console.log("🚀 ~ async ~ error:", error);
+
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -124,7 +121,7 @@ export const loginUser = createAsyncThunk(
         return user;
       }
     } catch (error: any | Error) {
-      console.log("🚀 ~ error:", error);
+  
 
       return rejectWithValue(handleErrors(error));
     }
@@ -148,7 +145,7 @@ export const resendMail = createAsyncThunk(
         toast.error("Something went wrong");
         return;
       }
-      console.log("🚀 ~ sendPayload:", sendPayload);
+
       const { data } = await AuthAxios.post(`/resendMail`, sendPayload);
       return data;
     } catch (error) {

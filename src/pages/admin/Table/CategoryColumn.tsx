@@ -104,7 +104,7 @@ export const CategoryColumn: ColumnDef<Category>[] = [
     accessorKey: "status",
     header: "Actions",
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row);
+
       return (
         <div className="flex gap-3 h-10">
           <EditCategory CategoryData={row.original} />

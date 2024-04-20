@@ -33,7 +33,7 @@ const VerfiyForgotPass = React.memo(() => {
         }
         setLoading(false);
       } catch (error) {
-        console.log("🚀 ~ verifyLink ~ error:", error)
+
         navigate('/')
         toast.error(handleErrors(error).message)
       }

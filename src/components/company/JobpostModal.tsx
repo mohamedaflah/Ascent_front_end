@@ -93,7 +93,7 @@ export function JobPost() {
   const [isSecond, setIsSecond] = useState<boolean>(false);
   const { categories } = useSelector((state: RootState) => state.category);
   const submitFirstForm = (values: z.infer<typeof jobformSchema>) => {
-    console.log(values);
+   
     if (!values.category || values.category == "") {
       toast.error("Please Select category");
       return;

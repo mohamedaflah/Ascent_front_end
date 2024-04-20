@@ -58,7 +58,7 @@ export const jobListColumns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="job added At" />
     ),
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row.getValue("createdAt"));
+
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
@@ -144,7 +144,7 @@ export const jobListColumns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row);
+ 
 
       // {row.original.applicants?.applicantId}
       return (
@@ -177,7 +177,7 @@ export const jobListColumns: ColumnDef<Job>[] = [
     accessorKey: "status",
     header: "Actions",
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row);
+
       const dispatch: AppDispatch = useDispatch();
       return (
         <div className="flex gap-3 h-10">

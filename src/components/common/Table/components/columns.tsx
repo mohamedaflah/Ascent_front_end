@@ -53,7 +53,7 @@ export const columns: ColumnDef<Applicant>[] = [
       <DataTableColumnHeader column={column} title="Applicant email" />
     ),
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row);
+    
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
@@ -103,7 +103,7 @@ export const columns: ColumnDef<Applicant>[] = [
       <DataTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ row }) => {
-      console.log(row.getValue("category"), "ioiio");
+ 
 
       return (
         <div className="flex space-x-2">
@@ -133,7 +133,7 @@ export const columns: ColumnDef<Applicant>[] = [
     accessorKey: "status",
     header: "Actions",
     cell: ({ row }) => {
-      console.log("🚀 ~ row:", row);
+  
 
       // {row.original.applicants?.applicantId}
       return (

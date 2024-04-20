@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function base64url(source: any) {
-  console.log("🚀 ~ base64url ~ source:", source)
   let encodedSource = btoa(JSON.stringify(source));
   encodedSource = encodedSource.replace(/=+$/, "");
   encodedSource = encodedSource.replace(/\+/g, "-");

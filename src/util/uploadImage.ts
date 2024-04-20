@@ -9,7 +9,7 @@ export const uploadImageToCloudinary = async (
   } else {
     url = import.meta.env.VITE_CLOUDINARY_URL;
   }
-  console.log("🚀 ~ uploadImageToCloudinary ~ imageFile:", imageFile);
+
   const formData = new FormData();
   formData.append("file", imageFile);
   formData.append("upload_preset", "ml_default");

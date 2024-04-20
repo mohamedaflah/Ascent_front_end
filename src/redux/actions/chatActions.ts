@@ -41,7 +41,7 @@ export const getAllUsersforChat = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await UserAxios.get("/user/get-allusers");
-      console.log("🚀🧧🎑🎑🧧 ~ data: ^^^^", data);
+
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -52,13 +52,13 @@ export const getAllUsersforChat = createAsyncThunk(
 export const fetchUnreadAndLastMessage = createAsyncThunk(
   "chat/fetch-last-unread-message",
   async (sendPayload: { userId: string }, { rejectWithValue }) => {
-    console.log("🚀 ~ sendPayload:", sendPayload);
+
     try {
       const { data } = await CommunicationAxios.post(
         `/api/v2/chats/${v4()}`,
         sendPayload
       );
-      console.log("🚀 ~ data:", data)
+
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

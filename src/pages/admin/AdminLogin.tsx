@@ -36,7 +36,7 @@ function AdminLogin() {
   const navigate=useNavigate()
   const {loading}=useSelector((state:RootState)=>state.userData)
   async function submitAdmin(values: z.infer<typeof adminLogin>) {
-    console.log(values);
+
     await dispatch(loginUser({email:values.email,password:values.password,role:"admin"}))
     navigate('/admin/')
   }

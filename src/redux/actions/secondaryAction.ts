@@ -42,8 +42,6 @@ export const passwordUpdation = createAsyncThunk(
       const { data } = await AuthAxios.post(`/update-password`, sendPaylod);
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error);
-
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -57,9 +55,9 @@ export const updateProfile = createAsyncThunk(
       const coverImage: string = await uploadImageToCloudinary(
         payload.sendData.coverImage
       );
-      console.log("🚀 ~ coverImage:", coverImage);
+  
       const icon: string = await uploadImageToCloudinary(payload.sendData.icon);
-      console.log("🚀 ~ icon:", icon);
+
       const { data } = await CompanyAxios.post(`/update-profile`, {
         data: {
           ...payload.sendData,
@@ -116,7 +114,7 @@ export const updateCompleteProfileCompany = createAsyncThunk(
   "company/update-completed-profile-company",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   async (sendData: { data: any; id: string }, { rejectWithValue }) => {
-    console.log("🚀 ~ sendData:", sendData)
+
     try {
       sendData.data.certificate = await uploadImageToCloudinary(
         sendData.data.certificate

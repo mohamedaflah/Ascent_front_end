@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { User } from "@/types/types.user";
 import { useDispatch, useSelector } from "react-redux";
 import { MessageCount } from "./MessageCountShow";
-import { useEffect } from "react";
+
 
 import { Ban, FileText, Headphones, Image, Video } from "lucide-react";
 import TimeAgo from "../custom/LiveTime";
@@ -42,9 +42,7 @@ export function UserCard({ className, userData }: ChildProp) {
     ).then();
   };
 
-  useEffect(() => {
-    console.log(userData?.firstname, " -> ", userData);
-  }, [userData]);
+
   return (
     <div
       className={`w-full h-20  p-3 ${className} cursor-pointer  hover:bg-backgroundAccent `}

@@ -39,8 +39,8 @@ function CompanySignup() {
 
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
     const actionResult = await dispatch(companySignupSubmit(values));
-    const result = actionResult.payload; // This is the payload of your action
-    console.log("🚀 ~ dispatch ~ result:", result);
+
+
 
     // Check if the action was fulfilled
     if (actionResult.type.endsWith("fulfilled")) {
