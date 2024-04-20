@@ -34,6 +34,7 @@ import { Messages } from "./pages/Messages";
 import { Room } from "./pages/Room";
 import { Canidates } from "./pages/company/Candidates";
 import { BrowsCompanies } from "./pages/user/BrowsCompanies";
+import { MyApplication } from "./pages/user/MyApplication";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -115,12 +116,13 @@ function App() {
             element={user ? <Navigate to={"/"} /> : <SetPassword />}
           />
           <Route path="findjobs" element={<FindJobs />} />
-          <Route path="browscompanies" element={<BrowsCompanies/>} />
+          <Route path="browscompanies" element={<BrowsCompanies />} />
           <Route path="settings/:id" element={<ProfileLayout />}>
             <Route index element={<MyProfile />} />
           </Route>
           <Route path="myprofile/:id" element={<PublicProfile />} />
           <Route path="messages" element={<Messages />} />
+          <Route path="Myapplication" element={<MyApplication />} />
         </Route>
 
         {role === "admin" && (
@@ -155,7 +157,7 @@ function App() {
               path=":roomId"
               element={user ? <Room /> : <Navigate to={"/"} />}
             />
-            <Route path="candidates" element={<Canidates/>} />
+            <Route path="candidates" element={<Canidates />} />
           </Route>
         )}
       </Routes>

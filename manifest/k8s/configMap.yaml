@@ -3,11 +3,11 @@ kind: ConfigMap
 metadata:
   name: ascentfronend-config
 data:
-  VITE_AUTHENTICATION_SERVICE_URI: "http://4.186.34.47/api/auth-service"
-  VITE_USER_SERVICE_URI: "http://4.186.34.47/api/user-service"
-  VITE_COMPANY_SERVICE: "http://4.186.34.47/api/company-service"
-  VITE_JOB_SERVICE: "http://4.186.34.47/api/job-service"
-  VITE_COMMUNICATION_SERVICE: "http://4.186.34.47/api/communication-service"
+  VITE_AUTHENTICATION_SERVICE_URI: "https://aflahaflu.shop/api/auth-service"
+  VITE_USER_SERVICE_URI: https://aflahaflu.shop/api/user-service"
+  VITE_COMPANY_SERVICE: "https://aflahaflu.shop/api/company-service"
+  VITE_JOB_SERVICE: "https://aflahaflu.shop/api/job-service"
+  VITE_COMMUNICATION_SERVICE: "https://aflahaflu.shop/api/communication-service"
   VITE_JWT_EMAIL_VALIDATION_KEY: "verifyingemail"
   VITE_GOOGLE_CLIEND_ID: "1093148345924-5iolpvqk2u8g5f674gchrno70ednj51i.apps.googleusercontent.com" 
   VITE_GOOLE_SECRET: "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"
@@ -16,4 +16,4 @@ data:
   VITE_JWT_SECRET: "jsonwebtokensecret"
   VITE_ZEGOCLOUD_APPID: "210522789"
   VITE_ZEGOCLOUD_SERVER_SECRET: "6c163aceed2ad123be2254d8f0467f30"
-  VITE_SOCKET_URL: "http://4.186.34.47/"
+  VITE_SOCKET_URL: "https://aflahaflu.shop/"
