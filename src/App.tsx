@@ -33,6 +33,7 @@ import { DocumentReupload } from "./pages/company/DocumentReupload";
 import { Messages } from "./pages/Messages";
 import { Room } from "./pages/Room";
 import { Canidates } from "./pages/company/Candidates";
+import { BrowsCompanies } from "./pages/user/BrowsCompanies";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -114,6 +115,7 @@ function App() {
             element={user ? <Navigate to={"/"} /> : <SetPassword />}
           />
           <Route path="findjobs" element={<FindJobs />} />
+          <Route path="browscompanies" element={<BrowsCompanies/>} />
           <Route path="settings/:id" element={<ProfileLayout />}>
             <Route index element={<MyProfile />} />
           </Route>

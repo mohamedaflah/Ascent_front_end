@@ -18,7 +18,6 @@ const ValidateEmail = React.memo(() => {
   );
 
   useEffect(() => {
-    
     async function verifyUser() {
       try {
         const res = await dispatch(verifyinguser(token as string));
@@ -28,13 +27,15 @@ const ValidateEmail = React.memo(() => {
           } else {
             // Assuming your action updates the role in the state
 
-            if (role === "user" && !loading) {
-              navigate("/");
-            } else if (role === "admin" && !loading) {
-              navigate("/admin/");
-            } else if (role === "company" && !loading) {
-              navigate("/company/");
-            }
+            dispatch(getUser()).then(() => {
+              if (role === "user" && !loading) {
+                navigate("/");
+              } else if (role === "admin" && !loading) {
+                navigate("/admin/");
+              } else if (role === "company" && !loading) {
+                navigate("/company/");
+              }
+            });
           }
         });
       } catch (error) {

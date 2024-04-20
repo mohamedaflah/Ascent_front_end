@@ -18,7 +18,16 @@ import { useSearchParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 // import { useSearchParams } from "react-router-dom";
 
-export function FindbJobHero() {
+interface ChildPrope {
+  label?: string;
+  underlineLength?: string;
+  highliteText?: string;
+}
+export function FindbJobHero({
+  label,
+  underlineLength,
+  highliteText,
+}: ChildPrope) {
   const [searchParam, setSearchParam] = useSearchParams();
   const { user } = useSelector((state: RootState) => state.userData);
   const [searchVal, setSearchVal] = useState<string>("");
@@ -47,18 +56,23 @@ export function FindbJobHero() {
       <div className="w-full h-52  flex justify-center items-end">
         <div className="flex flex-col ">
           <div className="maintxt text-center text-6xl md:text-4xl lg:text-6xl font-bold leading-tight md:text-left">
-            Find your <span className="text-primary">dream job</span>
+            Find your{" "}
+            <span className="text-primary">{!label ? "dream job" : label}</span>
           </div>
           <div className=" flex justify-end  ">
-            <img src={primaryLine} alt="" className="w-64" />
+            <img
+              src={primaryLine}
+              alt=""
+              className={`w-${!underlineLength ? "64" : underlineLength}`}
+            />
           </div>
         </div>
       </div>
       <div className="flex justify-center">
-        <p className="company_text text-textPrimary text-1xl font-semibold text-center">
-          Explore new career opportunities at top companies like HubSpot, Nike,
-          and Dropbox. Find your next success story and unlock your potential
-          today!
+        <p className="company_text text-textPrimary  font-semibold text-center">
+          {!highliteText
+            ? "Explore new career opportunities at top companies like HubSpot, Nike,and Dropbox. Find your next success story and unlock your potential today!"
+            : highliteText}
         </p>
       </div>
       <div className="w-full flex justify-center items-center flex-col">

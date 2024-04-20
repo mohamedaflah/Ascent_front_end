@@ -62,7 +62,7 @@ const Header = ({ setSideBarState }: ChildProp) => {
 
               <div className=" gap-10 hidden md:flex">
                 <CustomNavLink to="/findjobs">Find jobs</CustomNavLink>
-                <CustomNavLink to={"/companies"}>Brows companies</CustomNavLink>
+                <CustomNavLink to={"/browscompanies"}>Brows companies</CustomNavLink>
               </div>
             </div>
 

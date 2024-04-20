@@ -44,7 +44,7 @@ export const userSidebarLayout: Labels[] = [
     id: uuidv4(),
     label: "Brows companies",
     icon: BarChart,
-    link: "bro",
+    link: "browscompanies",
   },
   {
     id: uuidv4(),
