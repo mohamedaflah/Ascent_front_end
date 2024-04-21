@@ -35,6 +35,8 @@ import { Room } from "./pages/Room";
 import { Canidates } from "./pages/company/Candidates";
 import { BrowsCompanies } from "./pages/user/BrowsCompanies";
 import { MyApplication } from "./pages/user/MyApplication";
+import { SignupPage } from "./pages/user/Signup";
+import { LoginPage } from "./pages/user/Login";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -46,7 +48,7 @@ function App() {
   }, [dispatch]);
   const { role, user } = useSelector((state: RootState) => state.userData);
   return (
-    <main className="w-full">
+    <main className="w-full min-h-screen"> {/* h-screen added */}
       <Routes>
         <Route
           path="/room/:roomId"
@@ -123,6 +125,8 @@ function App() {
           <Route path="myprofile/:id" element={<PublicProfile />} />
           <Route path="messages" element={<Messages />} />
           <Route path="Myapplication" element={<MyApplication />} />
+          <Route path="/signup" element={<SignupPage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
         </Route>
 
         {role === "admin" && (
