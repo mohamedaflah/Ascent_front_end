@@ -18,8 +18,11 @@ import { z } from "zod";
 import { Checkbox } from "@nextui-org/react";
 import { NewLoadingButton } from "@/components/custom/NewLoadingBtn";
 import left from "@/assets/Left.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { signupUser } from "@/redux/actions/userActions";
 signupFormSchema;
 export function SignupPage() {
   const form = useForm<z.infer<typeof signupFormSchema>>({
@@ -34,10 +37,16 @@ export function SignupPage() {
   });
   const confirmPassref = useRef<HTMLDivElement>(null);
 
-  const pass1Ref=useRef<HTMLInputElement>(null)
-//   const pass2Ref=useRef<HTMLInputElement>(null)
-  function signupSubmit(values: z.infer<typeof signupFormSchema>) {
+  const pass1Ref = useRef<HTMLInputElement>(null);
+  //   const pass2Ref=useRef<HTMLInputElement>(null)
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
     values;
+    const res = await dispatch(signupUser(values));
+    if (res.type.endsWith("fulfilled")) {
+      navigate("verify-otp");
+    }
   }
   return (
     <main className="w-full pb-5">
@@ -144,12 +153,20 @@ export function SignupPage() {
                               placeholder="* * *"
                               type="password"
                               className="pr-8"
-                              {...field} ref={pass1Ref}
+                              {...field}
+                              ref={pass1Ref}
                             />
-                            <Eye className="absolute right-3 w-4 top-2 cursor-pointer z-20" onClick={()=>{
-                                const attr=pass1Ref.current?.getAttribute("type")
-                                pass1Ref.current?.setAttribute("type",`${attr=="text"?"password":"text"}`)
-                            }} />
+                            <Eye
+                              className="absolute right-3 w-4 top-2 cursor-pointer z-20"
+                              onClick={() => {
+                                const attr =
+                                  pass1Ref.current?.getAttribute("type");
+                                pass1Ref.current?.setAttribute(
+                                  "type",
+                                  `${attr == "text" ? "password" : "text"}`
+                                );
+                              }}
+                            />
                           </div>
                         </FormControl>
                         <FormDescription></FormDescription>
@@ -167,11 +184,11 @@ export function SignupPage() {
                           <div className="relative">
                             <Input
                               placeholder="* * *"
-                              type="password" 
+                              type="password"
                               className="pr-8"
                               {...field}
                             />
-                            <Eye className="absolute right-3 w-4 top-2 cursor-pointer z-20"  />
+                            <Eye className="absolute right-3 w-4 top-2 cursor-pointer z-20" />
                           </div>
                         </FormControl>
                         <FormDescription ref={confirmPassref}></FormDescription>

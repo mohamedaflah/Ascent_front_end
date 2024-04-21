@@ -18,8 +18,11 @@ import { z } from "zod";
 import { Checkbox } from "@nextui-org/react";
 import { NewLoadingButton } from "@/components/custom/NewLoadingBtn";
 import left from "@/assets/Left.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginFormSchema } from "@/schema/LoginForm";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "@/redux/actions/userActions";
 
 export function LoginPage() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -29,10 +32,24 @@ export function LoginPage() {
       password: "",
     },
   });
-
+  const navigate = useNavigate();
+  const { loading, role } = useSelector((state: RootState) => state.userData);
+  const dispatch: AppDispatch = useDispatch();
 
   function signupSubmit(values: z.infer<typeof loginFormSchema>) {
-    values;
+    dispatch(
+      loginUser({
+        email: values.email,
+        password: values.password,
+        role: "user",
+      })
+    ).then(() => {
+      if (role === "user") {
+        navigate("/");
+      } else if (role === "admin") {
+        navigate("/admin/");
+      }
+    });
   }
   return (
     <main className="w-full pb-5">
@@ -56,7 +73,6 @@ export function LoginPage() {
                   Searching job and get placement Lorem ipsum dolor sit amet
                   consectetur adipisicing elit. Natus, eos?
                 </p>
-               
               </div>
             </div>
           </div>
@@ -82,33 +98,29 @@ export function LoginPage() {
                     )}
                   />
                 </div>
-    
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <LabelField>Password</LabelField>
-                        <FormControl>
-                          <Input
-                            placeholder="* * *"
-                            type="password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription></FormDescription>
-                        <FormMessage className="flex justify-start text-start" />
-                      </FormItem>
-                    )}
-                  />
-                
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <LabelField>Password</LabelField>
+                      <FormControl>
+                        <Input placeholder="* * *" type="password" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage className="flex justify-start text-start" />
+                    </FormItem>
+                  )}
+                />
+
                 <div className="mt-2 flex gap-2 items-center">
                   <Checkbox />
                   <label htmlFor="">agree terms and conditions</label>
                 </div>
                 <div className="w-full h-12 flex items-center mt-10">
                   <NewLoadingButton
-                    loading={false}
+                    loading={loading}
                     className="h-12 dark:bg-primary/85 border-primary border-2"
                   >
                     Sign in
@@ -116,10 +128,13 @@ export function LoginPage() {
                 </div>
                 <div className="w-full mt-5  items-center h-10 grid grid-cols-11 ">
                   <div className="h-[1px] bg-border col-span-4"></div>
-                  <div className="col-span-2 flex justify-center"> Or log with</div>
+                  <div className="col-span-2 flex justify-center">
+                    {" "}
+                    Or log with
+                  </div>
                   <div className="h-[1px] bg-border col-span-5"></div>
                 </div>
-                 <div className="w-full h-10 flex gap-5 mt-5">
+                <div className="w-full h-10 flex gap-5 mt-5">
                   <div className=" h-10 rounded-xl border flex items-center px-4 gap-4 min-w-48">
                     <FaGoogle className="text-[15px]" />
                     Sign up with google

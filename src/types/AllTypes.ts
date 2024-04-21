@@ -4,6 +4,7 @@ export type SignupForm = {
   email: string;
   password: string;
   confirmpass?: string;
+  phonenumber?:string
 };
 // export type SignupData={
 //   firstane
