@@ -88,6 +88,7 @@ export const getUser = createAsyncThunk(
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,
       });
+      console.log("🚀 ~ data: get user ", data)
 
       return user;
     } catch (error) {
