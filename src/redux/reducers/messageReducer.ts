@@ -123,7 +123,7 @@ const messageReducer = createSlice({
         toast.error(state.err);
       })
       .addCase(updateMessageStatus.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(updateMessageStatus.fulfilled, (state, { payload }) => {
         state.loading = false;
