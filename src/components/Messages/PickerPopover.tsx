@@ -9,7 +9,7 @@ interface ChildProp {
   setText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function EmojiPickerPopover({setText}:ChildProp) {
+export function EmojiPickerPopover({ setText }: ChildProp) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -18,8 +18,11 @@ export function EmojiPickerPopover({setText}:ChildProp) {
         </div>
       </PopoverTrigger>
       <PopoverContent className="min-w-96 mx-8 border-none mb-5 p-0 h-auto bg-background">
-        <div className="w-full h-full flex justify-center items-center">
-          <EmojiPicker setText={setText}/>
+        <div
+          className="w-full h-full flex justify-center items-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <EmojiPicker setText={setText} />
         </div>
       </PopoverContent>
     </Popover>
