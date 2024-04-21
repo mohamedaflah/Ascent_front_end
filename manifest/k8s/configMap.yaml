@@ -4,7 +4,7 @@ metadata:
   name: ascentfronend-config
 data:
   VITE_AUTHENTICATION_SERVICE_URI: "https://aflahaflu.shop/api/auth-service"
-  VITE_USER_SERVICE_URI: https://aflahaflu.shop/api/user-service"
+  VITE_USER_SERVICE_URI: "https://aflahaflu.shop/api/user-service"
   VITE_COMPANY_SERVICE: "https://aflahaflu.shop/api/company-service"
   VITE_JOB_SERVICE: "https://aflahaflu.shop/api/job-service"
   VITE_COMMUNICATION_SERVICE: "https://aflahaflu.shop/api/communication-service"
