@@ -84,6 +84,7 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
+        console.log("🚀 ~ .addCase ~ payload:", payload)
         state.loading = false;
         state.err = false;
         state.user = payload?.user;
