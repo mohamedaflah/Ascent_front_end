@@ -19,9 +19,9 @@ import { Checkbox } from "@nextui-org/react";
 import { NewLoadingButton } from "@/components/custom/NewLoadingBtn";
 import left from "@/assets/Left.png";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye } from "lucide-react";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { Eye, MoveRight } from "lucide-react";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "@/redux/actions/userActions";
 signupFormSchema;
 export function SignupPage() {
@@ -41,16 +41,20 @@ export function SignupPage() {
   //   const pass2Ref=useRef<HTMLInputElement>(null)
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
+
+  const { loading } = useSelector((state: RootState) => state.userData);
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
-    values;
-    const res = await dispatch(signupUser(values));
+    if (localStorage.getItem("signupToken")) {
+      localStorage.removeItem("signupToken");
+    }
+    const res = await dispatch(signupUser({ ...values, type: "otp" }));
     if (res.type.endsWith("fulfilled")) {
-      navigate("verify-otp");
+      navigate("/verify-otp");
     }
   }
   return (
     <main className="w-full pb-5">
-      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16">
+      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-20">
         <div className="flex flex-col">
           <div className="w-full ">
             <div className="w-full">
@@ -70,11 +74,18 @@ export function SignupPage() {
                   Searching job and get placement Lorem ipsum dolor sit amet
                   consectetur adipisicing elit. Natus, eos?
                 </p>
-                <div className="w-full h-10 flex gap-5">
+                <div className="w-full h-10 flex gap-5 justify-between">
                   <div className=" h-10 rounded-3xl border flex items-center px-4 gap-4 min-w-48">
                     <FaGoogle className="text-[15px]" />
                     Sign up with google
                   </div>
+
+                  <Link
+                    to={"/recruiter/signup"}
+                    className="flex gap-1 h-10 items-center px-4 bg-primary/85 text-white rounded-lg border"
+                  >
+                    join as recruiter <MoveRight />
+                  </Link>
                 </div>
                 <div className="w-full mt-2  items-center h-10 grid grid-cols-11 ">
                   <div className="h-[1px] bg-border col-span-5"></div>
@@ -219,7 +230,7 @@ export function SignupPage() {
                 </div>
                 <div className="w-full h-12 flex items-center mt-10">
                   <NewLoadingButton
-                    loading={false}
+                    loading={loading}
                     className="h-12 dark:bg-primary/85 border-primary border-2"
                   >
                     Sign up

@@ -62,7 +62,7 @@ const EmailVerification = ({ setVerificationState }: childProp) => {
   }, [dispatch, setVerificationState, verificationstate, resetKey]); // Add resetKey as a dependency
 
   const handleResend = async () => {
-    await dispatch(resendMail());
+    await dispatch(resendMail({type:"signup"}));
 
     localStorage.removeItem("emailVerificationStartTime"); // Remove the start time
     setResetKey((prevKey) => prevKey + 1); // Increment the resetKey to trigger useEffect

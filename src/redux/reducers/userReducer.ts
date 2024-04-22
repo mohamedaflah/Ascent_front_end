@@ -9,6 +9,7 @@ import {
   resendMail,
   signupUser,
   updateProfileUser,
+  verifyOtp,
   verifyinguser,
 } from "../actions/userActions";
 import toast from "react-hot-toast";
@@ -311,7 +312,23 @@ const userReducer = createSlice({
         state.err = errorPayload.message;
         state.loading = false;
         toast.error(state.err);
-      });
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyOtp.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload.user;
+        state.role = payload.user.role;
+        state.err = false;
+      })
+      .addCase(verifyOtp.rejected, (state, { payload }) => {
+        state.loading = false;
+        const errorPayload = payload as ErrorPayload;
+        state.err = errorPayload.message;
+        toast.error(errorPayload.message);
+        state.user = null;
+      })
   },
 });
 export default userReducer.reducer;

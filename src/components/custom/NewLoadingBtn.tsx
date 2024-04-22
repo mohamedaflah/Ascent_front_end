@@ -1,20 +1,24 @@
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 import { ColorRing } from "react-loader-spinner";
 interface ChildProp {
   loading: boolean;
   children: ReactNode;
   className?: string;
   type?: "submit" | "reset" | "button" | undefined;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?:boolean
 }
 export function NewLoadingButton({
   children,
   className,
   loading,
   type,
+  onClick,
+  disabled
 }: ChildProp) {
   return (
-    <button
-      type={type ? type : "submit"}
+    <button disabled={disabled}
+      type={type ? type : "submit"} onClick={onClick}
       className={`w-full flex items-center justify-center h-10 bg-primary rounded-md font-semibold text-white text-[14px] ${
         loading && "pointer-events-none bg-primary/25"
       } ${className}`}

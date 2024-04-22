@@ -130,7 +130,17 @@ function App() {
           <Route path="Myapplication" element={<MyApplication />} />
           <Route path="/signup" element={!user?<SignupPage />:<Navigate to={"/"}/>} />
           <Route path="/login" element={ !user?<LoginPage />:<Navigate to={"/"}/>} />
-          <Route path="/verify-otp" element={!user?<OtpPage />:<Navigate to={'/'} />} />
+          <Route path="/verify-otp" element={!user && localStorage.getItem("signupToken")?<OtpPage />:<Navigate to={'/'} />} />
+{/* 
+          element={
+            role === "admin" ? (
+              <Navigate to={"/admin/"} />
+            ) : role === "company" ? (
+              <Navigate to={"/company/"} />
+            ) : (
+              <Layout role={role} />
+            )
+          } */}
         </Route>
 
         {role === "admin" && (

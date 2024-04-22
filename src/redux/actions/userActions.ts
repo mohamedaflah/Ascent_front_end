@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AuthAxios,
   UserAxios,
@@ -8,6 +7,7 @@ import {
 import { Login, SignupForm, companySignup } from "@/types/AllTypes";
 import { decodeJWT } from "@/util/decodeToken";
 import { generateToken } from "@/util/generateToken";
+
 import { handleErrors } from "@/util/handleErrors";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -88,11 +88,10 @@ export const getUser = createAsyncThunk(
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,
       });
-      console.log("🚀 ~ data: get user ", data)
+      console.log("🚀 ~ data: get user ", data);
 
       return user;
     } catch (error) {
-
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -104,7 +103,7 @@ export const logoutUser = createAsyncThunk(
     try {
       const { data } = await AuthAxios.get("/logout");
       return data;
-    } catch (error: any | Error) {
+    } catch (error: unknown | Error) {
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -121,9 +120,7 @@ export const loginUser = createAsyncThunk(
       if (data.status) {
         return user;
       }
-    } catch (error: any | Error) {
-  
-
+    } catch (error: unknown | Error) {
       return rejectWithValue(handleErrors(error));
     }
   }
@@ -138,7 +135,7 @@ export const submitLinks = createAsyncThunk(
 
 export const resendMail = createAsyncThunk(
   "users/resend-mail",
-  async (_, { rejectWithValue }) => {
+  async (type: { type?: "signup" | "otp" }, { rejectWithValue }) => {
     try {
       const sendPayload = decodeJWT(String(localStorage.getItem("signupToken")))
         .payload as SignupForm;
@@ -147,7 +144,10 @@ export const resendMail = createAsyncThunk(
         return;
       }
 
-      const { data } = await AuthAxios.post(`/resendMail`, sendPayload);
+      const { data } = await AuthAxios.post(`/resendMail`, {
+        ...sendPayload,
+        type: type?.type,
+      });
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -191,6 +191,38 @@ export const chanagePassword = createAsyncThunk(
       const { data } = await AuthAxios.put(`/change-pass`, sendData);
       return data;
     } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const verifyOtp = createAsyncThunk(
+  "user/verify-otp",
+  async (sendData: { otp: string }, { rejectWithValue }) => {
+    try {
+      const userData = localStorage.getItem("signupToken");
+      
+      if (!userData) {
+        throw new Error("signupToken not found in localStorage");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const decodedUserData: any = decodeJWT(userData);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const getPalyload: any = decodedUserData.payload;
+      
+      console.log(userData);
+      console.log(getPalyload);
+      
+      const { data } = await AuthAxios.post(`/verify-otp`, {
+        ...sendData,
+        email: getPalyload?.email,
+        userData: getPalyload,
+      });
+      localStorage.removeItem("signupToken")
+      return data;
+    } catch (error) {
+      console.error(error);
       return rejectWithValue(handleErrors(error));
     }
   }
