@@ -86,7 +86,7 @@ export function OtpPage() {
 
   return (
     <main className="w-full pb-5">
-      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16">
+      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16" style={{width:"85%"}}>
         <div className="h-full flex flex-col items-center justify-center w-full ">
           <div className="space-y-4">
             <div className="w-full">

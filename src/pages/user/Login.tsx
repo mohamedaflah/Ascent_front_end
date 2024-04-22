@@ -53,7 +53,7 @@ export function LoginPage() {
   }
   return (
     <main className="w-full pb-5">
-      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16">
+      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16" style={{width:"85%"}}>
         <div className="flex flex-col">
           <div className="w-full ">
             <div className="w-full">
