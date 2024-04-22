@@ -3,7 +3,10 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/shadcn/ui/input-otp";
 import fireIcon from "@/assets/Ascent_firicon.svg";
 import { NewLoadingButton } from "@/components/custom/NewLoadingBtn";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 export function OtpPage() {
+  const [otp, setOtp] = useState<string>("");
+  otp;
   return (
     <main className="w-full pb-5">
       <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16">
@@ -26,24 +29,24 @@ export function OtpPage() {
             <InputOTP
               maxLength={4}
               className="w-full  "
-              //   onChange={(value)=>alert(e)}
+              onChange={(value) => setOtp(value)}
             >
               <InputOTPGroup className="flex gap-4 ">
                 <InputOTPSlot
                   index={0}
-                  className="border dark:border-border border-textPrimary rounded-xl font-bold text-4xl h-20 w-20 "
+                  className="border dark:border-border border-textPrimary rounded-xl font-semibold text-5xl h-20 w-20 "
                 />
                 <InputOTPSlot
                   index={1}
-                  className="border dark:border-border border-textPrimary rounded-xl font-bold text-4xl h-20 w-20  "
+                  className="border dark:border-border border-textPrimary rounded-xl font-semibold text-5xl h-20 w-20  "
                 />
                 <InputOTPSlot
                   index={2}
-                  className="border dark:border-border border-textPrimary rounded-xl font-bold text-4xl h-20 w-20  "
+                  className="border dark:border-border border-textPrimary rounded-xl font-semibold text-5xl h-20 w-20  "
                 />
                 <InputOTPSlot
                   index={3}
-                  className="border dark:border-border border-textPrimary rounded-xl font-bold text-4xl h-20 w-20 "
+                  className="border dark:border-border border-textPrimary rounded-xl font-semibold text-5xl h-20 w-20 "
                 />
               </InputOTPGroup>
             </InputOTP>
@@ -56,9 +59,9 @@ export function OtpPage() {
               </NewLoadingButton>
               <NewLoadingButton
                 loading={false}
-                className=" rounded-md border-primary h-12 border bg-transparent"
+                className=" rounded-md border-primary h-12 border bg-transparent text-blue-400"
               >
-                Resned
+                Re send
               </NewLoadingButton>
             </div>
             <div className="grid grid-cols-5">
