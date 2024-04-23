@@ -2,19 +2,21 @@ import AscentIcon from "../../assets/lightico.svg";
 import AscentDarkIcon from "../../assets/darkIco.svg";
 
 import { ModeToggle } from "../them-modal-toggle";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   ThemeProviderContext,
   ThemeProviderState,
 } from "@/shadcn/theme-provider";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import SignupModal from "../SignupModal";
-import LoginModal from "../LoginModal";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+// import SignupModal from "../SignupModal";
+// import LoginModal from "../LoginModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CustomNavLink } from "../custom/CustomNav";
 import { Menu } from "lucide-react";
 import { NavbarSheet } from "../HeaderSheet";
+import { PrimeModal } from "../custom/primModal";
+import { ProfileFill } from "../users/profileFillingform";
 
 interface ChildProp {
   setSideBarState?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +34,12 @@ const Header = ({ setSideBarState }: ChildProp) => {
     setisLanding(location.pathname === "/");
   }, [location]);
   const navigate = useNavigate();
-
+  const modalRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (user?.profileCompleted) {
+      modalRef?.current?.click();
+    }
+  }, [user]);
   return (
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10 ${
@@ -45,6 +52,19 @@ const Header = ({ setSideBarState }: ChildProp) => {
           : `${location.pathname !== "/" ? "bg-background" : "bg-accenting "}`
       } `}
     >
+      <div className="hidden">
+        <PrimeModal title="" ref={modalRef} close={false}>
+          <div className="w-full max-h-[550px] flex  justify-center  ">
+            {!localStorage.getItem("firstform")?(
+            <ProfileFill />
+            ):(
+              <div>
+                sedon
+              </div>
+            )}
+          </div>
+        </PrimeModal>
+      </div>
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center  [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <header
         className={`h-20 flex items-center justify-center   ${
@@ -61,16 +81,32 @@ const Header = ({ setSideBarState }: ChildProp) => {
               />
 
               <div className=" gap-10 hidden md:flex">
-                <CustomNavLink to="/findjobs">Find jobs</CustomNavLink>
-                <CustomNavLink to={"/browscompanies"}>Brows companies</CustomNavLink>
+                <CustomNavLink to="findjobs?page=1&pageSize=5">
+                  Find jobs
+                </CustomNavLink>
+                <CustomNavLink to={"/browscompanies"}>
+                  Brows companies
+                </CustomNavLink>
               </div>
             </div>
 
             <div className="flex items-center text-2xl gap-4 ">
               <div className="text-sm flex gap-4">
-                <LoginModal />
+                <Link
+                  to={"login"}
+                  className="hidden sm:px-5 sm:py-2 px-3 py-2 rounded-sm border border-textPrimary text-textPrimary font-semibold sm:block"
+                >
+                  Login
+                </Link>
+                {/* <LoginModal /> */}
 
-                <SignupModal />
+                <Link
+                  to={"signup"}
+                  className="sm:px-5 sm:py-2 rounded-sm   text-textPrimary font-semibold bg-primary border-none text-white px-3 py-2  "
+                >
+                  Sign up
+                </Link>
+                {/* <SignupModal /> */}
               </div>
 
               <ModeToggle />

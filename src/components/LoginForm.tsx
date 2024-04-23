@@ -27,9 +27,9 @@ const signupFormSchema = z.object({
 
 interface ChildProps {
   setSignup: (state: boolean) => void;
-  cancelRef?:React.RefObject<HTMLButtonElement>
+  cancelRef?: React.RefObject<HTMLButtonElement>;
 }
-const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
+const LoginForm: React.FC<ChildProps> = ({ setSignup, cancelRef }) => {
   const { loading, role } = useSelector((state: RootState) => state.userData);
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -65,8 +65,10 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem >
-              <FormLabel className="font-semibold  w-full flex justify-start">Email</FormLabel>
+            <FormItem>
+              <FormLabel className="font-semibold  w-full flex justify-start">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input placeholder="email @.." {...field} />
               </FormControl>
@@ -82,11 +84,20 @@ const LoginForm: React.FC<ChildProps> = ({ setSignup,cancelRef }) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold w-full flex justify-start">Password</FormLabel>
+              <FormLabel className="font-semibold w-full flex justify-start">
+                Password
+              </FormLabel>
               <FormControl>
                 <Input placeholder="* * *" type="password" {...field} />
               </FormControl>
-              <FormDescription className="flex justify-end "><Link to='/user/forgotpassword?role=user' onClick={()=>cancelRef?.current?.click()}>forgot password</Link></FormDescription>
+              <FormDescription className="flex justify-end ">
+                <Link
+                  to="/user/forgotpassword?role=user"
+                  onClick={() => cancelRef?.current?.click()}
+                >
+                  forgot password
+                </Link>
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

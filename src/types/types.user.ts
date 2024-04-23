@@ -35,4 +35,5 @@ export interface User {
   currengDesignation?: string;
   lastMessage?: Message;
   messageCount?: number;
+  resumes?: string[];
 }
