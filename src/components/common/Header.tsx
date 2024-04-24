@@ -46,7 +46,19 @@ const Header = ({ setSideBarState }: ChildProp) => {
       }
     }, 2000);
   }, [user]);
+  const openModal=()=>{
+    setTimeout(()=>{
+      modalRef?.current?.ref?.click();
+    },1000)
+  }
+  openModal
   const [secondForm, setScondForm] = useState<boolean>(false);
+  useEffect(()=>{
+    if(secondForm){
+
+      modalRef?.current?.ref?.click();
+    }
+  },[secondForm])
   return (
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10 ${
@@ -59,13 +71,14 @@ const Header = ({ setSideBarState }: ChildProp) => {
           : `${location.pathname !== "/" ? "bg-background" : "bg-accenting "}`
       } `}
     >
+      
       <div className="hidden">
         <PrimeModal title="" ref={modalRef} close={false}>
           <div className="w-full max-h-[550px] flex  justify-center  ">
-            {!localStorage.getItem("firstform") || !secondForm ? (
-              <ProfileFill setSecondForm={setScondForm} />
+            {!localStorage.getItem("firstform") ? (
+              <ProfileFill setSecondForm={setScondForm}  />
             ) : (
-              <ProfileFillSecond closeModal={closePrimeModal} />
+              <ProfileFillSecond closeModal={closePrimeModal}  />
             )}
           </div>
         </PrimeModal>

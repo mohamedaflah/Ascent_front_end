@@ -30,6 +30,7 @@ import { uploadImageToCloudinary } from "@/util/uploadImage";
 
 interface ChildProp {
   setSecondForm: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal?: () => void;
 }
 export function ProfileFill({ setSecondForm }: ChildProp) {
   const form = useForm<z.infer<typeof userProfileFill>>({
@@ -77,10 +78,10 @@ export function ProfileFill({ setSecondForm }: ChildProp) {
     );
     if (res.type.endsWith("fulfilled")) {
       localStorage.setItem("firstform", "true");
+      setSecondForm(true);
+      setImgLoad(false);
+      
     }
-
-    setSecondForm(true);
-    setImgLoad(false);
   }
   return (
     <main className="w-full  overflow-y-auto px-1 py-2">
@@ -280,7 +281,7 @@ export function ProfileFill({ setSecondForm }: ChildProp) {
             </div>
             <div className="flex flex-wrap gap-2">
               {form.watch("skills")?.map((value, index) => (
-                <div className="px-3 min-w-20 h-8 items-center justify-between rounded-md bg-backgroundAccent flex gap-2">
+                <div key={index} className="px-3 min-w-20 h-8 items-center justify-between rounded-md bg-backgroundAccent flex gap-2">
                   <div className="flex gap-1 items-center">
                     <TechnologyIcon technology={value} key={value} />
                     {value}
