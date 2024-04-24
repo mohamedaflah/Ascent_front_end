@@ -21,10 +21,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shadcn/ui/accordion";
+import { UserUpdateModalEdit } from "./userUpdateModalEdit";
+import { UpdateBannerForm } from "./updateBannerForm";
+import { useRef } from "react";
+import { UpdateNameForm } from "./updateName";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
   );
+  const updateModalRef = useRef<HTMLButtonElement>(null);
+  function closeUpdateModal() {
+    updateModalRef.current?.click();
+  }
   return (
     <main className="w-full ">
       <main
@@ -33,11 +41,15 @@ export function PublicProfile() {
         <div className="h-full w-full  space-y-3 ">
           <div className="w-full min-h-72  flex flex-col border ">
             <div className="h-56 w-full border relative ">
-              <div className="absolute right-2 top-2 text-white p-3">
-                <Edit />
-              </div>
+              <UserUpdateModalEdit
+                editType="white"
+                title="click and update images"
+                ref={updateModalRef}
+              >
+                <UpdateBannerForm closeModalFn={closeUpdateModal} />
+              </UserUpdateModalEdit>
               <img
-                src={user.coverImage ? user.coverImage : HeaderPic}
+                src={user?.coverImage ? user?.coverImage : HeaderPic}
                 className="object-cover w-full h-full"
                 alt=""
               />
@@ -46,7 +58,7 @@ export function PublicProfile() {
               <div className="relative">
                 <div className="h-36 w-36  rounded-full absolute -top-16 left-5 bg-white p-1">
                   <img
-                    src={user.icon ? user.icon : HeaderPic}
+                    src={user?.icon ? user?.icon : HeaderPic}
                     className="h-full w-full object-cover rounded-full"
                     alt=""
                   />
@@ -76,10 +88,10 @@ export function PublicProfile() {
                         )}
                       </p>
                     </div>
-                    <div className="text-textPrimary flex gap-2">
+                    <div className="text-textPrimary flex gap-2 items-center">
                       {user?.location ? (
                         <>
-                          <MapPin /> {user?.location}
+                          <MapPin className="w-6" /> {user?.location}
                         </>
                       ) : (
                         <>location is Not provided</>
@@ -93,9 +105,13 @@ export function PublicProfile() {
                     </div>
                   </div>
                   <div className="w-[40%] h-full flex justify-end px-4">
-                    <button className="h-10 min-w-36 p-2 border border-primary flex justify-center items-center gap-2 rounded-[2px] text-primary">
-                      Edit profile
-                    </button>
+                    <UserUpdateModalEdit
+                      editType="button"
+                      title="update general details"
+                      ref={updateModalRef}
+                    >
+                      <UpdateNameForm closeModal={closeUpdateModal} />
+                    </UserUpdateModalEdit>
                   </div>
                 </div>
               </div>
@@ -108,7 +124,7 @@ export function PublicProfile() {
                 <Edit className="w-5" />
               </div>
             </div>
-            <div className="divClass">{user.about}</div>
+            <div className="divClass">{user?.about}</div>
           </div>
           <div className="flex p-2 flex-col border">
             <div className="w-full min-h-56 border-b p-3">
@@ -138,7 +154,7 @@ export function PublicProfile() {
                     </div>
                   </div>
                   <div className="w-full  flex justify-between">
-                    <h2 className="maintxt ">Manchester United</h2>
+                    <h2 className="maintxt font-bold">Manchester United</h2>
                   </div>
                   <div className="divClass w-full  flex justify-between">
                     Created and executed social media plan for 10 brands
@@ -206,7 +222,7 @@ export function PublicProfile() {
                 </div>
               </div>
               <div className="w-full flex  flex-wrap gap-3">
-                {user.skills?.map((value, index) => (
+                {user?.skills?.map((value, index) => (
                   <div
                     key={index}
                     className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary"
@@ -271,7 +287,7 @@ export function PublicProfile() {
                 <Edit className="w-5" />
               </div>
             </div>
-            {user.sociallinks?.map((value, index) => {
+            {user?.sociallinks?.map((value, index) => {
               return (
                 <div className="w-full flex flex-col" key={index}>
                   <div className="flex gap-2 text-textPrimary">
@@ -293,7 +309,7 @@ export function PublicProfile() {
               </div>
             </div>
             <Accordion type="single" collapsible className="w-full">
-              {user.resumes && user.resumes.length > 0 && (
+              {user?.resumes && user?.resumes.length > 0 && (
                 <>
                   {user.resumes?.map((link, index) => {
                     return (
