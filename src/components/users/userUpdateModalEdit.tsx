@@ -9,10 +9,10 @@ import {
   AlertDialogTrigger,
 } from "@/shadcn/ui/alert-dialog";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
-import { Edit, X } from "lucide-react";
+import { Edit, Plus, X } from "lucide-react";
 
 interface ChildProp {
-  editType?: "white" | "blue" | "button";
+  editType?: "white" | "blue" | "button" | "plus";
   children: ReactNode;
   close?: boolean;
   title?: string;
@@ -30,6 +30,10 @@ export const UserUpdateModalEdit = forwardRef<HTMLButtonElement, ChildProp>(
             <button className="h-10 min-w-36 p-2 border border-primary flex justify-center items-center gap-2 rounded-[2px] text-primary">
               Edit profile
             </button>
+          ) : editType === "plus" ? (
+            <div className="h-10 w-10 flex justify-center items-center border text-primary">
+              <Plus className="w-5" />
+            </div>
           ) : (
             <div className="h-10 w-10 flex justify-center items-center border text-primary">
               <Edit className="w-5" />

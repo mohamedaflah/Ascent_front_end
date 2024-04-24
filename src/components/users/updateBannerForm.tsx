@@ -90,7 +90,7 @@ export function UpdateBannerForm({ closeModalFn }: ChildProp) {
           />
           <label
             htmlFor="icon"
-            className="size-24 rounded-full absolute left-4 cursor-pointer z-10 overflow-hidden  p-1 bg-white"
+            className="size-28 rounded-full absolute left-4 cursor-pointer z-10 overflow-hidden  p-1 bg-white"
           >
             <input
               type="file"

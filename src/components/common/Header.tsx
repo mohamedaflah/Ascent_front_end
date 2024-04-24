@@ -38,7 +38,7 @@ const Header = ({ setSideBarState }: ChildProp) => {
   const modalRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     setTimeout(() => {
-      if (!user?.profileCompleted) {
+      if (user&& !user?.profileCompleted) {
         modalRef?.current?.click();
       }
     },2000);

@@ -7,6 +7,7 @@ import {
   MapPin,
   Phone,
   Plus,
+  Trash2Icon,
 } from "lucide-react";
 import HeaderPic from "../../assets/Header_Photo.svg";
 import { useSelector } from "react-redux";
@@ -21,10 +22,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shadcn/ui/accordion";
-import { UserUpdateModalEdit } from "./userUpdateModalEdit";
-import { UpdateBannerForm } from "./updateBannerForm";
+import { UserUpdateModalEdit } from "../../components/users/userUpdateModalEdit";
+import { UpdateBannerForm } from "../../components/users/updateBannerForm";
 import { useRef } from "react";
-import { UpdateNameForm } from "./updateName";
+import { UpdateNameForm } from "../../components/users/updateName";
+import { UpdateUserAbout } from "../../components/users/userAboutUpdate";
+import { UserUpdateAddExperince } from "@/components/users/userUpdateAddExperienceForm";
+import { UserUpdateExperinceForm } from "@/components/users/updateExperience";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -120,52 +124,88 @@ export function PublicProfile() {
           <div className="w-full  border p-3">
             <div className="w-full h-16 flex justify-between">
               <h1 className="maintxt text-2xl font-semibold">About me</h1>
-              <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                <Edit className="w-5" />
-              </div>
+              <UserUpdateModalEdit
+                title="update about section"
+                editType="blue"
+                ref={updateModalRef}
+              >
+                <UpdateUserAbout closeModal={closeUpdateModal} />
+              </UserUpdateModalEdit>
             </div>
             <div className="divClass">{user?.about}</div>
           </div>
           <div className="flex p-2 flex-col border">
-            <div className="w-full min-h-56 border-b p-3">
+            <div className="w-full min-h-32 border-b p-3">
               <div className="w-full h-16 flex justify-between">
                 <h1 className="maintxt text-2xl font-semibold">Experinces</h1>
-                <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                  <Plus className="w-5" />
-                </div>
+                <UserUpdateModalEdit
+                  editType="plus"
+                  title="Add experience"
+                  ref={updateModalRef}
+                >
+                  <UserUpdateAddExperince closeModal={closeUpdateModal} />
+                </UserUpdateModalEdit>
               </div>
-              <div className="w-full flex min-h-32 gap-2 md:gap-0 ">
-                <div className="w-28 lg:w-[15%] h-full">
-                  <div className="w-28 h-28 rounded-full ">
-                    <img
-                      src={HeaderPic}
-                      className="w-full h-full object-cover rounded-full "
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="w-[86%]  h-full flex flex-col">
-                  <div className="w-full  flex justify-between">
-                    <h2 className="maintxt text-xl font-semibold">
-                      Product Designer
-                    </h2>
-                    <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                      <Edit className="w-5" />
+              <>
+                {user &&
+                  user?.experiences &&
+                  user?.experiences?.length <= 0 && (
+                    <>
+                      <div className="h-full text-[15px] w-full flex items-center justify-center">
+                        There is No experience added
+                      </div>
+                    </>
+                  )}
+                {user?.experiences?.map((experience, index) => {
+                  return (
+                    <div
+                      key={experience?._id}
+                      className={`w-full flex min-h-32 ${
+                        index + 1 !== user?.experiences?.length && "border-b"
+                      } gap-2  py-5 md:gap-0 `}
+                    >
+                      <div className="w-28 lg:w-[15%] h-full">
+                        <div className="size-28 rounded-full ">
+                          <img
+                            src={experience.image}
+                            className="w-full h-full object-cover rounded-full "
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      <div className="w-[86%]  h-full flex flex-col">
+                        <div className="w-full  flex justify-between">
+                          <h2 className="maintxt text-xl font-semibold">
+                            {experience?.title}
+                          </h2>
+                          <div className="flex gap-2">
+                            <div className="h-10 w-10 flex justify-center items-center border text-primary">
+                              <Trash2Icon className="w-5" />
+                            </div>
+                            <UserUpdateModalEdit
+                              editType="blue"
+                              ref={updateModalRef}
+                            >
+                              <UserUpdateExperinceForm
+                                closeModal={closeUpdateModal}
+                                experienceData={experience}
+                              />
+                            </UserUpdateModalEdit>
+                          </div>
+                        </div>
+                        <div className="w-full  flex justify-between">
+                          <h2 className="maintxt font-bold text-[14px]">
+                            {experience?.location}
+                          </h2>
+                        </div>
+                        <div className="divClass w-full  flex justify-between">
+                          {experience?.description}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="w-full  flex justify-between">
-                    <h2 className="maintxt font-bold">Manchester United</h2>
-                  </div>
-                  <div className="divClass w-full  flex justify-between">
-                    Created and executed social media plan for 10 brands
-                    utilizing multiple features and content types to increase
-                    brand outreach, engagement, and leads. multiple features and
-                    content types to increase brand outreach, engagement, and
-                    leads. multiple features and content types to increase brand
-                    outreach, engagement, and leads.
-                  </div>
-                </div>
-              </div>
+                  );
+                })}
+              </>
             </div>
           </div>
           <div className="flex p-2 flex-col border">

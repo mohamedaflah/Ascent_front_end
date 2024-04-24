@@ -15,7 +15,9 @@ export interface User {
   experiences?: {
     title: string;
     description: string;
+    location: string;
     image: string;
+    _id:string
   }[];
   personalsite?: string;
   sociallinks?: string[];
