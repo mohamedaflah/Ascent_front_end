@@ -70,6 +70,7 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
     ).then((res) => {
       if (res.type.endsWith("fulfilled")) {
         setLocalLoad(false);
+        localStorage.removeItem("firstform")
         closeModal && closeModal();
       }
     });
