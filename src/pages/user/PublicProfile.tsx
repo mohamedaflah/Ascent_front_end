@@ -11,10 +11,16 @@ import {
 import HeaderPic from "../../assets/Header_Photo.svg";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
+import pdfImage from "@/assets/pdf.png";
 import { User } from "@/types/types.user";
 import { format } from "date-fns";
 import { AdditionalDetailsEdit } from "@/components/users/AdditionalDetailEdit";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shadcn/ui/accordion";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -22,7 +28,7 @@ export function PublicProfile() {
   return (
     <main className="w-full ">
       <main
-        className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start scrollbar-hide  `}
+        className={`min-h-screen pb-5 relative overflow-y-auto mt-5 flex-col lg:flex-row  flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start scrollbar-hide  `}
       >
         <div className="h-full w-full  space-y-3 ">
           <div className="w-full min-h-72  flex flex-col border ">
@@ -201,7 +207,10 @@ export function PublicProfile() {
               </div>
               <div className="w-full flex  flex-wrap gap-3">
                 {user.skills?.map((value, index) => (
-                  <div key={index} className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
+                  <div
+                    key={index}
+                    className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary"
+                  >
                     {value}
                   </div>
                 ))}
@@ -209,7 +218,7 @@ export function PublicProfile() {
             </div>
           </div>
         </div>
-        <div className="hidden md:flex w-1/2 min-h-60    flex-col gap-3 lg:sticky top-0 left-0">
+        <div className=" md:flex w-full lg:w-1/2 min-h-60    flex-col gap-3 lg:sticky top-0 left-0">
           <div className="w-full p-3 border">
             <div className="w-full flex justify-between">
               <h1 className="maintxt text-xl font-semibold">
@@ -273,6 +282,37 @@ export function PublicProfile() {
                 </div>
               );
             })}
+          </div>
+          <div className="w-full p-3 border">
+            <div className="w-full h-10 flex justify-end gap-2">
+              <div className="h-10 w-10 flex justify-center items-center border text-primary">
+                <Plus className="w-5" />
+              </div>
+              <div className="h-10 w-10 flex justify-center items-center border text-primary">
+                <Edit className="w-5" />
+              </div>
+            </div>
+            <Accordion type="single" collapsible className="w-full">
+              {user.resumes && user.resumes.length > 0 && (
+                <>
+                  {user.resumes?.map((link, index) => {
+                    return (
+                      <AccordionItem value="item-1" key={index}>
+                        <AccordionTrigger className="flex gap-2 items-center">
+                          <div className="flex gap-2">
+                            <img src={pdfImage} className="h-4" alt="" />
+                            Resume {index + 1}
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="h-auto">
+                          <embed src={link} className="w-full h-96" type="" />
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </>
+              )}
+            </Accordion>
           </div>
         </div>
       </main>
