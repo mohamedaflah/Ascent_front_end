@@ -10,8 +10,8 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import HeaderPic from "../../assets/Header_Photo.svg";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import pdfImage from "@/assets/pdf.png";
 import { User } from "@/types/types.user";
 import { format } from "date-fns";
@@ -29,6 +29,9 @@ import { UpdateNameForm } from "../../components/users/updateName";
 import { UpdateUserAbout } from "../../components/users/userAboutUpdate";
 import { UserUpdateAddExperince } from "@/components/users/userUpdateAddExperienceForm";
 import { UserUpdateExperinceForm } from "@/components/users/updateExperience";
+import ConfirmModal from "@/components/custom/confirmModal";
+import { updateProfileUser } from "@/redux/actions/userActions";
+import { UpdateSkillForm } from "@/components/users/updateSkillForm";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -36,6 +39,18 @@ export function PublicProfile() {
   const updateModalRef = useRef<HTMLButtonElement>(null);
   function closeUpdateModal() {
     updateModalRef.current?.click();
+  }
+  const dispatch: AppDispatch = useDispatch();
+  function deleteExperience(id: string) {
+    const experience = user?.experiences?.filter((value) => value._id !== id);
+    dispatch(
+      updateProfileUser({
+        userId: String(user?._id),
+        sendData:{
+          experiences:experience
+        }
+      })
+    );
   }
   return (
     <main className="w-full ">
@@ -179,9 +194,14 @@ export function PublicProfile() {
                             {experience?.title}
                           </h2>
                           <div className="flex gap-2">
-                            <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                              <Trash2Icon className="w-5" />
-                            </div>
+                            <ConfirmModal
+                              action={() => deleteExperience(experience?._id)}
+                              falseClass={true}
+                            >
+                              <div className="h-10 w-10 flex justify-center items-center border text-primary">
+                                <Trash2Icon className="w-5" />
+                              </div>
+                            </ConfirmModal>
                             <UserUpdateModalEdit
                               editType="blue"
                               ref={updateModalRef}
@@ -257,9 +277,9 @@ export function PublicProfile() {
             <div className="w-full  border-b p-3">
               <div className="w-full h-16 flex justify-between">
                 <h1 className="maintxt text-2xl font-semibold">Skills</h1>
-                <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                  <Plus className="w-5" />
-                </div>
+                <UserUpdateModalEdit editType="plus" title="update skills" ref={updateModalRef}>
+                  <UpdateSkillForm closeModal={closeUpdateModal} />
+                </UserUpdateModalEdit>
               </div>
               <div className="w-full flex  flex-wrap gap-3">
                 {user?.skills?.map((value, index) => (

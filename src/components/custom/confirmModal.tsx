@@ -18,8 +18,9 @@ interface ChildProp {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   actionArg?: any;
   className?:string
+  falseClass?:boolean
 }
-const ConfirmModal = ({ children, action, actionArg,className }: ChildProp) => {
+const ConfirmModal = ({ children, action, actionArg,className,falseClass }: ChildProp) => {
   const handleConfirm = () => {
     if (actionArg) {
       action(actionArg);
@@ -29,7 +30,7 @@ const ConfirmModal = ({ children, action, actionArg,className }: ChildProp) => {
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger className={`w-full flex justify-start ${className}`}>
+      <AlertDialogTrigger className={`${!falseClass&&"w-full flex justify-start"} ${className}`}>
         {children}
       </AlertDialogTrigger>
       <AlertDialogContent>
