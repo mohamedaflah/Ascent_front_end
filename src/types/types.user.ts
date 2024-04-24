@@ -36,4 +36,5 @@ export interface User {
   lastMessage?: Message;
   messageCount?: number;
   resumes?: string[];
+  stage?: string;
 }

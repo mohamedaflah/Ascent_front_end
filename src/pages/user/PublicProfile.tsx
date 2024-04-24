@@ -22,7 +22,7 @@ export function PublicProfile() {
   return (
     <main className="w-full ">
       <main
-        className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start  `}
+        className={`h-screen relative overflow-y-auto mt-5 flex  w-[95%] md:w-[95%] mx-auto gap-3 justify-between items-start scrollbar-hide  `}
       >
         <div className="h-full w-full  space-y-3 ">
           <div className="w-full min-h-72  flex flex-col border ">
@@ -31,7 +31,7 @@ export function PublicProfile() {
                 <Edit />
               </div>
               <img
-                src={HeaderPic}
+                src={user.coverImage ? user.coverImage : HeaderPic}
                 className="object-cover w-full h-full"
                 alt=""
               />
@@ -40,7 +40,7 @@ export function PublicProfile() {
               <div className="relative">
                 <div className="h-36 w-36  rounded-full absolute -top-16 left-5 bg-white p-1">
                   <img
-                    src={HeaderPic}
+                    src={user.icon ? user.icon : HeaderPic}
                     className="h-full w-full object-cover rounded-full"
                     alt=""
                   />
@@ -72,16 +72,17 @@ export function PublicProfile() {
                     </div>
                     <div className="text-textPrimary flex gap-2">
                       {user?.location ? (
-                        <><MapPin /> {user?.location}</>
-                      ) : (
                         <>
-                           location is Not provided
+                          <MapPin /> {user?.location}
                         </>
+                      ) : (
+                        <>location is Not provided</>
                       )}
                     </div>
                     <div className="text-textPrimary flex gap-2">
                       <div className="ml-2 flex gap-3 uppercase text-green-500 p-2 items-center justify-center border border-green-500 rounded-sm">
-                        <Flag /> Open for opportunists
+                        <Flag />{" "}
+                        {user?.stage ? user?.stage : "Open for oppertunities"}
                       </div>
                     </div>
                   </div>
@@ -94,28 +95,14 @@ export function PublicProfile() {
               </div>
             </div>
           </div>
-          <div className="w-full min-h-56 border p-3">
+          <div className="w-full  border p-3">
             <div className="w-full h-16 flex justify-between">
               <h1 className="maintxt text-2xl font-semibold">About me</h1>
               <div className="h-10 w-10 flex justify-center items-center border text-primary">
                 <Edit className="w-5" />
               </div>
             </div>
-            <div className="divClass">
-              I’m a product designer + filmmaker currently working remotely at
-              Twitter from beautiful Manchester, United Kingdom. I’m passionate
-              about designing digital products that have a positive impact on
-              the world. I’m a product designer + filmmaker currently working
-              remotely at Twitter from beautiful Manchester, United Kingdom. I’m
-              passionate about designing digital products that have a positive
-              impact on the world. I’m a product designer + filmmaker currently
-              working remotely at Twitter from beautiful Manchester, United
-              Kingdom. I’m passionate about designing digital products that have
-              a positive impact on the world. I’m a product designer + filmmaker
-              currently working remotely at Twitter from beautiful Manchester,
-              United Kingdom. I’m passionate about designing digital products
-              that have a positive impact on the world.
-            </div>
+            <div className="divClass">{user.about}</div>
           </div>
           <div className="flex p-2 flex-col border">
             <div className="w-full min-h-56 border-b p-3">
@@ -213,21 +200,11 @@ export function PublicProfile() {
                 </div>
               </div>
               <div className="w-full flex  flex-wrap gap-3">
-                <div className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
-                  Communication
-                </div>
-                <div className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
-                  Communication
-                </div>
-                <div className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
-                  Communication
-                </div>
-                <div className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
-                  Communication
-                </div>
-                <div className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
-                  Communication
-                </div>
+                {user.skills?.map((value, index) => (
+                  <div key={index} className="h-10 px-3 flex justify-center items-center bg-primary/10 rounded-md text-primary">
+                    {value}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -238,7 +215,7 @@ export function PublicProfile() {
               <h1 className="maintxt text-xl font-semibold">
                 Additional Details
               </h1>
-              <AdditionalDetailsEdit/>
+              <AdditionalDetailsEdit />
             </div>
             <div className="w-full flex flex-col">
               <div className="flex gap-2 text-textPrimary">
@@ -260,8 +237,8 @@ export function PublicProfile() {
                 <h1 className="maintxt ">Date of birgth</h1>
               </div>
               <div className="pl-7 font-semibold">
-              {user?.dateofbirth ? (
-                  <>{format(new Date(String(user?.dateofbirth)),"PPP")}</>
+                {user?.dateofbirth ? (
+                  <>{format(new Date(String(user?.dateofbirth)), "PPP")}</>
                 ) : (
                   "Not provided"
                 )}
@@ -285,36 +262,17 @@ export function PublicProfile() {
                 <Edit className="w-5" />
               </div>
             </div>
-            <div className="w-full flex flex-col">
-              <div className="flex gap-2 text-textPrimary">
-                <Mail className="w-5" />
-                <h1 className="maintxt ">Email</h1>
-              </div>
-              <div className="pl-7 font-semibold">{user?.email}</div>
-            </div>
-            <div className="w-full flex flex-col mt-3 ">
-              <div className="flex gap-2 text-textPrimary">
-                <Phone className="w-5" />
-                <h1 className="maintxt ">Phone</h1>
-              </div>
-              <div className="pl-7 font-semibold">
-                {user?.phonenumber ? (
-                  <>{user?.phonenumber}</>
-                ) : (
-                  "Not provided"
-                )}
-              </div>
-            </div>
-            <div className="w-full flex flex-col mt-3 ">
-              <div className="flex gap-2 text-textPrimary">
-                <Languages className="w-5" />
-                <h1 className="maintxt ">Phone</h1>
-              </div>
-              <div className="pl-7 font-semibold">
-                <span>English</span>
-                {" , "} <span>French</span>
-              </div>
-            </div>
+            {user.sociallinks?.map((value, index) => {
+              return (
+                <div className="w-full flex flex-col" key={index}>
+                  <div className="flex gap-2 text-textPrimary">
+                    <Mail className="w-5" />
+                    <h1 className="maintxt ">Email</h1>
+                  </div>
+                  <div className="pl-7 font-semibold">{value}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </main>

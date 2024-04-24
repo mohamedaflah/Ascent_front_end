@@ -23,8 +23,10 @@ import { Textarea } from "@/shadcn/ui/textarea";
 import TechnologyIcon from "../custom/TechIcon";
 import toast from "react-hot-toast";
 import { NewLoadingButton } from "../custom/NewLoadingBtn";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { updateProfileUser } from "@/redux/actions/userActions";
+import { uploadImageToCloudinary } from "@/util/uploadImage";
 
 export function ProfileFill() {
   const form = useForm<z.infer<typeof userProfileFill>>({
@@ -41,26 +43,38 @@ export function ProfileFill() {
     },
   });
   const [skill, setSkill] = useState<string>("");
-  const {loading}=useSelector((state:RootState)=>state.userData)
+  const { loading, user } = useSelector((state: RootState) => state.userData);
   function addSkill() {
     if (!skill || skill == "") return toast.error(" please add skill ");
     const formValue = form.getValues("skills");
     form.setValue("skills", [...formValue, skill]);
     setSkill("");
   }
-  function profileSubmit(values: z.infer<typeof userProfileFill>) {
+  const [imgLoad, setImgLoad] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
+  async function profileSubmit(values: z.infer<typeof userProfileFill>) {
     values;
-    if(!values?.coverImage){
-      return toast.error("Please add cover image")
+    if (!values?.coverImage) {
+      return toast.error("Please add cover image");
     }
-    if(!values?.icon){
-      return toast.error("Please add icon")
+    if (!values?.icon) {
+      return toast.error("Please add icon");
     }
-    if(values?.skills.length<=0){
-      return toast.error("please add atleast one skill")
+    if (values?.skills.length <= 0) {
+      return toast.error("please add atleast one skill");
     }
-    alert("D9")
-    console.log("🚀 ~ profileSubmit ~ values:", values)
+    setImgLoad(true);
+    const coverImage = await uploadImageToCloudinary(values.coverImage);
+    const icon = await uploadImageToCloudinary(values.icon);
+    await dispatch(
+      updateProfileUser({
+        userId: String(user?._id),
+        sendData: { ...values, coverImage, icon },
+      })
+    );
+    localStorage.setItem("firstform", "true");
+    setImgLoad(false);
+    console.log("🚀 ~ profileSubmit ~ values:", values);
   }
   return (
     <main className="w-full  overflow-y-auto px-1 py-2">
@@ -280,9 +294,13 @@ export function ProfileFill() {
               ))}
             </div>
           </div>
-          <div className="w-full h-10">
-            <NewLoadingButton loading={loading} type="submit">
-              submit
+          <div className="w-full h-10 justify-end">
+            <NewLoadingButton
+              loading={loading || imgLoad}
+              type="submit"
+              className="flex "
+            >
+              next
             </NewLoadingButton>
           </div>
         </form>

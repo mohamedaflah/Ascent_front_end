@@ -17,6 +17,7 @@ import { Menu } from "lucide-react";
 import { NavbarSheet } from "../HeaderSheet";
 import { PrimeModal } from "../custom/primModal";
 import { ProfileFill } from "../users/profileFillingform";
+import { ProfileFillSecond } from "../users/profileFillSecond";
 
 interface ChildProp {
   setSideBarState?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,9 +37,11 @@ const Header = ({ setSideBarState }: ChildProp) => {
   const navigate = useNavigate();
   const modalRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    if (user?.profileCompleted) {
-      modalRef?.current?.click();
-    }
+    setTimeout(() => {
+      if (!user?.profileCompleted) {
+        modalRef?.current?.click();
+      }
+    },2000);
   }, [user]);
   return (
     <header
@@ -55,12 +58,10 @@ const Header = ({ setSideBarState }: ChildProp) => {
       <div className="hidden">
         <PrimeModal title="" ref={modalRef} close={false}>
           <div className="w-full max-h-[550px] flex  justify-center  ">
-            {!localStorage.getItem("firstform")?(
-            <ProfileFill />
-            ):(
-              <div>
-                sedon
-              </div>
+            {!localStorage.getItem("firstform") ? (
+              <ProfileFill />
+            ) : (
+              <ProfileFillSecond />
             )}
           </div>
         </PrimeModal>

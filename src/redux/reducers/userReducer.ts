@@ -292,6 +292,7 @@ const userReducer = createSlice({
         if (payload.role === "company") {
           state.status = payload.approvelStatus;
         }
+        toast.success("profile updated")
       })
       .addCase(updateProfileUser.rejected, (state, { payload }) => {
         const errorPayload = payload as ErrorPayload;

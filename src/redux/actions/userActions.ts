@@ -155,17 +155,19 @@ export const resendMail = createAsyncThunk(
   }
 );
 
+// {
+//   phonenumber: string;
+//   skills: string[];
+//   currengDesignation: string;
+//   dateofbirth: Date;
+// };
 export const updateProfileUser = createAsyncThunk(
   "users/update-profile",
   async (
     sendPayload: {
       userId: string;
-      sendData: {
-        phonenumber: string;
-        skills: string[];
-        currengDesignation: string;
-        dateofbirth: Date;
-      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      sendData: any
     },
     { rejectWithValue }
   ) => {
