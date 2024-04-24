@@ -21,7 +21,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { uploadImageToCloudinary } from "@/util/uploadImage";
 import { updateProfileUser } from "@/redux/actions/userActions";
-export function ProfileFillSecond() {
+interface ModalProp {
+  closeModal?: () => void;
+}
+export function ProfileFillSecond({ closeModal }: ModalProp) {
   const {
     register,
     handleSubmit,
@@ -49,10 +52,10 @@ export function ProfileFillSecond() {
     //   const newResume = await uploadImageToCloudinary(value);
     //   return newResume;
     // })
-    const resumes =await Promise.all(
+    const resumes = await Promise.all(
       values.resumes.map((file) => uploadImageToCloudinary(file))
     );
-    alert(user?._id)
+    alert(user?._id);
     console.log(resumes, "()");
     dispatch(
       updateProfileUser({
@@ -61,11 +64,14 @@ export function ProfileFillSecond() {
           resumes: resumes,
           socialLink: values.sociallinks,
           profileCompleted: true,
-          stage:values.stage
+          stage: values.stage,
         },
       })
-    ).then(() => {
-      setLocalLoad(false);
+    ).then((res) => {
+      if (res.type.endsWith("fulfilled")) {
+        setLocalLoad(false);
+        closeModal && closeModal();
+      }
     });
   };
   errors;

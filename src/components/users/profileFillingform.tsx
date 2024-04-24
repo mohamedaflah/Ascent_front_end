@@ -28,7 +28,10 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { updateProfileUser } from "@/redux/actions/userActions";
 import { uploadImageToCloudinary } from "@/util/uploadImage";
 
-export function ProfileFill() {
+interface ChildProp {
+  setSecondForm: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export function ProfileFill({ setSecondForm }: ChildProp) {
   const form = useForm<z.infer<typeof userProfileFill>>({
     resolver: zodResolver(userProfileFill),
     defaultValues: {
@@ -66,15 +69,18 @@ export function ProfileFill() {
     setImgLoad(true);
     const coverImage = await uploadImageToCloudinary(values.coverImage);
     const icon = await uploadImageToCloudinary(values.icon);
-    await dispatch(
+    const res = await dispatch(
       updateProfileUser({
         userId: String(user?._id),
-        sendData: { ...values, coverImage, icon },
+        sendData: { ...values, coverImage, icon, profileCompleted: false },
       })
     );
-    localStorage.setItem("firstform", "true");
+    if (res.type.endsWith("fulfilled")) {
+      localStorage.setItem("firstform", "true");
+    }
+
+    setSecondForm(true);
     setImgLoad(false);
-    console.log("🚀 ~ profileSubmit ~ values:", values);
   }
   return (
     <main className="w-full  overflow-y-auto px-1 py-2">

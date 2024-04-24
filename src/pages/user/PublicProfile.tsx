@@ -373,7 +373,7 @@ export function PublicProfile() {
                 <>
                   {user.resumes?.map((link, index) => {
                     return (
-                      <AccordionItem value="item-1" key={index}>
+                      <AccordionItem value={`item-${index}`} key={index}>
                         <AccordionTrigger className="flex gap-2 items-center">
                           <div className="flex gap-2">
                             <img src={pdfImage} className="h-4" alt="" />

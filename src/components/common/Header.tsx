@@ -15,7 +15,7 @@ import { RootState } from "@/redux/store";
 import { CustomNavLink } from "../custom/CustomNav";
 import { Menu } from "lucide-react";
 import { NavbarSheet } from "../HeaderSheet";
-import { PrimeModal } from "../custom/primModal";
+import { PrimeModal, PrimeModalRef } from "../custom/primModal";
 import { ProfileFill } from "../users/profileFillingform";
 import { ProfileFillSecond } from "../users/profileFillSecond";
 
@@ -35,14 +35,18 @@ const Header = ({ setSideBarState }: ChildProp) => {
     setisLanding(location.pathname === "/");
   }, [location]);
   const navigate = useNavigate();
-  const modalRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<PrimeModalRef>(null);
+  const closePrimeModal = () => {
+    modalRef?.current?.closeRef?.click();
+  };
   useEffect(() => {
     setTimeout(() => {
-      if (user&& !user?.profileCompleted) {
-        modalRef?.current?.click();
+      if (user && !user?.profileCompleted) {
+        modalRef?.current?.ref?.click();
       }
-    },2000);
+    }, 2000);
   }, [user]);
+  const [secondForm, setScondForm] = useState<boolean>(false);
   return (
     <header
       className={`w-full mx-auto sticky top-0 left-0 z-10 ${
@@ -58,10 +62,10 @@ const Header = ({ setSideBarState }: ChildProp) => {
       <div className="hidden">
         <PrimeModal title="" ref={modalRef} close={false}>
           <div className="w-full max-h-[550px] flex  justify-center  ">
-            {!localStorage.getItem("firstform") ? (
-              <ProfileFill />
+            {!localStorage.getItem("firstform") || !secondForm ? (
+              <ProfileFill setSecondForm={setScondForm} />
             ) : (
-              <ProfileFillSecond />
+              <ProfileFillSecond closeModal={closePrimeModal} />
             )}
           </div>
         </PrimeModal>
