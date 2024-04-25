@@ -31,6 +31,7 @@ export interface User {
     course: string;
     year: { from: Date; to: Date };
     description: string;
+    _id:string
   }[];
   profileCompleted?: boolean;
   dateofbirth?: Date;

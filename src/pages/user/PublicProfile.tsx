@@ -32,6 +32,8 @@ import { UserUpdateExperinceForm } from "@/components/users/updateExperience";
 import ConfirmModal from "@/components/custom/confirmModal";
 import { updateProfileUser } from "@/redux/actions/userActions";
 import { UpdateSkillForm } from "@/components/users/updateSkillForm";
+import { UserAddAndUpdateEducation } from "@/components/users/addEducation";
+import { UserEducaitonUpdationForm } from "@/components/users/updateEducation";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -46,9 +48,9 @@ export function PublicProfile() {
     dispatch(
       updateProfileUser({
         userId: String(user?._id),
-        sendData:{
-          experiences:experience
-        }
+        sendData: {
+          experiences: experience,
+        },
       })
     );
   }
@@ -229,55 +231,77 @@ export function PublicProfile() {
             </div>
           </div>
           <div className="flex p-2 flex-col border">
-            <div className="w-full min-h-56 border-b p-3">
+            <div className="w-full space-y-2 border-b p-3">
               <div className="w-full h-16 flex justify-between">
                 <h1 className="maintxt text-2xl font-semibold">Education</h1>
-                <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                  <Plus className="w-5" />
-                </div>
+                <UserUpdateModalEdit ref={updateModalRef} editType="plus">
+                  <UserAddAndUpdateEducation closeModal={closeUpdateModal} />
+                </UserUpdateModalEdit>
               </div>
-              <div className="w-full flex min-h-32 gap-2 lg:gap-0 ">
-                <div className="w-28 lg:w-[15%] h-full">
-                  <div className="w-28 h-28 rounded-full ">
-                    <img
-                      src={HeaderPic}
-                      className="w-full h-full object-cover rounded-full "
-                      alt=""
-                    />
+
+              <>
+                {user && user?.education && user.education.length <= 0 && (
+                  <div className="w-full h-20">
+                    __ There is No educations added __
                   </div>
-                </div>
-                <div className="w-[86%]  h-full flex flex-col">
-                  <div className="w-full  flex justify-between">
-                    <h2 className="maintxt text-xl font-semibold">
-                      Harvard University
-                    </h2>
-                    <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                      <Edit className="w-5" />
+                )}
+                {user?.education?.map((value, index) => (
+                  <div
+                    className={`w-full flex min-h-32 gap-2 lg:gap-0 py-5 ${
+                      user &&
+                      user?.education &&
+                      index !== user?.education?.length - 1 &&
+                      "border-b"
+                    }`}
+                    vocab={value._id}
+                  >
+                    <div className="w-28 lg:w-[15%] h-full">
+                      <div className="w-28 h-28 rounded-full ">
+                        <img
+                          src={value.image}
+                          className="w-full h-full object-cover rounded-full "
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div className="w-[86%]  h-full flex flex-col">
+                      <div className="w-full  flex justify-between">
+                        <h2 className="maintxt text-xl font-semibold">
+                          {value.university}
+                        </h2>
+  
+                        <UserUpdateModalEdit ref={updateModalRef}>
+                          <UserEducaitonUpdationForm
+                            closeModal={closeUpdateModal}
+                            education={value}
+                          />
+                        </UserUpdateModalEdit>
+                      </div>
+                      <div className="w-full  flex justify-between flex-col">
+                        <h2 className="maintxt ">{value.course}</h2>
+                        <h2 className="maintxt ">
+                          {new Date(value.year.from).getFullYear()}-
+                          {new Date(value.year.to).getFullYear()}
+                        </h2>
+                      </div>
+                      <div className="divClass w-full  flex justify-between mt-3">
+                        {value.description}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full  flex justify-between flex-col">
-                    <h2 className="maintxt ">
-                      Postgraduate degree, Applied Psychology
-                    </h2>
-                    <h2 className="maintxt ">2010-1020</h2>
-                  </div>
-                  <div className="divClass w-full  flex justify-between mt-3">
-                    Created and executed social media plan for 10 brands
-                    utilizing multiple features and content types to increase
-                    brand outreach, engagement, and leads. multiple features and
-                    content types to increase brand outreach, engagement, and
-                    leads. multiple features and content types to increase brand
-                    outreach, engagement, and leads.
-                  </div>
-                </div>
-              </div>
+                ))}
+              </>
             </div>
           </div>
           <div className="flex p-2 flex-col border ">
             <div className="w-full  border-b p-3">
               <div className="w-full h-16 flex justify-between">
                 <h1 className="maintxt text-2xl font-semibold">Skills</h1>
-                <UserUpdateModalEdit editType="plus" title="update skills" ref={updateModalRef}>
+                <UserUpdateModalEdit
+                  editType="plus"
+                  title="update skills"
+                  ref={updateModalRef}
+                >
                   <UpdateSkillForm closeModal={closeUpdateModal} />
                 </UserUpdateModalEdit>
               </div>
