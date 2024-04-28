@@ -54,6 +54,10 @@ export interface Job {
   applicants?: ApplicantType[] | ApplicantType;
   applicantDetails: User;
   applicant: ApplicantType;
+  companyName?: string;
+  companyIcon?: string;
+  applicationStatus?: string[];
+  appliedDate?: Date[];
 }
 
 export interface JobfirstSchema {

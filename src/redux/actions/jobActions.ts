@@ -36,7 +36,7 @@ export const updateJob = createAsyncThunk(
   ) => {
     try {
       const { data } = await JobAxios.patch(
-        `/api/v1//job/${payload.id}`,
+        `/api/v1/job/${payload.id}`,
         payload.sendPayload
       );
       return data;
@@ -50,7 +50,7 @@ export const deleteJob = createAsyncThunk(
   "job/delete-job",
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await JobAxios.put(`/api/v1//job/${id}`);
+      const { data } = await JobAxios.put(`/api/v1/job/${id}`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -74,7 +74,7 @@ export const getAllJobs = createAsyncThunk(
       const { data } = await JobAxios.get(
         `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}`
       );
-   
+
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -206,7 +206,6 @@ export const scheduleInterview = createAsyncThunk(
 export const fetchSelectedAndRejectedCandidates = createAsyncThunk(
   "job/selected-rejected-candidate",
   async (copmanyId: string, { rejectWithValue }) => {
-
     try {
       const { data } = await JobAxios.post(`api/v1/candidates`, {
         companyId: copmanyId,
@@ -235,6 +234,18 @@ export const updateInterviewFeedback = createAsyncThunk(
         `api/v1/interview-feedback`,
         sendData
       );
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const getMyApplication = createAsyncThunk(
+  "job/getapplication",
+  async(userId: string, { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.get(`api/v1/application/${userId}`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

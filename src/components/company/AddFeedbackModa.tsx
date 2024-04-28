@@ -32,13 +32,7 @@ interface ChildProp {
   interviewId: string;
 }
 
-// {
-//     jobId: string;
-//     applicantId: string;
-//     interivewId: string;
-//     feedbackDescription: string;
-//     feedback: string;
-//   }
+
 const feedbackFormSchema = z.object({
   feedback: z.string().min(2).max(300),
   feedbackDescription: z.string().min(5),

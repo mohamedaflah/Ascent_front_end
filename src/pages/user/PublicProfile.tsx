@@ -6,7 +6,6 @@ import {
   Mail,
   MapPin,
   Phone,
-  Plus,
   Trash2Icon,
 } from "lucide-react";
 import HeaderPic from "../../assets/Header_Photo.svg";
@@ -34,6 +33,7 @@ import { updateProfileUser } from "@/redux/actions/userActions";
 import { UpdateSkillForm } from "@/components/users/updateSkillForm";
 import { UserAddAndUpdateEducation } from "@/components/users/addEducation";
 import { UserEducaitonUpdationForm } from "@/components/users/updateEducation";
+import { UserAddResume } from "@/components/users/addResumeForm";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -269,7 +269,7 @@ export function PublicProfile() {
                         <h2 className="maintxt text-xl font-semibold">
                           {value.university}
                         </h2>
-  
+
                         <UserUpdateModalEdit ref={updateModalRef}>
                           <UserEducaitonUpdationForm
                             closeModal={closeUpdateModal}
@@ -338,7 +338,9 @@ export function PublicProfile() {
                 <Phone className="w-5" />
                 <h1 className="maintxt ">Phone</h1>
               </div>
-              <div className="pl-7 font-semibold">94559399</div>
+              <div className="pl-7 font-semibold">
+                {user && user.phonenumber && user.phonenumber}
+              </div>
             </div>
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
@@ -356,7 +358,7 @@ export function PublicProfile() {
             <div className="w-full flex flex-col mt-3 ">
               <div className="flex gap-2 text-textPrimary">
                 <Languages className="w-5" />
-                <h1 className="maintxt ">Phone</h1>
+                <h1 className="maintxt ">Langugates</h1>
               </div>
               <div className="pl-7 font-semibold">
                 <span>English</span>
@@ -385,12 +387,14 @@ export function PublicProfile() {
           </div>
           <div className="w-full p-3 border">
             <div className="w-full h-10 flex justify-end gap-2">
-              <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                <Plus className="w-5" />
-              </div>
-              <div className="h-10 w-10 flex justify-center items-center border text-primary">
-                <Edit className="w-5" />
-              </div>
+              <UserUpdateModalEdit editType="plus" ref={updateModalRef}>
+                <UserAddResume
+                  currentResumes={
+                    user.resumes && user.resumes.length > 0 ? user.resumes : []
+                  }
+                  closeModal={closeUpdateModal}
+                />
+              </UserUpdateModalEdit>
             </div>
             <Accordion type="single" collapsible className="w-full">
               {user?.resumes && user?.resumes.length > 0 && (

@@ -8,6 +8,7 @@ import {
   getAllJobs,
   getApplicants,
   getJobWithCompany,
+  getMyApplication,
   getOneApplicant,
   getSpecificJob,
   scheduleInterview,
@@ -253,7 +254,20 @@ const jobReducer = createSlice({
         state.loading = false;
         state.job = null;
         state.err = (payload as ErrorPayload).message;
-        toast.error(state.err)
+        toast.error(state.err);
+      })
+      .addCase(getMyApplication.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getMyApplication.fulfilled, (state, { payload }) => {
+        state.jobs = payload.applicant;
+        state.loading = false;
+        state.err = false;
+      })
+      .addCase(getMyApplication.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = (payload as ErrorPayload).message;
+        toast.error(state.err);
       });
   },
 });

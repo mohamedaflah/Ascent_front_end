@@ -34,7 +34,10 @@ import { useEffect, useRef } from "react";
 import { LoaderSubmitButton } from "../custom/LoaderButton";
 import { User } from "@/types/types.user";
 import { format } from "date-fns";
-import { chanagePassword } from "@/redux/actions/userActions";
+import {
+  chanagePassword,
+  updateProfileUser,
+} from "@/redux/actions/userActions";
 const profileSchema = z.object({
   phonenumber: z.string().min(10).max(10),
   dateofbirth: z.string().nonempty(),
@@ -82,6 +85,19 @@ export function AdditionalDetailsEdit() {
     values: z.infer<typeof profileSchema>
   ) {
     values;
+    dispatch(
+      updateProfileUser({
+        userId: String(user?._id),
+        sendData: {
+          phonenumber: values.phonenumber,
+          dateofbirth: values.dateofbirth,
+        },
+      })
+    ).then((res) => {
+      if (res.type.endsWith("fulfilled")) {
+        closeRef.current?.click();
+      }
+    });
   }
   const dispatch: AppDispatch = useDispatch();
   async function PassChangeSubmit(values: z.infer<typeof passSchema>) {
