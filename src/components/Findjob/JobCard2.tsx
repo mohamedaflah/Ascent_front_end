@@ -21,16 +21,14 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
   const hadleClick = (id: string) => {
     dispatch(getSpecificJob(id));
   };
-  
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSaveJob = (e:any,jobId: string,type:"add"|"delete") => {
-    // e.stopPropegation()
-    dispatch(saveNewJob({ userId: user?._id, jobId: jobId, type: type }))
+  const handleSaveJob = (e: any, jobId: string, type: "add" | "delete") => {
+  
+    e;
+    dispatch(saveNewJob({ userId: user?._id, jobId: jobId, type: type }));
   };
-//   useEffect(()=>{
-// alert(`OPPIOPKlm _ ${job?._id} ${savedJobs.includes(job?._id)} ${user?.savedJobs.includes(String(job?._id))}`)
-//   },[savedJobs])
+
   return (
     <div
       className={`w-full min-h-36 border  flex justify-center items-center  transition-all duration-500 cursor-pointer rounded-[5px] ${
@@ -70,15 +68,17 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
           </div>
         </div>
         <div className="w-60 flex flex-col items-end  gap-2  justify-between">
-          <div
-          >
-            {!user?.savedJobs.includes(String(job?._id))? (
+          <div>
+            {!user?.savedJobs.includes(String(job?._id)) ? (
               <Bookmark
                 className="w-5"
-                onClick={(e) => handleSaveJob(e,String(job?._id),"add")}
+                onClick={(e) => handleSaveJob(e, String(job?._id), "add")}
               />
             ) : (
-              <BsBookmarkStarFill className="text-lg" onClick={(e) => handleSaveJob(e,String(job?._id),"delete")} />
+              <BsBookmarkStarFill
+                className="text-lg"
+                onClick={(e) => handleSaveJob(e, String(job?._id), "delete")}
+              />
             )}
           </div>
           <div className="maintxt text-green-600 flex gap-1 items-center">
