@@ -67,12 +67,13 @@ export const getAllJobs = createAsyncThunk(
       category?: string;
       employment?: string;
       search?: string;
+      skills?: string[];
     },
     { rejectWithValue }
   ) => {
     try {
       const { data } = await JobAxios.get(
-        `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}`
+        `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}&skills=${query.skills}`
       );
 
       return data;
@@ -243,7 +244,7 @@ export const updateInterviewFeedback = createAsyncThunk(
 
 export const getMyApplication = createAsyncThunk(
   "job/getapplication",
-  async(userId: string, { rejectWithValue }) => {
+  async (userId: string, { rejectWithValue }) => {
     try {
       const { data } = await JobAxios.get(`api/v1/application/${userId}`);
       return data;

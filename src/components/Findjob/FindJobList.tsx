@@ -23,6 +23,18 @@ export function FindJobList() {
     }
   }, [dispatch, job, jobs]);
 
+  const calculateMatchCount = (jobSkills: string[]) => {
+    if (user) {
+      const skillsToMatch = user?.skills; // Your provided skills
+      return jobSkills.filter((skill) => skillsToMatch.includes(skill)).length;
+    }
+  };
+  const updatedJobs = jobs?.map((job) => ({
+    ...job,
+    matchCount: calculateMatchCount(job.skills as string[]),
+  }));
+  const sortedJobs = updatedJobs?.sort((a, b) => Number(b.matchCount) - Number(a.matchCount));
+
   return (
     <main className="w-full h-[768px] flex ">
       <FindJobFilterBar />
@@ -36,13 +48,15 @@ export function FindJobList() {
           </div>
         </div>
         <div className="w-full mt-3   h-full flex gap-2">
-          <div className=" w-full  lg:w-[680px]  h-full space-y-3  "> {/*xl:w-[410px] removed lg:w-[500px] removed */}
+          <div className=" w-full  lg:w-[680px]  h-full space-y-3  ">
+            {" "}
+            {/*xl:w-[410px] removed lg:w-[500px] removed */}
             {/* {jobs?.map((value) => (
               <JobCompanyCard2 key={value?._id} jobData={value} />
             ))} */}
             {jobs && jobs?.length > 0 ? (
               <>
-                {jobs.map((value) => (
+                {sortedJobs?.map((value) => (
                   <JobCompanyCard2 key={value?._id} jobData={value} />
                 ))}
               </>

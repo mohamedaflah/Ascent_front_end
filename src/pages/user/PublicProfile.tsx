@@ -386,11 +386,50 @@ export function PublicProfile() {
             })}
           </div>
           <div className="w-full p-3 border">
-            <div className="w-full h-10 flex justify-end gap-2">
+            <div className="w-full h-10 flex justify-between items-center gap-2">
+              <div>
+                <h2 className="text-[15px] font-semibold">Resumes</h2>
+              </div>
               <UserUpdateModalEdit editType="plus" ref={updateModalRef}>
                 <UserAddResume
                   currentResumes={
-                    user.resumes && user.resumes.length > 0 ? user.resumes : []
+                    user?.resumes && user?.resumes.length > 0 ? user?.resumes : []
+                  }
+                  closeModal={closeUpdateModal}
+                />
+              </UserUpdateModalEdit>
+            </div>
+            <Accordion type="single" collapsible className="w-full">
+              {user?.resumes && user?.resumes.length > 0 && (
+                <>
+                  {user.resumes?.map((link, index) => {
+                    return (
+                      <AccordionItem value={`item-${index}`} key={index}>
+                        <AccordionTrigger className="flex gap-2 items-center">
+                          <div className="flex gap-2">
+                            <img src={pdfImage} className="h-4" alt="" />
+                            Resume {index + 1}
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="h-auto">
+                          <embed src={link} className="w-full h-96" type="" />
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </>
+              )}
+            </Accordion>
+          </div>
+          <div className="w-full p-3 border">
+            <div className="w-full h-10 flex justify-between items-center gap-2">
+              <div>
+                <h2 className="text-[15px] font-semibold">Certifications</h2>
+              </div>
+              <UserUpdateModalEdit editType="plus" ref={updateModalRef}>
+                <UserAddResume
+                  currentResumes={
+                    user?.resumes && user?.resumes?.length > 0 ? user?.resumes : []
                   }
                   closeModal={closeUpdateModal}
                 />

@@ -17,20 +17,26 @@ export function FindJobs() {
   const { user } = useSelector((state: RootState) => state.userData);
   const { pages } = useSelector((state: RootState) => state.job);
 
-  
   const dispatch: AppDispatch = useDispatch();
   const [searchParam, setSearchParam] = useSearchParams();
   useEffect(() => {
+    let skills: string[];
+    if (user) {
+      skills = [...user.skills];
+    } else {
+      skills = [];
+    }
     dispatch(
       getAllJobs({
         page: Number(searchParam.get("page")),
         pageSize: Number(searchParam.get("pageSize")),
-        category: (String(searchParam.get("category"))),
+        category: String(searchParam.get("category")),
         employment: String(searchParam.get("employment")),
-        search:String(searchParam.get('search'))
+        search: String(searchParam.get("search")),
+        skills: skills,
       })
     );
-  }, [dispatch, searchParam]);
+  }, [dispatch, searchParam, user]);
   const handleButtonClick = (num: number, from: "firstpage" | "other") => {
     const params = new URLSearchParams(searchParam);
     if (from === "other") {
