@@ -17,6 +17,7 @@ export function FindJobs() {
   const { user } = useSelector((state: RootState) => state.userData);
   const { pages } = useSelector((state: RootState) => state.job);
 
+  
   const dispatch: AppDispatch = useDispatch();
   const [searchParam, setSearchParam] = useSearchParams();
   useEffect(() => {

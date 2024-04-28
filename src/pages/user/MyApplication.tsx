@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 export function MyApplication() {
   const { user } = useSelector((state: RootState) => state.userData);
-  const { jobs } = useSelector((state: RootState) => state.job);
+  const { applications } = useSelector((state: RootState) => state.job);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     if (user) {
@@ -18,8 +18,8 @@ export function MyApplication() {
     <div className=" flex-1 flex-col space-y-8 p-8 md:flex">
       {" "}
       {/*h-full removed*/}
-      {jobs && (
-        <DataTable data={jobs} columns={MyapplicatonColumn} from="Applicants" />
+      {applications && (
+        <DataTable data={applications} columns={MyapplicatonColumn} from="Applicants" />
       )}
     </div>
   );
