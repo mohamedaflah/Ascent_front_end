@@ -9,6 +9,7 @@ import {
   LogOut,
   HelpCircle,
   AppWindow,
+  Bookmark,
 
 } from "lucide-react";
 
@@ -56,6 +57,12 @@ export const userSidebarLayout: Labels[] = [
     label: "My applications",
     icon: AppWindow ,
     link:"Myapplication"
+  },
+  {
+    id: uuidv4(),
+    label: "Bookmark",
+    icon: Bookmark ,
+    link:"savedjobs"
   },
 ];
 

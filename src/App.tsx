@@ -38,6 +38,7 @@ import { MyApplication } from "./pages/user/MyApplication";
 import { SignupPage } from "./pages/user/Signup";
 import { LoginPage } from "./pages/user/Login";
 import { OtpPage } from "./pages/user/Otp";
+import { SavedJobs } from "./pages/user/savedJobs";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -125,9 +126,10 @@ function App() {
           <Route path="settings/:id" element={<ProfileLayout />}>
             <Route index element={<MyProfile />} />
           </Route>
-          <Route path="myprofile/:id" element={<PublicProfile />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="Myapplication" element={<MyApplication />} />
+          <Route path="myprofile/:id" element={!user?<Navigate to={"/"}/>:<PublicProfile />} />
+          <Route path="messages" element={!user?<Navigate to={"/"}/>:<Messages />} />
+          <Route path="Myapplication" element={!user?<Navigate to={"/"}/>:<MyApplication />} />
+          <Route path="savedjobs" element={<SavedJobs />} />
           <Route path="/signup" element={!user?<SignupPage />:<Navigate to={"/"}/>} />
           <Route path="/login" element={ !user?<LoginPage />:<Navigate to={"/"}/>} />
           <Route path="/verify-otp" element={!user && localStorage.getItem("signupToken")?<OtpPage />:<Navigate to={'/'} />} />

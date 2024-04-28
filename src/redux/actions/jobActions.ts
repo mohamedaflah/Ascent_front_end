@@ -253,3 +253,18 @@ export const getMyApplication = createAsyncThunk(
     }
   }
 );
+
+// http://localhost:5005/api/job-service/api/v1/saved-jobs
+export const getBookMarkJobs = createAsyncThunk(
+  "job/getbookmark",
+  async (jobdId: string[], { rejectWithValue }) => {
+    try {
+      const { data } = await JobAxios.post(`api/v1/saved-jobs`, {
+        jobIds: jobdId,
+      });
+      return data;
+    } catch (error) {
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);

@@ -17,7 +17,7 @@ export interface User {
     description: string;
     location: string;
     image: string;
-    _id:string
+    _id: string;
   }[];
   personalsite?: string;
   sociallinks?: string[];
@@ -31,7 +31,7 @@ export interface User {
     course: string;
     year: { from: Date; to: Date };
     description: string;
-    _id:string
+    _id: string;
   }[];
   profileCompleted?: boolean;
   dateofbirth?: Date;
@@ -40,4 +40,5 @@ export interface User {
   messageCount?: number;
   resumes?: string[];
   stage?: string;
+  savedJobs?: string[];
 }

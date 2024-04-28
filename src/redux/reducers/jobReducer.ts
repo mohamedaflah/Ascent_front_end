@@ -7,6 +7,7 @@ import {
   fetchSelectedAndRejectedCandidates,
   getAllJobs,
   getApplicants,
+  getBookMarkJobs,
   getJobWithCompany,
   getMyApplication,
   getOneApplicant,
@@ -27,7 +28,9 @@ const initialState: JobReduerInitial = {
   applicants: null,
   pages: 0,
   candidate: null,
-  applications:null
+  applications: null,
+  bookmark: null,
+  bookmarks: null,
 };
 const jobReducer = createSlice({
   name: "jobs",
@@ -269,6 +272,18 @@ const jobReducer = createSlice({
         state.loading = false;
         state.err = (payload as ErrorPayload).message;
         toast.error(state.err);
+      })
+      .addCase(getBookMarkJobs.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getBookMarkJobs.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.bookmarks = payload.jobs;
+      })
+      .addCase(getBookMarkJobs.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.err = (payload as ErrorPayload).message;
+        toast.error(state.err)
       });
   },
 });

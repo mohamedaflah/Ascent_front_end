@@ -5,7 +5,9 @@ export type JobReduerInitial = {
   loading: boolean;
   err: boolean | string;
   job: Job | null;
+  bookmark: Job | null;
   jobs: Job[] | null;
+  bookmarks: Job[] | null;
   applicants: Applicant[] | null;
   pages?: number;
   candidate: Applicant[] | null;

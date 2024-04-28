@@ -24,7 +24,7 @@ export type UserReducerInitial = {
   user: null | any;
   message?: string;
   status?: string;
-  
+  savedJobs:string[]
 };
 
 export type userType = {

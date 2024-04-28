@@ -167,7 +167,7 @@ export const updateProfileUser = createAsyncThunk(
     sendPayload: {
       userId: string;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      sendData: any
+      sendData: any;
     },
     { rejectWithValue }
   ) => {
@@ -203,7 +203,7 @@ export const verifyOtp = createAsyncThunk(
   async (sendData: { otp: string }, { rejectWithValue }) => {
     try {
       const userData = localStorage.getItem("signupToken");
-      
+
       if (!userData) {
         throw new Error("signupToken not found in localStorage");
       }
@@ -212,19 +212,34 @@ export const verifyOtp = createAsyncThunk(
       const decodedUserData: any = decodeJWT(userData);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getPalyload: any = decodedUserData.payload;
-      
+
       console.log(userData);
       console.log(getPalyload);
-      
+
       const { data } = await AuthAxios.post(`/verify-otp`, {
         ...sendData,
         email: getPalyload?.email,
         userData: getPalyload,
       });
-      localStorage.removeItem("signupToken")
+      localStorage.removeItem("signupToken");
       return data;
     } catch (error) {
       console.error(error);
+      return rejectWithValue(handleErrors(error));
+    }
+  }
+);
+
+export const saveNewJob = createAsyncThunk(
+  "user/savenewjob",
+  async (body: { userId: string; jobId: string,type:"add"|"delete" }, { rejectWithValue }) => {
+    try {
+      const { data } = await UserAxios.post(`/user/saved-job?type=${body.type}`, {
+        userId: body.userId,
+        jobId: body.jobId,
+      });
+      return data
+    } catch (error) {
       return rejectWithValue(handleErrors(error));
     }
   }

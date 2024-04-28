@@ -7,6 +7,7 @@ import {
   loginUser,
   logoutUser,
   resendMail,
+  saveNewJob,
   signupUser,
   updateProfileUser,
   verifyOtp,
@@ -29,7 +30,7 @@ const initialState: UserReducerInitial = {
   user: null,
   message: "",
   status: "",
-  
+  savedJobs: [],
 };
 
 const userReducer = createSlice({
@@ -55,7 +56,6 @@ const userReducer = createSlice({
         });
       })
       .addCase(signupUser.rejected, (state, { payload }) => {
-
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
@@ -85,7 +85,7 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
-        console.log("🚀 ~ .addCase ~ payload:", payload)
+        console.log("🚀 ~ .addCase ~ payload:", payload);
         state.loading = false;
         state.err = false;
         state.user = payload?.user;
@@ -131,7 +131,6 @@ const userReducer = createSlice({
         state.user = payload?.user;
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
-
         state.loading = false;
         const errorPayload = payload as ErrorPayload;
         state.err = errorPayload.message;
@@ -143,7 +142,6 @@ const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(companySignupSubmit.fulfilled, (state, { payload }) => {
-
         state.loading = false;
         state.err = false;
         state.role = payload.role;
@@ -292,7 +290,7 @@ const userReducer = createSlice({
         if (payload.role === "company") {
           state.status = payload.approvelStatus;
         }
-        toast.success("profile updated")
+        toast.success("profile updated");
       })
       .addCase(updateProfileUser.rejected, (state, { payload }) => {
         const errorPayload = payload as ErrorPayload;
@@ -330,6 +328,23 @@ const userReducer = createSlice({
         toast.error(errorPayload.message);
         state.user = null;
       })
+      .addCase(saveNewJob.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(saveNewJob.fulfilled, (state, { payload }) => {
+        console.log("🚀 ~ .addCase ~ payload:", payload.savedjobs);
+        state.savedJobs = [...payload.savedjobs];
+        state.user.savedJobs = payload.savedjobs;
+        console.log("🚀 ~ .addCase ~ state:", state.savedJobs);
+        state.loading = false;
+        state.err = false;
+        toast.success(payload.message);
+      })
+      .addCase(saveNewJob.rejected, (state, { payload }) => {
+        state.err = (payload as ErrorPayload).message;
+        state.loading = false;
+        toast.error(state.err);
+      });
   },
 });
 export default userReducer.reducer;

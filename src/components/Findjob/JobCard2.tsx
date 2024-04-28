@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { BsBookmarkStarFill } from "react-icons/bs";
 import { getSpecificJob } from "@/redux/actions/jobActions";
+import { saveNewJob } from "@/redux/actions/userActions";
 interface ChildProp {
   jobData: Job;
 }
@@ -16,14 +17,26 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
   }, [jobData]);
   const dispatch: AppDispatch = useDispatch();
   const { job: jobDetail } = useSelector((state: RootState) => state.job);
+  const { user } = useSelector((state: RootState) => state.userData);
   const hadleClick = (id: string) => {
     dispatch(getSpecificJob(id));
   };
-  const [saved, setSaved] = useState<boolean>(false);
+  
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSaveJob = (e:any,jobId: string,type:"add"|"delete") => {
+    // e.stopPropegation()
+    dispatch(saveNewJob({ userId: user?._id, jobId: jobId, type: type }))
+  };
+//   useEffect(()=>{
+// alert(`OPPIOPKlm _ ${job?._id} ${savedJobs.includes(job?._id)} ${user?.savedJobs.includes(String(job?._id))}`)
+//   },[savedJobs])
   return (
     <div
       className={`w-full min-h-36 border  flex justify-center items-center  transition-all duration-500 cursor-pointer rounded-[5px] ${
-        jobDetail?._id == job?._id ?"bg-backgroundAccent":"hover:bg-backgroundAccent/55"
+        jobDetail?._id == job?._id
+          ? "bg-backgroundAccent"
+          : "hover:bg-backgroundAccent/55"
       }`}
       onClick={() => hadleClick(job?._id ?? "")}
     >
@@ -58,15 +71,14 @@ export function JobCompanyCard2({ jobData }: ChildProp) {
         </div>
         <div className="w-60 flex flex-col items-end  gap-2  justify-between">
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setSaved(!saved);
-            }}
           >
-            {!saved ? (
-              <Bookmark className="w-5" />
+            {!user?.savedJobs.includes(String(job?._id))? (
+              <Bookmark
+                className="w-5"
+                onClick={(e) => handleSaveJob(e,String(job?._id),"add")}
+              />
             ) : (
-              <BsBookmarkStarFill className="text-lg" />
+              <BsBookmarkStarFill className="text-lg" onClick={(e) => handleSaveJob(e,String(job?._id),"delete")} />
             )}
           </div>
           <div className="maintxt text-green-600 flex gap-1 items-center">
