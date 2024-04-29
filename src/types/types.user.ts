@@ -41,4 +41,5 @@ export interface User {
   resumes?: string[];
   stage?: string;
   savedJobs?: string[];
+  certification?:{title:string,file:string}[]
 }

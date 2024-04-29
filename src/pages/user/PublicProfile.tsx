@@ -33,7 +33,8 @@ import { updateProfileUser } from "@/redux/actions/userActions";
 import { UpdateSkillForm } from "@/components/users/updateSkillForm";
 import { UserAddAndUpdateEducation } from "@/components/users/addEducation";
 import { UserEducaitonUpdationForm } from "@/components/users/updateEducation";
-import { UserAddResume } from "@/components/users/addResumeForm";
+import {  UserAddResume } from "@/components/users/addResumeForm";
+import { UserAddCertificate } from "@/components/users/userAddCertificationiForm";
 export function PublicProfile() {
   const { user }: { user: User } = useSelector(
     (state: RootState) => state.userData
@@ -427,28 +428,26 @@ export function PublicProfile() {
                 <h2 className="text-[15px] font-semibold">Certifications</h2>
               </div>
               <UserUpdateModalEdit editType="plus" ref={updateModalRef}>
-                <UserAddResume
-                  currentResumes={
-                    user?.resumes && user?.resumes?.length > 0 ? user?.resumes : []
-                  }
+                <UserAddCertificate
+
                   closeModal={closeUpdateModal}
                 />
               </UserUpdateModalEdit>
             </div>
             <Accordion type="single" collapsible className="w-full">
-              {user?.resumes && user?.resumes.length > 0 && (
+              {user?.certification && user?.certification.length > 0 && (
                 <>
-                  {user.resumes?.map((link, index) => {
+                  {user.certification?.map((certificate, index) => {
                     return (
                       <AccordionItem value={`item-${index}`} key={index}>
                         <AccordionTrigger className="flex gap-2 items-center">
                           <div className="flex gap-2">
                             <img src={pdfImage} className="h-4" alt="" />
-                            Resume {index + 1}
+                            {certificate.title} 
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="h-auto">
-                          <embed src={link} className="w-full h-96" type="" />
+                          <embed src={certificate.file} className="w-full h-96" type="" />
                         </AccordionContent>
                       </AccordionItem>
                     );
