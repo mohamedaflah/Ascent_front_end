@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useSearchParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
+import { locationsInIndia } from "@/constants/locations";
 // import { useSearchParams } from "react-router-dom";
 
 interface ChildPrope {
@@ -102,15 +103,13 @@ export function FindbJobHero({
                 //  onValueChange={handleLocationChange}
                 >
                   <SelectTrigger className="w-full bg-transparent  focus:ring-0 focus:ring-offset-0   outline-none  focus-visible:ring-0 focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300">
-                    <SelectValue placeholder="Kolkata,India" />
+                    <SelectValue placeholder="select location" />
                   </SelectTrigger>
                   <SelectContent className="w-full">
                     <SelectGroup>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem>
+                      {locationsInIndia.map((locatoin) => (
+                        <SelectItem value={locatoin}>{locatoin}</SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
