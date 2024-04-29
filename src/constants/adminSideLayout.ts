@@ -28,24 +28,24 @@ export const adminSidebarLabel: Labels[] = [
     icon: GitPullRequest,
     link: "approvels/?page=1&pageSize=7",
   },
-  {
-    id: uuidv4(),
-    label: "Users",
-    icon: Users,
-    link: "users",
-  },
-  {
-    id: uuidv4(),
-    label: "Companies",
-    icon: Building2,
-    link: "companies",
-  },
-  {
-    id: uuidv4(),
-    label: "Applicants",
-    icon: AppWindow,
-    link: "applicatns",
-  },
+  // {
+  //   id: uuidv4(),
+  //   label: "Users",
+  //   icon: Users,
+  //   link: "users",
+  // },
+  // {
+  //   id: uuidv4(),
+  //   label: "Companies",
+  //   icon: Building2,
+  //   link: "companies",
+  // },
+  // {
+  //   id: uuidv4(),
+  //   label: "Applicants",
+  //   icon: AppWindow,
+  //   link: "applicatns",
+  // },
   {
     id: uuidv4(),
     label: "Categories",
