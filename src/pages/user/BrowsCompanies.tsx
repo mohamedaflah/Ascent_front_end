@@ -9,9 +9,11 @@ export const BrowsCompanies = () => {
   const { companies } = useSelector((state: RootState) => state.chats);
   const dispatch: AppDispatch = useDispatch();
 
+  
   useEffect(() => {
-    dispatch(getAllcompaniesforchat());
+    dispatch(getAllcompaniesforchat({type:"user"}));
   }, [dispatch]);
+  
   return (
     <main className="w-full min-h-screen pb-5">
       <FindbJobHero
@@ -32,7 +34,7 @@ export const BrowsCompanies = () => {
             Based on your profile, company preferences, and recent activity
           </h3>
         </div>
-        <div className="w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid xl:grid-cols-5 mt-5 gap-y-5">
+        <div className="w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid xl:grid-cols-5 ga mt-5 gap-2">
           {companies?.map((company) => (
             <div key={company?._id} className="flex justify-center">
               <div className="w-64 p-5 h-64 border rounded-sm">

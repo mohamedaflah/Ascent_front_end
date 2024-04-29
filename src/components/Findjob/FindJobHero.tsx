@@ -12,11 +12,12 @@ import {
 } from "@/shadcn/ui/select";
 // import { SelectLabel } from "@radix-ui/react-select";
 import { Button } from "@/shadcn/ui/button";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useSearchParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { locationsInIndia } from "@/constants/locations";
+import { getAllcompaniesforchat } from "@/redux/actions/chatActions";
 // import { useSearchParams } from "react-router-dom";
 
 interface ChildPrope {
@@ -40,6 +41,12 @@ export function FindbJobHero({
       setSearchVal(searchValue);
     }
   }, []);
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    const param = new URLSearchParams(searchParam);
+    const name = param.get("search");
+    dispatch(getAllcompaniesforchat({ type: "user", query: `name=${name}` }));
+  }, [dispatch, searchParam]);
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchVal(event.target.value);
     setValuetoSearchBox(event.target.value);
@@ -48,7 +55,7 @@ export function FindbJobHero({
     location;
     const param = new URLSearchParams(searchParam);
     param.set("location", location);
-    setSearchParam(param)
+    setSearchParam(param);
   };
   const setValuetoSearchBox = (value: string) => {
     const param = new URLSearchParams(searchParam);
@@ -58,6 +65,7 @@ export function FindbJobHero({
       setSearchParam(param);
     }, 1000);
   };
+
   return (
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">
       <div className="w-full h-52  flex justify-center items-end">
@@ -96,7 +104,7 @@ export function FindbJobHero({
                   type="search"
                   onChange={handleSearchChange}
                   value={searchVal}
-                  placeholder="job title or keyword"
+                  placeholder="companies"
                   className="bg-transparent outline-none  focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300"
                 />
               </div>

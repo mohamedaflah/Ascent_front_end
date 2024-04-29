@@ -8,9 +8,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 } from "uuid";
 export const getAllcompaniesforchat = createAsyncThunk(
   "chat/get-allcomapnies",
-  async (_, { rejectWithValue }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (body: { type: "user" | "chat"; query?: any }, { rejectWithValue }) => {
     try {
-      const { data } = await CompanyAxios.get(`/get-allcompanies`);
+      body;
+      const { data } = await CompanyAxios.get(`/get-allcompanies?${body.query}`);
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
@@ -52,7 +54,6 @@ export const getAllUsersforChat = createAsyncThunk(
 export const fetchUnreadAndLastMessage = createAsyncThunk(
   "chat/fetch-last-unread-message",
   async (sendPayload: { userId: string }, { rejectWithValue }) => {
-
     try {
       const { data } = await CommunicationAxios.post(
         `/api/v2/chats/${v4()}`,

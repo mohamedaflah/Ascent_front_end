@@ -72,9 +72,7 @@ export const getAllJobs = createAsyncThunk(
     },
     { rejectWithValue }
   ) => {
-    try {
-      console.log("🚀 ~ location:", `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&category=${query.category}&employment=${query.employment}&search=${query.search}&skills=${query.skills}&location=${query.location}`)
-      
+    try { 
       const { data } = await JobAxios.get(
         `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&location=${query.location}&category=${query.category}&employment=${query.employment}&search=${query.search}&skills=${query.skills}&`
       );

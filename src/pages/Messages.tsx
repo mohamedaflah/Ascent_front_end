@@ -49,7 +49,7 @@ export function Messages() {
   useEffect(() => {
     if (initialLoad) {
       if (role === "user") {
-        dispatch(getAllcompaniesforchat()).then(() => {
+        dispatch(getAllcompaniesforchat({ type: "chat" })).then(() => {
           dispatch(fetchUnreadAndLastMessage({ userId: user?._id })).then(
             () => {}
           );
@@ -65,8 +65,6 @@ export function Messages() {
       }
     }
   }, [dispatch, role, user]);
-
- 
 
   const socket = useContext(SocketContext);
 
@@ -133,7 +131,6 @@ export function Messages() {
   useEffect(() => {
     if (chatId) {
       dispatch(getAllMessages(String(chatId))).then(() => {
-
         dispatch(
           updateMessageStatusLocaly({
             chatId: String(chatId),
