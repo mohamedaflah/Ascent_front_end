@@ -26,14 +26,16 @@ export function FindJobs() {
     } else {
       skills = [];
     }
+    
     dispatch(
       getAllJobs({
         page: Number(searchParam.get("page")),
         pageSize: Number(searchParam.get("pageSize")),
-        category: String(searchParam.get("category")),
+        category: `${String(searchParam.get("category"))}`,
         employment: String(searchParam.get("employment")),
         search: String(searchParam.get("search")),
         skills: skills,
+        location:String(searchParam.get("location"))
       })
     );
   }, [dispatch, searchParam, user]);

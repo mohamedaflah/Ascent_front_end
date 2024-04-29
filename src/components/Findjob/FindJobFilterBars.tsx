@@ -1,6 +1,11 @@
 import { getAllCategories } from "@/redux/actions/categoryAction";
 import { AppDispatch, RootState } from "@/redux/store";
-import { ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  ListFilterIcon,
+  SlidersHorizontal,
+} from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -15,6 +20,7 @@ export function FindJobFilterBar() {
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
+  const [filterClear, setFilterClear] = useState<boolean>(false);
   const [searchParam, setSearchParam] = useSearchParams();
   const handleChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -58,6 +64,26 @@ export function FindJobFilterBar() {
       setSearchParam(params);
     }
   };
+  const handleClearFilter = () => {
+    const param = new URLSearchParams(searchParam);
+    param.delete("location");
+    param.delete("employment");
+    param.delete("category");
+    param.delete("search");
+    setSearchParam(param);
+  };
+  useEffect(() => {
+    const param = new URLSearchParams(searchParam);
+    param.get("location");
+    param.get("employment")
+    param.get("category")
+    param.get("search");
+    if(param.get("location")||param.get("employment")||param.get("category")||param.get("search")){
+      setFilterClear(true)
+    }else{
+      setFilterClear(false)
+    }
+  }, [filterClear, searchParam]);
   return (
     <aside
       className={`hidden h-full   lg:flex flex-col pr-2 transition-all duration-300 ${
@@ -76,6 +102,15 @@ export function FindJobFilterBar() {
             <div className="flex justify-between">
               <h2 className="text- font-bold ">Type of Employment </h2>
             </div>
+            {filterClear&&(
+
+            <button
+              className="h-8 cursor-pointer w-24  gap-1  rounded-md bg-primary/75 flex items-center justify-center"
+              onClick={handleClearFilter}
+            >
+              clear filter <ListFilterIcon className="w-4" />
+            </button>
+            )}
             <div className="flex flex-col gap-2">
               {employmentType.map((value) => (
                 <div key={value} className="flex gap-3 items-center">
@@ -103,7 +138,6 @@ export function FindJobFilterBar() {
                 />
               ) : (
                 <>
-                
                   <ChevronDown
                     className="w-5"
                     onClick={() => setCategoryFilter(!categoryFilter)}
@@ -111,9 +145,7 @@ export function FindJobFilterBar() {
                 </>
               )}
             </div>
-            <div
-              className={`flex flex-col gap-2`}
-            >
+            <div className={`flex flex-col gap-2`}>
               {categories
                 ?.filter((value) => value.status)
                 .map((value) => {
