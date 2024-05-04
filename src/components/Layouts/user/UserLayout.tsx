@@ -115,7 +115,7 @@ function UserLayout() {
             <div
               className={`h-16 w-16  rounded-full flex items-center justify-center `}
             >
-              <img src={user?.icon?user?.icon:defaultProfile} alt="" className="rounded-full object-cover h-full w-full" />
+              <img src={user?.icon?user?.icon:defaultProfile} alt="" className="rounded-full object-cover size-12" />
             </div>
             {sideExpand && (
               <div className="flex flex-col h-20 justify-center gap-1 line-clamp-1 pr-2">
