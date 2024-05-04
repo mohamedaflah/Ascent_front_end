@@ -55,7 +55,6 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
     const resumes = await Promise.all(
       values.resumes.map((file) => uploadImageToCloudinary(file))
     );
-    alert(user?._id);
     console.log(resumes, "()");
     dispatch(
       updateProfileUser({

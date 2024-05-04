@@ -115,7 +115,6 @@ export function DocumentReupload() {
       updateCompleteProfileCompany({ data: values, id: String(user._id) })
     );
     if (res.type == "fulfilled") {
-      alert("dk");
       toast.success("Documents updated");
     }
   };

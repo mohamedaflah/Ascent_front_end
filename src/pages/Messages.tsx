@@ -91,7 +91,6 @@ export function Messages() {
       chatId: chatId,
       reciverId: selectedUser?._id,
     };
-    // alert(`${user._id} >--(---)--< ${selectedUser?._id}`)
     socket?.emit("send-message", {
       data: socketSendBody,
       reciverId: selectedUser?._id,
