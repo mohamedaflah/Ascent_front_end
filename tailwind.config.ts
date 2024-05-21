@@ -9,6 +9,7 @@ import { nextui } from "@nextui-org/react";
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const {
   default: flattenColorPalette,
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
 /* eslint-disable no-undef */
@@ -131,8 +132,8 @@ module.exports = {
 };
 
 function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
 

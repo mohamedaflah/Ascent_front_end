@@ -89,9 +89,14 @@ export const MyapplicatonColumn: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="applied date" />
     ),
-    cell: ({ row }) => (
-      <div className="w-[150px]  font-semibold">{format(String(row.getValue("appliedDate")),"PPP")}</div>
-    ),
+    cell: ({ row }) => {
+      const appliedDate = row.getValue("appliedDate") as string | undefined;
+      return (
+        <div className="w-[150px]  font-semibold">
+          {appliedDate && format(String(row.getValue("appliedDate")), "PPP")}
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -103,7 +108,7 @@ export const MyapplicatonColumn: ColumnDef<Job>[] = [
     cell: ({ row }) => (
       <div className="w-[150px]  font-semibold">
         <span className="h-8 w-20 rounded-3xl flex items-center justify-center border">
-        {(String(row.getValue("applicationStatus")))}
+          {String(row.getValue("applicationStatus"))}
         </span>
       </div>
     ),
