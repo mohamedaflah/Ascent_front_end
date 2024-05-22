@@ -25,8 +25,6 @@ const ValidateEmail = React.memo(() => {
           if (res.payload.response?.data?.message) {
             toast.success(res.payload.response.data.message);
           } else {
-            // Assuming your action updates the role in the state
-
             dispatch(getUser()).then(() => {
               if (role === "user" && !loading) {
                 navigate("/");

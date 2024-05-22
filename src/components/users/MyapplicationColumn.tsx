@@ -90,10 +90,10 @@ export const MyapplicatonColumn: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="applied date" />
     ),
     cell: ({ row }) => {
-      const appliedDate = row.getValue("appliedDate") as string | undefined;
+      const appliedDate = row.getValue("appliedDate") as string[]
       return (
         <div className="w-[150px]  font-semibold">
-          {appliedDate && format(String(row.getValue("appliedDate")), "PPP")}
+          {appliedDate &&  format(String(appliedDate[0]), "PPP")}
         </div>
       );
     },
@@ -105,13 +105,55 @@ export const MyapplicatonColumn: ColumnDef<Job>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="application status" />
     ),
-    cell: ({ row }) => (
-      <div className="w-[150px]  font-semibold">
-        <span className="h-8 w-20 rounded-3xl flex items-center justify-center border">
-          {String(row.getValue("applicationStatus"))}
-        </span>
-      </div>
+
+    cell: ({ row }) => {
+      const status=row.getValue("applicationStatus") as string[]
+      return (
+        <div className="w-[150px]  font-semibold">
+          <span className="h-8 w-20 rounded-3xl flex items-center justify-center border">
+            {String(status[0])}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="category" />
     ),
+
+    cell: ({ row }) => {
+      const status=row.getValue("category") 
+      return (
+        <div className="w-[150px]  font-semibold">
+          <span className="h-8 w-24 rounded-3xl flex items-center justify-start ">
+            {String(status)}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "employment",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="employment type" />
+    ),
+
+    cell: ({ row }) => {
+      const status=row.getValue("employment") 
+      return (
+        <div className="w-[150px]  font-semibold">
+          <span className="h-8 w-24 rounded-3xl flex items-center justify-start ">
+            {String(status)}
+          </span>
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },

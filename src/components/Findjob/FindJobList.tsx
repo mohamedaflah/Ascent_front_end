@@ -13,6 +13,7 @@ import { Button } from "@/shadcn/ui/button";
 import toast from "react-hot-toast";
 import { CompleteProfile } from "../users/ProfileCompleteModal";
 import NodataImage from "../../assets/undraw_not_found_re_bh2e.svg";
+import { useNavigate } from "react-router-dom";
 export function FindJobList() {
   const { jobs, job } = useSelector((state: RootState) => state.job);
   const { user } = useSelector((state: RootState) => state.userData);
@@ -33,8 +34,11 @@ export function FindJobList() {
     ...job,
     matchCount: calculateMatchCount(job.skills as string[]),
   }));
-  const sortedJobs = updatedJobs?.sort((a, b) => Number(b.matchCount) - Number(a.matchCount));
+  const sortedJobs = updatedJobs?.sort(
+    (a, b) => Number(b.matchCount) - Number(a.matchCount)
+  );
 
+  const navigate = useNavigate();
   return (
     <main className="w-full h-[768px] flex ">
       <FindJobFilterBar />
@@ -104,10 +108,13 @@ export function FindJobList() {
                   </>
                 ) : (
                   <Button
-                    className={`rounded-[4px]  min-w-28 text-lg h-12 flex gap-2 `}
-                    onClick={() => toast.error("Please Login first")}
+                    className={`rounded-[4px]  min-w-20 text-sm h-9 flex gap-1 `}
+                    onClick={() => {
+                      toast.error("please create an account");
+                      navigate('/signup')
+                    }}
                   >
-                    <Sparkles />
+                    <Sparkles className="w-5" />
                     Apply
                   </Button>
                 )}

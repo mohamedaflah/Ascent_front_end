@@ -102,7 +102,7 @@ const messageReducer = createSlice({
         toast.error(state.err);
       })
       .addCase(deleteMessage.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
       })
       .addCase(deleteMessage.fulfilled, (state, { payload }) => {
         state.loading = false;

@@ -52,9 +52,9 @@ export function FindbJobHero({
     setValuetoSearchBox(event.target.value);
   };
   const handleLocationChange = (location: string) => {
-    location;
     const param = new URLSearchParams(searchParam);
     param.set("location", location);
+ 
     setSearchParam(param);
   };
   const setValuetoSearchBox = (value: string) => {
@@ -65,6 +65,7 @@ export function FindbJobHero({
       setSearchParam(param);
     }, 1000);
   };
+
 
   return (
     <section className="w-full min-h-96  bg-accenting flex flex-col gap-4 p-5 md:p-0">
@@ -113,7 +114,7 @@ export function FindbJobHero({
               <div className="h-10 w-[80%]  flex justify-between items-center">
                 <MapPin />
 
-                <Select onValueChange={handleLocationChange}>
+                <Select onValueChange={handleLocationChange} >
                   <SelectTrigger className="w-full bg-transparent  focus:ring-0 focus:ring-offset-0   outline-none  focus-visible:ring-0 focus-visible:ring-offset-0 border-l-0 border-t-0 rounded-none border-r-0 border-b-1 border-b-gray-300">
                     <SelectValue placeholder="select location" />
                   </SelectTrigger>
