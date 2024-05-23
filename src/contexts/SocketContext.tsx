@@ -62,113 +62,113 @@ export function SocketProvider({ children }: ChildProp) {
 
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const socketInstance = io(SOCKET_SERVER_URL);
-    setSocket(socketInstance);
     if (user) {
+      const socketInstance = io(SOCKET_SERVER_URL);
+      setSocket(socketInstance);
       socketInstance.emit("join-user", { id: user?._id, role: role });
-    }
-    socketInstance.on(
-      "get-online-users",
-      (users: { socketId: string; id: string }[]) => {
-        dispatch(setOnlineUsers(users));
-      }
-    );
-    socketInstance.on(
-      "remove-online-user",
-      (data: { id: string; socketId: string }) => {
-        dispatch(removeOnlineUser(data));
-      }
-    );
-    socketInstance.on("get-message", (msg: Message) => {
-      if (chatId == msg.chatId) {
-        dispatch(setMessage(msg));
-        dispatch(setLastMessage({ reciverId: msg.senderId, message: msg }));
-        dispatch(updateMessageStatus(String(msg?._id)));
-      } else {
-        dispatch(
-          updateunreadMessageCountAndLastMessage({
-            userId: msg.senderId,
-            message: msg,
-          })
-        );
-      }
-    });
-    socketInstance.on(
-      "typing",
-      (data: {
-        chatId: string;
-        senderName: string;
-        message: string;
-        senderId: string;
-        recievedId: string;
-      }) => {
-        dispatch(setTypingUser(data.senderId));
-      }
-    );
-
-    socketInstance.on(
-      "stopTyping",
-      (data: {
-        chatId: string;
-        message: string;
-        recieverdId: string;
-        senderId: string;
-      }) => {
-        dispatch(removeTypingUsers(data.senderId));
-      }
-    );
-
-    socketInstance.on(
-      "delete-message",
-      (data: {
-        chatId: string;
-        senderId: string;
-        recieverId: string;
-        message: string;
-        messageId: string;
-      }) => {
-        if (chatId == data.chatId || selectedUser?._id == data.recieverId) {
-          dispatch(deleteMessageLocaly(data));
+      socketInstance.on(
+        "get-online-users",
+        (users: { socketId: string; id: string }[]) => {
+          dispatch(setOnlineUsers(users));
         }
-      }
-    );
+      );
+      socketInstance.on(
+        "remove-online-user",
+        (data: { id: string; socketId: string }) => {
+          dispatch(removeOnlineUser(data));
+        }
+      );
+      socketInstance.on("get-message", (msg: Message) => {
+        if (chatId == msg.chatId) {
+          dispatch(setMessage(msg));
+          dispatch(setLastMessage({ reciverId: msg.senderId, message: msg }));
+          dispatch(updateMessageStatus(String(msg?._id)));
+        } else {
+          dispatch(
+            updateunreadMessageCountAndLastMessage({
+              userId: msg.senderId,
+              message: msg,
+            })
+          );
+        }
+      });
+      socketInstance.on(
+        "typing",
+        (data: {
+          chatId: string;
+          senderName: string;
+          message: string;
+          senderId: string;
+          recievedId: string;
+        }) => {
+          dispatch(setTypingUser(data.senderId));
+        }
+      );
 
-    socketInstance?.on(
-      "video-call",
-      (data: {
-        callId: string;
-        recieverId: string;
-        senderId: string;
-        message: string;
-        senderName: string;
-        senderProfile: string;
-      }) => {
-        data;
-        setVideoCallState({ ...data });
-        modalRef.current?.click();
-      }
-    );
+      socketInstance.on(
+        "stopTyping",
+        (data: {
+          chatId: string;
+          message: string;
+          recieverdId: string;
+          senderId: string;
+        }) => {
+          dispatch(removeTypingUsers(data.senderId));
+        }
+      );
 
-    socketInstance.on(
-      "decline-call",
-      (data: {
-        callId: string;
-        senderId: string;
-        senderProfile: string;
-        message: string;
-        senderName: string;
-        reciverId: string;
-      }) => {
-        data;
-        setDeclineCall(data);
-        declineRef.current?.click();
-      }
-    );
-    return () => {
-      socketInstance.disconnect();
-    };
+      socketInstance.on(
+        "delete-message",
+        (data: {
+          chatId: string;
+          senderId: string;
+          recieverId: string;
+          message: string;
+          messageId: string;
+        }) => {
+          if (chatId == data.chatId || selectedUser?._id == data.recieverId) {
+            dispatch(deleteMessageLocaly(data));
+          }
+        }
+      );
+
+      socketInstance?.on(
+        "video-call",
+        (data: {
+          callId: string;
+          recieverId: string;
+          senderId: string;
+          message: string;
+          senderName: string;
+          senderProfile: string;
+        }) => {
+          data;
+          setVideoCallState({ ...data });
+          modalRef.current?.click();
+        }
+      );
+
+      socketInstance.on(
+        "decline-call",
+        (data: {
+          callId: string;
+          senderId: string;
+          senderProfile: string;
+          message: string;
+          senderName: string;
+          reciverId: string;
+        }) => {
+          data;
+          setDeclineCall(data);
+          declineRef.current?.click();
+        }
+      );
+      return () => {
+        socketInstance.disconnect();
+      };
+    }
   }, [user, role, dispatch, chatId, selectedUser?._id]);
-
+  //
   return (
     <SocketContext.Provider value={socket}>
       <>
