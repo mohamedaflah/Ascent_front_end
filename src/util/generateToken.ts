@@ -6,6 +6,7 @@ function base64url(source: any) {
   encodedSource = encodedSource.replace(/\//g, "_");
 
   return encodedSource;
+  
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

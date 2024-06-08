@@ -1,4 +1,4 @@
-import { JobAxios } from "@/constants/axiosInstance";
+import { JobAxios, UserAxios } from "@/constants/axiosInstance";
 import { JobPayload } from "@/types/types.jobReducer";
 import { handleErrors } from "@/util/handleErrors";
 import { uploadImageToCloudinary } from "@/util/uploadImage";
@@ -72,7 +72,7 @@ export const getAllJobs = createAsyncThunk(
     },
     { rejectWithValue }
   ) => {
-    try { 
+    try {
       const { data } = await JobAxios.get(
         `/api/v1/job?page=${query.page}&pageSize=${query.pageSize}&location=${query.location}&category=${query.category}&employment=${query.employment}&search=${query.search}&skills=${query.skills}&`
       );
@@ -105,6 +105,9 @@ export const applyJob = createAsyncThunk(
     try {
       sendPayload.resume = await uploadImageToCloudinary(sendPayload.resume);
       const { data } = await JobAxios.post(`/api/v1/applicants`, sendPayload);
+      await UserAxios.patch(`/user/update-profile/${sendPayload.userId}`, {
+        resumes: [sendPayload.resume],
+      });
       return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));

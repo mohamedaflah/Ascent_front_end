@@ -45,6 +45,7 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
   const handleSecondFormSUbmition = async (
     values: z.infer<typeof userProfileFillSecond>
   ) => {
+    
     if (values.sociallinks.length <= 0)
       return toast.error("Please add one or three social links");
     setLocalLoad(true);
@@ -55,7 +56,6 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
     const resumes = await Promise.all(
       values.resumes.map((file) => uploadImageToCloudinary(file))
     );
-    console.log(resumes, "()");
     dispatch(
       updateProfileUser({
         userId: user?._id,
@@ -69,8 +69,8 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
     ).then((res) => {
       if (res.type.endsWith("fulfilled")) {
         setLocalLoad(false);
-        localStorage.removeItem("firstform")
-        
+        localStorage.removeItem("firstform");
+
         closeModal && closeModal();
       }
     });
@@ -119,7 +119,7 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
           )}
           {watch("resumes")?.map((value, index) => (
             <div
-              key={JSON.stringify(value)}
+              key={JSON.stringify(value) + index}
               className=" w-full h-10 bg-backgroundAccent items-center px-2 justify-between flex gap-2"
             >
               <div className="flex gap-2 items-center">
@@ -171,7 +171,7 @@ export function ProfileFillSecond({ closeModal }: ModalProp) {
               return (
                 <div
                   className="h-8 px-2 flex items-center justify-center bg-backgroundAccent rounded-md text-blue-500 gap-2"
-                  key={value}
+                  key={idx + value}
                 >
                   {value}
                   <X

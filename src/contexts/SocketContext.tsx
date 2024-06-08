@@ -18,7 +18,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { Message } from "@/types/types.messagereducer";
 import { User } from "@/types/types.user";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
-
+import sound from "../assets/audio/notification.mp3";
 import { useDispatch, useSelector } from "react-redux";
 import io, { Socket } from "socket.io-client";
 
@@ -79,6 +79,8 @@ export function SocketProvider({ children }: ChildProp) {
         }
       );
       socketInstance.on("get-message", (msg: Message) => {
+        const audio = new Audio(sound);
+        audio.play();
         if (chatId == msg.chatId) {
           dispatch(setMessage(msg));
           dispatch(setLastMessage({ reciverId: msg.senderId, message: msg }));
@@ -166,6 +168,8 @@ export function SocketProvider({ children }: ChildProp) {
       return () => {
         socketInstance.disconnect();
       };
+    } else {
+      io(SOCKET_SERVER_URL).disconnect();
     }
   }, [user, role, dispatch, chatId, selectedUser?._id]);
   //

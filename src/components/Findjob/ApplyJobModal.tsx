@@ -27,6 +27,7 @@ import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { applyJob } from "@/redux/actions/jobActions";
 import toast from "react-hot-toast";
 import { ApplicantType } from "@/types/types.jobReducer";
+
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // Example: 5MB max size
 const ACCEPTED_FILE_TYPE = "application/pdf";
 const fileSchema = z
@@ -123,58 +124,119 @@ export function ApplyJob() {
                     <FormLabel className="font-semibold">
                       Please upload you Resume
                     </FormLabel>
-                    <FormControl>
-                      <div
-                        className={`${
-                          form.getValues("resume") && "pdf-container2"
-                        } w-full relative`}
-                      >
-                        <Input
-                          type="file"
-                          className="hidden"
-                          id="ceritifcate"
-                          accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                            form.setValue(
-                              "resume",
-                              e?.target?.files?.[0] as File
-                            )
-                          }
-                        />
-
-                        <label
-                          htmlFor="ceritifcate"
-                          className="w-full min-h-96 border flex flex-col items-center justify-center rounded-md cursor-pointer "
-                        >
-                          {form.getValues("resume") ? (
-                            <iframe
-                              src={URL.createObjectURL(
-                                form.getValues("resume") as Blob
-                              )}
-                              className="w-full h-[310px] rounded-lg"
-                              title="certificate"
-                            ></iframe>
-                          ) : (
-                            <>
-                              <img
-                                src={uploadImage}
-                                className="h-[90px]"
-                                alt=""
+                    {user?.resumes?.length > 0 ? (
+                      <>
+                        <div className="w-full ">
+                          <FormControl>
+                            <div
+                              className={`${
+                                form.getValues("resume") && "pdf-container2"
+                              } w-full relative`}
+                            >
+                              <Input
+                                type="file"
+                                className="hidden"
+                                id="ceritifcate"
+                                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                  form.setValue(
+                                    "resume",
+                                    e?.target?.files?.[0] as File
+                                  )
+                                }
                               />
-                              <span>Click and Upload Resume</span>
-                            </>
-                          )}
-                        </label>
-                        {form.getValues("resume") && (
-                          <label
-                            htmlFor="ceritifcate"
-                            className="absolute cursor-pointer right-0 -bottom-3 h-9 w-9 bg-primary flex items-center justify-center rounded-full"
+
+                              <label
+                                htmlFor="ceritifcate"
+                                className="w-full min-h-96 border flex flex-col items-center justify-center rounded-md cursor-pointer "
+                              >
+                                {form.getValues("resume") ? (
+                                  <iframe
+                                    src={URL.createObjectURL(
+                                      form.getValues("resume") as Blob
+                                    )}
+                                    className="w-full h-[310px] rounded-lg"
+                                    title="certificate"
+                                  ></iframe>
+                                ) : (
+                                  <>
+                                    <img
+                                      src={uploadImage}
+                                      className="h-[90px]"
+                                      alt=""
+                                    />
+                                    <span>Click and Upload Resume</span>
+                                  </>
+                                )}
+                              </label>
+                              {form.getValues("resume") && (
+                                <label
+                                  htmlFor="ceritifcate"
+                                  className="absolute cursor-pointer right-0 -bottom-3 h-9 w-9 bg-primary flex items-center justify-center rounded-full"
+                                >
+                                  <Upload />
+                                </label>
+                              )}
+                            </div>
+                          </FormControl>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <FormControl>
+                          <div
+                            className={`${
+                              form.getValues("resume") && "pdf-container2"
+                            } w-full relative`}
                           >
-                            <Upload />
-                          </label>
-                        )}
-                      </div>
-                    </FormControl>
+                            <Input
+                              type="file"
+                              className="hidden"
+                              id="ceritifcate"
+                              accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                form.setValue(
+                                  "resume",
+                                  e?.target?.files?.[0] as File
+                                )
+                              }
+                            />
+
+                            <label
+                              htmlFor="ceritifcate"
+                              className="w-full min-h-96 border flex flex-col items-center justify-center rounded-md cursor-pointer "
+                            >
+                              {form.getValues("resume") ? (
+                                <iframe
+                                  src={URL.createObjectURL(
+                                    form.getValues("resume") as Blob
+                                  )}
+                                  className="w-full h-[310px] rounded-lg"
+                                  title="certificate"
+                                ></iframe>
+                              ) : (
+                                <>
+                                  <img
+                                    src={uploadImage}
+                                    className="h-[90px]"
+                                    alt=""
+                                  />
+                                  <span>Click and Upload Resume</span>
+                                </>
+                              )}
+                            </label>
+                            {form.getValues("resume") && (
+                              <label
+                                htmlFor="ceritifcate"
+                                className="absolute cursor-pointer right-0 -bottom-3 h-9 w-9 bg-primary flex items-center justify-center rounded-full"
+                              >
+                                <Upload />
+                              </label>
+                            )}
+                          </div>
+                        </FormControl>
+                      </>
+                    )}
 
                     <FormDescription>
                       This is your official resume
