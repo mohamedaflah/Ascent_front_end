@@ -8,24 +8,24 @@ export const jobBaseURL = import.meta.env.VITE_JOB_SERVICE as string;
 export const communicationbaseURL = import.meta.env
   .VITE_COMMUNICATION_SERVICE as string;
 export const AuthAxios = axios.create({
-  baseURL: authbaseUrl,
+  baseURL: `${authbaseUrl}/api/auth-service`,
   withCredentials: true,
 });
 export const UserAxios = axios.create({
-  baseURL: userbaseURl,
+  baseURL: `${userbaseURl}/api/user-service`,
   withCredentials: true,
 });
 export const CompanyAxios = axios.create({
-  baseURL: companybaseURL,
+  baseURL: `${companybaseURL}/api/company-service`,
   withCredentials: true,
 });
 export const JobAxios = axios.create({
-  baseURL: jobBaseURL,
+  baseURL: `${jobBaseURL}/api/job-service`,
   withCredentials: true,
 });
 
 export const CommunicationAxios = axios.create({
-  baseURL: communicationbaseURL,
+  baseURL: `${communicationbaseURL}/api/communication-service`,
   withCredentials: true,
 });
 type Role = "admin" | "user" | "company";
