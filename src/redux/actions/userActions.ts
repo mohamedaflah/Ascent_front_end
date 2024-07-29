@@ -84,9 +84,16 @@ export const getUser = createAsyncThunk(
     try {
       const { data } = await AuthAxios.get(`/check-role/`);
 
+      if (!data) {
+        throw new Error("Not autherized");
+      }
       const { role }: { role: "admin" | "user" | "company" } = data;
+      const token = data.token;
       const { data: user } = await axios.get(getUserWithRole[role], {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log("🚀 ~ data: get user ", data);
 
@@ -232,13 +239,19 @@ export const verifyOtp = createAsyncThunk(
 
 export const saveNewJob = createAsyncThunk(
   "user/savenewjob",
-  async (body: { userId: string; jobId: string,type:"add"|"delete" }, { rejectWithValue }) => {
+  async (
+    body: { userId: string; jobId: string; type: "add" | "delete" },
+    { rejectWithValue }
+  ) => {
     try {
-      const { data } = await UserAxios.post(`/user/saved-job?type=${body.type}`, {
-        userId: body.userId,
-        jobId: body.jobId,
-      });
-      return data
+      const { data } = await UserAxios.post(
+        `/user/saved-job?type=${body.type}`,
+        {
+          userId: body.userId,
+          jobId: body.jobId,
+        }
+      );
+      return data;
     } catch (error) {
       return rejectWithValue(handleErrors(error));
     }
