@@ -121,8 +121,12 @@ export const loginUser = createAsyncThunk(
   async (loginData: Login, { rejectWithValue }) => {
     try {
       const { data } = await AuthAxios.post("/login", { ...loginData });
+      const token = data.token;
       const { data: user } = await axios.get(getUserWithRole[loginData.role], {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (data.status) {
         return user;
