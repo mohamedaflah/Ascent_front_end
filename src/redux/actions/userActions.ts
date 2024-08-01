@@ -82,7 +82,7 @@ export const getUser = createAsyncThunk(
   "user/getUser",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await AuthAxios.get(`/check-role/`);
+      const { data } = await AuthAxios.get(`/check-role`);
 
       if (!data) {
         throw new Error("Not autherized");
