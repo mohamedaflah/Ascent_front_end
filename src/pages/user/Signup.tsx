@@ -199,7 +199,7 @@ export function SignupPage() {
                               className="pr-8"
                               {...field}
                             />
-                            <Eye className="absolute right-3 w-4 top-2 cursor-pointer z-20" />
+             
                           </div>
                         </FormControl>
                         <FormDescription ref={confirmPassref}></FormDescription>
