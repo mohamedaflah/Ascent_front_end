@@ -55,10 +55,13 @@ export const fetchUnreadAndLastMessage = createAsyncThunk(
   "chat/fetch-last-unread-message",
   async (sendPayload: { userId: string }, { rejectWithValue }) => {
     try {
+      
       const { data } = await CommunicationAxios.post(
         `/api/v2/chats/${v4()}`,
         sendPayload
       );
+      console.log("Last and Unread");
+      console.log("🚀 ~ data:", data)
 
       return data;
     } catch (error) {

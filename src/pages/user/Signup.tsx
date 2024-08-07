@@ -54,7 +54,10 @@ export function SignupPage() {
   }
   return (
     <main className="w-full pb-5">
-      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-20" style={{width:"85%"}}>
+      <section
+        className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-20"
+        style={{ width: "85%" }}
+      >
         <div className="flex flex-col">
           <div className="w-full ">
             <div className="w-full">
@@ -75,7 +78,10 @@ export function SignupPage() {
                   consectetur adipisicing elit. Natus, eos?
                 </p>
                 <div className="w-full h-10 flex gap-5 justify-between">
-                  <div className=" h-10 rounded-3xl border flex items-center px-4 gap-4 min-w-48">
+                  <div
+                    className=" h-10 rounded-3xl border flex items-center px-4 gap-4 min-w-48  "
+                    style={{ visibility: "hidden" }}
+                  >
                     <FaGoogle className="text-[15px]" />
                     Sign up with google
                   </div>
@@ -199,7 +205,6 @@ export function SignupPage() {
                               className="pr-8"
                               {...field}
                             />
-             
                           </div>
                         </FormControl>
                         <FormDescription ref={confirmPassref}></FormDescription>
