@@ -35,7 +35,9 @@ function CompanyLogin() {
   async function loginSubmit(values: z.infer<typeof loginFormSchema>) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const res:{error:{message:string}}|any = await dispatch(loginUser({ ...values, role: "company" }));
+      const res: { error: { message: string } } | any = await dispatch(
+        loginUser({ ...values, role: "company" })
+      );
       if (!res?.error) {
         navigate("/company/");
       }
@@ -44,7 +46,7 @@ function CompanyLogin() {
       // Handle error if needed
     }
   }
-  
+
   const { loading } = useSelector((state: RootState) => state.userData);
   return (
     <main className="w-full h-screen flex items-center justify-center">
@@ -124,6 +126,10 @@ function CompanyLogin() {
               </div>
             </form>
           </Form>
+        <div>
+          <p>example email: ceraxaxa@closetab.email</p>
+          <p>Password : koolath123</p>
+        </div>
         </div>
       </div>
     </main>
