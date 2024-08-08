@@ -289,7 +289,7 @@ export function TwoPercentageCompletion() {
                           type="text"
                           className=" border-none focus-visible:ring-0 outline-none"
                           ref={inputRef}
-                          placeholder="Eneter tech stack "
+                          placeholder="Eneter location "
                           value={locationVal}
                           onChange={(e) => setLocation(e.target.value)}
                         />
