@@ -53,7 +53,10 @@ export function LoginPage() {
   }
   return (
     <main className="w-full pb-5">
-      <section className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16" style={{width:"85%"}}>
+      <section
+        className="w-[85%] mx-auto h-full grid grid-cols-1 md:grid-cols-2 mt-3 gap-16"
+        style={{ width: "85%" }}
+      >
         <div className="flex flex-col">
           <div className="w-full ">
             <div className="w-full">
@@ -135,10 +138,17 @@ export function LoginPage() {
                   <div className="h-[1px] bg-border col-span-5"></div>
                 </div>
                 <div className="w-full h-10 flex gap-5 mt-5">
-                  <div className=" h-10 rounded-xl border flex items-center px-4 gap-4 min-w-48">
+                  <div className=" h-10 rounded-xl border items-center px-4 gap-4 min-w-48 hidden">
+                    {" "}
+                    {/*flex changed to hidden */}
                     <FaGoogle className="text-[15px]" />
                     Sign up with google
                   </div>
+                </div>
+                <div className="w-full p-3 border rounded-md space-y-3">
+                <h1 className="font-bold text-2xl">Demo</h1>
+                  <h1>example email : silyjole@pelagius.net</h1>
+                  <h1>example password : Koolath123</h1>
                 </div>
                 <div className=" justify-center mt-2 flex gap-2">
                   didn't created an account{" "}
