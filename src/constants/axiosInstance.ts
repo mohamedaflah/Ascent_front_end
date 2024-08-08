@@ -32,7 +32,7 @@ type Role = "admin" | "user" | "company";
 export const getUserWithRole: Record<Role, string> = {
   user: `${userbaseURl}/api/user-service/user/get-user`,
   admin: `${userbaseURl}/api/user-service/user/get-user`, // Assuming admins might have a different endpoint
-  company: `${userbaseURl}/api/user-service/company`, // Placeholder, adjust as needed
+  company: `${companybaseURL}/api/company-service/company`, // Placeholder, adjust as needed
 };
 
 export const verifyForgotLinkWithRole: Record<Role, string> = {

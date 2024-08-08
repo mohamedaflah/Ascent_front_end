@@ -43,6 +43,7 @@ function CompanyLayout() {
       dispatch(getUser());
     }
   }, [dispatch, user]);
+  
   return (
     <main className=" flex min-h-screen w-full overflow-x-hidden ">
       {" "}
@@ -142,9 +143,10 @@ function CompanyLayout() {
           </div>
         </div>
       </aside>
-      <main className="w-full relative h-screen"> {/*h-screen property added*/}
+      <main className="w-full relative h-screen">
+        {" "}
+        {/*h-screen property added*/}
         <CompanyHeader />
-
         {!user?.profileCompleted && <CompanyProfileCompletion />}
         {role === "company" &&
         location.pathname !== "/company/updateprofile" &&

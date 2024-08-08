@@ -1,5 +1,6 @@
 // import {  RiDashboard3Line } from "react-icons/ri"
 import { Tooltip } from "primereact/tooltip";
+
 import { BarChart, Bar, XAxis, YAxis, Legend } from "recharts";
 
 const data = [
@@ -26,9 +27,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">12</h1>
-              <div>
-             
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="h-36  border flex flex-col rounded-md px-3 py-3">
@@ -37,9 +36,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">5</h1>
-              <div>
-          
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="h-36  border flex flex-col rounded-md px-3 py-3">
@@ -48,9 +45,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">65</h1>
-              <div>
-               
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="h-36  border flex flex-col rounded-md px-3 py-3">
@@ -59,9 +54,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">24</h1>
-              <div>
-                
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="h-36  border flex flex-col rounded-md px-3 py-3">
@@ -70,9 +63,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">24</h1>
-              <div>
-                
-              </div>
+              <div></div>
             </div>
           </div>
           <div className="h-36  border flex flex-col rounded-md px-3 py-3">
@@ -81,9 +72,7 @@ function CompanyDashbord() {
             </div>
             <div className="col-span-3 flex items-center justify-between h-full ">
               <h1 className="text-6xl font-semibold">24</h1>
-              <div>
-                
-              </div>
+              <div></div>
             </div>
           </div>
         </div>

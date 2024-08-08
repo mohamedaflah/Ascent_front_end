@@ -15,7 +15,8 @@ import toast from "react-hot-toast";
 
 export const signupUser = createAsyncThunk(
   "users/signupuser",
-  async (userData: SignupForm, { rejectWithValue }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (userData: any, { rejectWithValue }) => {
     try {
       const signupToken = generateToken({ ...userData, role: "user" });
       localStorage.setItem("signupToken", signupToken);
@@ -42,9 +43,12 @@ export const companySignupSubmit = createAsyncThunk(
   "company/signup",
   async (signupData: companySignup, { rejectWithValue }) => {
     try {
+      const signupToken = generateToken({ ...signupData, role: "company" });
+      localStorage.setItem("signupToken", signupToken);
       const { data } = await AuthAxios.post("/signup", {
         ...signupData,
         role: "company",
+        type: "otp",
       });
       const expirationTime = new Date().getTime() + 5 * 60 * 1000; // Current time + 5 minutes in milliseconds
       const dataToStore = {
@@ -224,8 +228,6 @@ export const verifyOtp = createAsyncThunk(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const getPalyload: any = decodedUserData.payload;
 
-      console.log(userData);
-      console.log(getPalyload);
 
       const { data } = await AuthAxios.post(`/verify-otp`, {
         ...sendData,

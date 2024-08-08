@@ -155,6 +155,7 @@ function App() {
           </>
         )}
         {role === "company" && (
+          
           <Route
             path="/company/"
             element={user ? <Layout role={role} /> : <Navigate to={"/"} />}
