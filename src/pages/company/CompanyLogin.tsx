@@ -126,9 +126,10 @@ function CompanyLogin() {
               </div>
             </form>
           </Form>
-        <div>
-          <p>example email: ceraxaxa@closetab.email</p>
-          <p>Password : koolath123</p>
+        <div className="w-full border p-2 rounded-md">
+          <h1 className="font-bold text-2xl mb-3">Demo user</h1>
+          <p><span className="font-semibold mr-3">example email :</span>ceraxaxa@closetab.email</p>
+          <p><span className="font-semibold mr-3">example Password :</span>Password : koolath123</p>
         </div>
         </div>
       </div>

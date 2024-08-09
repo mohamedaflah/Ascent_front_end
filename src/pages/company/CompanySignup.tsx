@@ -40,13 +40,11 @@ function CompanySignup() {
   async function signupSubmit(values: z.infer<typeof signupFormSchema>) {
     const actionResult = await dispatch(companySignupSubmit(values));
 
-
-
     // Check if the action was fulfilled
     if (actionResult.type.endsWith("fulfilled")) {
       setIsVerificationTime(true);
-    }else{
-      toast.error(actionResult.payload.response.data.message)
+    } else {
+      toast.error(actionResult.payload.response.data.message);
     }
   }
 
@@ -171,6 +169,16 @@ function CompanySignup() {
                 </div>
               </form>
             </Form>
+            <div className="w-full border rounded-md p-2">
+              <h1 className="text-red-600">
+                Your registration requires admin approval to be fully activated.
+                In the meantime, you can explore the platform by logging in with
+                our demo recruiter account.
+                <Link to={"/recruiter/login"} className="text-primary">
+                  Click here to log in as a demo recruiter.
+                </Link>
+              </h1>
+            </div>
           </div>
         </div>
       )}

@@ -146,7 +146,7 @@ export function LoginPage() {
                   </div>
                 </div>
                 <div className="w-full p-3 border rounded-md space-y-3">
-                <h1 className="font-bold text-2xl">Demo</h1>
+                  <h1 className="font-bold text-2xl">Demo</h1>
                   <h1>example email : silyjole@pelagius.net</h1>
                   <h1>example password : Koolath123</h1>
                 </div>
