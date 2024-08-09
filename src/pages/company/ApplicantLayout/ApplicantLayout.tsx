@@ -40,8 +40,8 @@ export function ApplicantLayout() {
                 <div className="w-28 h-28 rounded-full ">
                   <img
                     src={
-                      job?.applicantDetails.icon
-                        ? job?.applicantDetails.icon
+                      job?.applicantDetails?.icon
+                        ? job?.applicantDetails?.icon
                         : HeaderPic
                     }
                     className="h-full w-full object-cover rounded-full"
@@ -57,7 +57,7 @@ export function ApplicantLayout() {
                   </div>
                   <div>
                     <h2 className="text-textPrimary ">
-                      {job?.applicantDetails.currengDesignation}
+                      {job?.applicantDetails?.currengDesignation}
                     </h2>
                   </div>
                   <div className="flex gap-2">
@@ -70,11 +70,11 @@ export function ApplicantLayout() {
                   <span>Applied jobs</span>
                   <span className="text-textPrimary flex gap-2">
                     
-                    {job?.applicants && job?.applicants.appliedDate && <>
-                      {formatDateAndTime(job?.applicants.appliedDate).date}
+                    {job?.applicants && job?.applicants?.appliedDate && <>
+                      {formatDateAndTime(job?.applicants?.appliedDate).date}
                     </>}
-                    {job?.applicants && job?.applicants.appliedDate && (
-                      <TimeAgo timestamp={job?.applicants.appliedDate} />
+                    {job?.applicants && job?.applicants?.appliedDate && (
+                      <TimeAgo timestamp={job?.applicants?.appliedDate} />
                     )}
                   </span>
                 </div>
@@ -145,7 +145,7 @@ export function ApplicantLayout() {
                     <Mail className="w-5" />
                     Email
                   </div>
-                  <div className="pl-7">{job?.applicantDetails.email}</div>
+                  <div className="pl-7">{job?.applicantDetails?.email}</div>
                 </div>
                 <div className="w-full flex-col ">
                   <div className="w-full flex gap-2">
