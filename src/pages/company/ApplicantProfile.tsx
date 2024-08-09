@@ -16,7 +16,7 @@ export function ApplicantDetail() {
           <div className="flex flex-col">
             <span className="text-textPrimary text-lg">Full name</span>
             <h2 className="text-lg">
-              {job?.applicantDetails.firstname} {job?.applicantDetails.lastname}
+              {job?.applicantDetails?.firstname} {job?.applicantDetails?.lastname}
             </h2>
           </div>
           <div className="flex flex-col">
