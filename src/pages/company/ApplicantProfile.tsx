@@ -87,7 +87,7 @@ export function ApplicantDetail() {
             <div className="flex flex-col">
               <span className="text-textPrimary text">Current designation</span>
               <h2 className="font-semibold">
-                {job?.applicantDetails.currengDesignation}r
+                {job?.applicantDetails?.currengDesignation}r
               </h2>
             </div>
             <div className="flex flex-col">
@@ -105,7 +105,7 @@ export function ApplicantDetail() {
             <div className="flex flex-col">
               <span className="text-textPrimary text">Skill set</span>
               <div className="w-full min-h-10 flex flex-wrap mt-1 gap-2">
-                {job?.applicantDetails.skills?.map((value, index) => (
+                {job?.applicantDetails?.skills?.map((value, index) => (
                   <div key={index} className="h-10 rounded-md flex items-center justify-center  text-textPrimary px-3 border gap-2">
                     <TechnologyIcon technology={value}/>{value} 
                   </div>
